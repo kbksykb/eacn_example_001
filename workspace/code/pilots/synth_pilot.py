@@ -212,6 +212,7 @@ def run_real_channels(adata_pre, emb_int: np.ndarray, motif_candidates: np.ndarr
     from workspace.code.real_channels import ChannelConfig, loss_rate_at_k, score_purity_and_procrustes
     from workspace.code.real_channels import ot_wrapper
     from workspace.code.real_channels.ot_channel import OTChannelConfig
+    from workspace.code.real_channels.nulls import ChannelNullConfig, fisher_combine, p_values_for_reports
 
     batch_int = pd.Categorical(adata_pre.obs["batch"]).codes.astype(np.int32)
     d = emb_int.shape[1]
@@ -226,8 +227,17 @@ def run_real_channels(adata_pre, emb_int: np.ndarray, motif_candidates: np.ndarr
         cfg=cfg,
     )
 
-    # CoLM/OT channel — ML's third channel, two-sided wrapper until ML patches.
-    # -1 for non-candidate cells; candidate_labels here is the Leiden over-clustering.
+    # Per-channel p-values for mknn / proc / boot channels (within-batch label permutation null)
+    p_values = p_values_for_reports(
+        reports,
+        emb_pre=pre_trunc,
+        emb_post=emb_int.astype(np.float32),
+        candidate_labels=motif_candidates,
+        batch_labels=batch_int,
+        cfg=ChannelNullConfig(n_permutations=100, seed=0),
+    )
+
+    # OT/CoLM channel (ML, two-sided wrapper)
     ot_cfg = OTChannelConfig(n_permutations=200, device="cpu", k_neighbors=15)
     ot_res = ot_wrapper.score_two_sided(
         emb_pre=pre_trunc,
@@ -240,12 +250,22 @@ def run_real_channels(adata_pre, emb_int: np.ndarray, motif_candidates: np.ndarr
         ot_res["candidate_ids"], ot_res["stat"], ot_res["p_values"], ot_res["signed_stat_mean"]
     )}
 
-    # Inject OT stats onto the CandidateReport objects as attributes.
     for r in reports:
         stat, p, signed = ot_by_id.get(r.candidate_id, (float("nan"), float("nan"), float("nan")))
-        r.ot_stat = stat         # |τ_median|
+        r.ot_stat = stat
         r.ot_p_value = p
         r.ot_signed_mean = signed
+        pv = p_values.get(r.candidate_id, {})
+        r.mknn_p_value = pv.get("mknn_p_value", float("nan"))
+        r.proc_p_value = pv.get("proc_p_value", float("nan"))
+        r.boot_p_value = pv.get("boot_p_value", float("nan"))
+        # Fisher late-fusion over channels that emit p-values
+        chi2, pcomb = fisher_combine([r.ot_p_value, r.mknn_p_value, r.proc_p_value, r.boot_p_value])
+        r.fisher_chi2 = chi2
+        r.fisher_p_value = pcomb
+        # Re-derive loss_probability as 1 - fisher_p_value (clipped) — a proper p-based score
+        if not np.isnan(pcomb):
+            r.loss_probability = float(np.clip(1.0 - pcomb, 0.0, 1.0))
 
     return reports, loss_rate_at_k(reports, k=1), loss_rate_at_k(reports, k=3)
 
@@ -339,13 +359,18 @@ def main():
                 "abundance": r.abundance,
                 "channel_mknn_purity_pre": r.purity_pre,
                 "channel_mknn_purity_post": r.purity_post,
+                "channel_mknn_p_value": getattr(r, "mknn_p_value", float("nan")),
                 "channel_mknn_nn_pre": r.nn_identity_pre,
                 "channel_mknn_nn_post": r.nn_identity_post,
                 "channel_proc_displacement": r.procrustes_displacement,
+                "channel_proc_p_value": getattr(r, "proc_p_value", float("nan")),
                 "channel_boot_stable": r.bootstrap_fraction_stable,
+                "channel_boot_p_value": getattr(r, "boot_p_value", float("nan")),
                 "channel_ot_stat": getattr(r, "ot_stat", float("nan")),
                 "channel_ot_p_value": getattr(r, "ot_p_value", float("nan")),
                 "channel_ot_signed": getattr(r, "ot_signed_mean", float("nan")),
+                "fisher_chi2": getattr(r, "fisher_chi2", float("nan")),
+                "fisher_p_value": getattr(r, "fisher_p_value", float("nan")),
                 "loss_probability": r.loss_probability,
                 "bootstrap_ci_low": float(np.nan),
                 "bootstrap_ci_high": float(np.nan),
