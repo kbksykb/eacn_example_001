@@ -1,0 +1,16 @@
+dataset,holdout,method,rare_flagged,non_rare_flag_rate,specific,emp_TPR_tight
+retina,bc89,harmony,False,0.167,False,0.0
+retina,bc89,scanorama,True,0.667,False,0.0
+retina,bc89,scvi,False,0.333,False,0.0
+retina,bc4,harmony,False,0.167,False,0.0
+retina,bc4,scanorama,True,0.667,False,0.0
+retina,bc4,scvi,True,0.25,False,0.0
+retina,bc2,harmony,False,0.167,False,0.0
+retina,bc2,scanorama,True,0.667,False,0.0
+retina,bc2,scvi,True,0.25,False,0.0
+retina,bc1a,harmony,False,0.167,False,0.0
+retina,bc1a,scanorama,True,0.667,False,0.0
+retina,bc1a,scvi,False,0.333,False,0.0
+pancreas_synth,epsilon,harmony,False,0.25,False,0.0
+pancreas_synth,epsilon,scanorama,True,0.25,False,0.0
+pancreas_synth,epsilon,scvi,True,0.25,False,0.0
