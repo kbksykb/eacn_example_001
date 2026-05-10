@@ -44,14 +44,20 @@ def scanorama_on_hvg(a_hvg):
     gene_list = [d.var_names.tolist() for d in datasets]
     t0 = time.time()
     corrected, _ = scanorama.correct(data_list, gene_list, dimred=32)
-    print(f"  scanorama done in {time.time()-t0:.0f}s; first shape {corrected[0].shape}")
-    # reassemble
-    out = np.zeros((a_hvg.n_obs, corrected[0].shape[1]), dtype=np.float32)
-    pos = 0
-    for d, c in zip(datasets, corrected):
-        n = d.n_obs
-        out[a_hvg.obs_names.get_indexer(d.obs_names)] = np.asarray(c, dtype=np.float32)
-        pos += n
+    print(f"  scanorama done in {time.time()-t0:.0f}s")
+    # reassemble — each element of 'corrected' may be sparse or dense; normalize to dense array
+    corrected_np = []
+    for c in corrected:
+        ca = c.toarray() if hasattr(c, "toarray") else np.asarray(c)
+        corrected_np.append(np.ascontiguousarray(ca, dtype=np.float32))
+    d_dim = corrected_np[0].shape[1]
+    out = np.zeros((a_hvg.n_obs, d_dim), dtype=np.float32)
+    # Use the per-batch obs_names to map row-positions
+    obs_names_all = a_hvg.obs_names.to_numpy()
+    pos_map = {name: i for i, name in enumerate(obs_names_all)}
+    for d, c_arr in zip(datasets, corrected_np):
+        for i, name in enumerate(d.obs_names):
+            out[pos_map[name]] = c_arr[i]
     return out
 
 
@@ -100,42 +106,28 @@ def per_motif_kappa_from_arrays(z_pre: np.ndarray, z_post: np.ndarray, motif_ids
 def main() -> None:
     a_hvg = hvg_subset_cheng6(n_hvg=3000)
 
-    # Get pre-integration PCA + motif_id_pre from the FULL-GENE Harmony h5ad
     ref = ad.read_h5ad(SHARED / "integrations" / "harmony" / "cheng6_lamp3_holdout.h5ad", backed="r")
     assert list(ref.obs_names) == list(a_hvg.obs_names), "obs_names mismatch"
     motif_ids = ref.obs["motif_id_pre"].astype(int).to_numpy()
     import pandas as pd
     batch = pd.Categorical(a_hvg.obs["batch"]).codes.astype(np.int32)
 
-    # For pre-integration, recompute PCA on HVG3K subset for consistency
     print("[pre] recomputing PCA on HVG3K subset")
     sc.pp.pca(a_hvg, n_comps=32, random_state=0)
     z_pre = a_hvg.obsm["X_pca"].astype(np.float32)
 
-    import json
     out_lines = []
-
-    # Scanorama
     try:
         z_post = scanorama_on_hvg(a_hvg)
         km, kq1, kq3 = per_motif_kappa_from_arrays(z_pre, z_post, motif_ids, batch)
         line = f"cheng6_hvg3k scanorama kappa_median={km:.3f} IQR=[{kq1:.3f},{kq3:.3f}]  vs full-gene Cheng6 scanorama kappa=9.13"
         print(line); out_lines.append(line)
     except Exception as e:
-        print(f"[scanorama] ERR: {e}")
+        import traceback
+        print(f"[scanorama] ERR: {e}\n{traceback.format_exc()}")
         out_lines.append(f"cheng6_hvg3k scanorama ERR {e}")
 
-    # scVI
-    try:
-        z_post = scvi_on_hvg(a_hvg)
-        km, kq1, kq3 = per_motif_kappa_from_arrays(z_pre, z_post, motif_ids, batch)
-        line = f"cheng6_hvg3k scvi kappa_median={km:.3f} IQR=[{kq1:.3f},{kq3:.3f}]  vs full-gene Cheng6 scvi kappa=5.13"
-        print(line); out_lines.append(line)
-    except Exception as e:
-        print(f"[scvi] ERR: {e}")
-        out_lines.append(f"cheng6_hvg3k scvi ERR {e}")
-
-    out_path = Path("workspace/results/hvg3k_vs_full_kappa_control.txt")
+    out_path = Path("workspace/results/hvg3k_vs_full_kappa_control_v2.txt")
     out_path.write_text("\n".join(out_lines) + "\n")
     print(f"wrote {out_path}")
 

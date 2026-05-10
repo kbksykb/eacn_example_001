@@ -56,6 +56,8 @@ Three distinct detection regimes co-exist in the method × scale grid, and the p
 
 **Consequence for method ranking**: existing small-cohort scIB-based rankings conflate these regimes. At n=2,853, Harmony preserves while Scanorama and scVI fire. At n=49k all three fire at comparable -log10(p_bh) but with stratified non-specificity. The paper's method-level contribution is NOT "method rankings invert with scale" (too strong given Regimes B+C); it is "method rankings depend on which detection regime the target rare-type is in, and atlas-scale benchmarks must stratify by regime rather than reporting a single rare-type-preservation score."
 
+**Scope of the κ framework**. The κ · Δ mechanism underlying the three-regime stratification is well-defined only for integrators that produce a native point-embedding (`obsm['X_integrated']` as a d-dimensional array). For graph-only integrators (BBKNN, and similarly neighbor-graph-only methods), there is no intrinsic X_integrated — users must choose an adapter (diffmap, UMAP, or X_pca passthrough). Different adapters yield different κ values on the same underlying integration. Specifically, for BBKNN on Cheng PAAD and Cheng6: X_pca passthrough yields κ_median = 1.27 and 2.03 (Regime A), while a diffmap adapter yields κ_median = 8.4 and 9.3 (Regime B). The adapter is therefore part of the integrator specification for the κ framework, not a post-hoc choice; reporting κ without adapter specification is under-determined. Point-embedding integrators (Harmony, Scanorama, scVI) do not have this degree of freedom.
+
 ## 4.7 Per-method outcome stratification under RareShield A/B
 
 Three distinguishable per-method outcomes observed across Cheng5 and Zheng MM A/B grids:
