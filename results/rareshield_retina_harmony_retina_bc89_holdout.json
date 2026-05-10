@@ -12,7 +12,7 @@
   "mean_OT_p_delta_overcorrection_candidate": NaN,
   "mean_lp_delta_rare_truth": 0.0007182480505723565,
   "mean_lp_delta_overcorrection_candidate": NaN,
-  "fine_tune_seconds": 183.80347004398936,
+  "fine_tune_seconds": 260.42448746599257,
   "trace": [
     {
       "ep": 0,
