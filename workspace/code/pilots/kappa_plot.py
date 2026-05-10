@@ -21,7 +21,7 @@ def main() -> None:
 
     method_color = {"harmony": "#1f77b4", "scanorama": "#d62728", "scvi": "#2ca02c"}
     method_marker = {"harmony": "o", "scanorama": "s", "scvi": "^"}
-    dset_x = {"cheng_paad": 2853, "cheng5": 20341, "cheng6": 49271}
+    dset_x = {"cheng_paad": 2853, "cheng5": 20341, "cheng6": 49271, "zheng_mm": 12274}
 
     # Left: κ vs n (log x)
     for m in ["harmony", "scanorama", "scvi"]:

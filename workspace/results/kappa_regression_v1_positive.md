@@ -1,8 +1,8 @@
-# κ direct measurement on 9-point grid — Theorem S1-overcorrection empirical confirmation
+# κ direct measurement on 12-point grid — Theorem S1-overcorrection empirical confirmation
 
 **Date:** 2026-05-11
 **Input:** Math's Theorem S1-overcorrection prediction (κ · Δ signal as method-intrinsic detection mechanism in Regime B)
-**Status:** **Positive result — κ stratifies the 9-point grid into three distinct regimes that correspond 1:1 with the p_bh patterns.**
+**Status:** **Positive result — κ stratifies the 9-point grid into three distinct regimes that correspond 1:1 with the p_bh patterns; cross-rare-type replication on Zheng MM × CXCL13+ Tex at n=12,274 confirms the method-ordering Harmony < scVI < Scanorama.**
 **Register note:** Positive prediction reported with same Philosophy register as the negative ℓ-unification result: name the boundary, distinguish partial from full support.
 
 ## Measurement protocol
@@ -14,7 +14,7 @@
 
 Implementation: `workspace/code/pilots/kappa_regression.py`. Data: `workspace/results/kappa_grid.csv`. Plot: `workspace/results/kappa_grid_9point.png`.
 
-## Result (9-point grid)
+## Result (12-point grid — 9 Cheng LAMP3+ + 3 Zheng MM CXCL13+ Tex)
 
 | Dataset | Method | κ_median | IQR | -log10(p_bh) |
 |---------|:------:|---------:|----:|-------------:|
@@ -27,6 +27,11 @@ Implementation: `workspace/code/pilots/kappa_regression.py`. Data: `workspace/re
 | PAAD 2.8k | scVI | **4.63** | [4.24, 5.72] | 2.52 |
 | Cheng5 20k | scVI | **5.12** | [4.12, 6.37] | 2.40 |
 | Cheng6 49k | scVI | **5.13** | [4.24, 6.95] | 2.52 |
+| Zheng MM 12k (CXCL13+ Tex) | Harmony | **1.73** | [0.88, 2.85] | 0.00 |
+| Zheng MM 12k (CXCL13+ Tex) | scVI | **3.52** | [2.87, 5.76] | 2.36 |
+| Zheng MM 12k (CXCL13+ Tex) | Scanorama | **6.50** | [5.13, 8.90] | 2.27 |
+
+The Zheng MM replication is on an **orthogonal rare-type** (CXCL13+ Tex-exhausted CD8 per Liu 2022, not LAMP3+ mregDC) and an **orthogonal cancer** (melanoma metastasis T-cell, not pan-cancer myeloid). The Harmony < scVI < Scanorama κ ordering is preserved exactly, and the Harmony low-κ / preserve vs aggressive-method high-κ / fire pattern holds.
 
 ## Stratification into the three regimes
 

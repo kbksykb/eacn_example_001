@@ -37,6 +37,10 @@ GRID = [
     ("cheng_paad", "cheng_paad_lamp3_holdout.h5ad", "scvi", 2853, 0.003),
     ("cheng5", "cheng5_lamp3_holdout.h5ad", "scvi", 20341, 0.004),
     ("cheng6", "cheng6_lamp3_holdout.h5ad", "scvi", 49271, 0.0030),
+    # Cross-rare-type replication: Zheng MM × CXCL13+ Tex
+    ("zheng_mm", "zheng_mm_tpex_holdout.h5ad", "harmony", 12274, 1.000),
+    ("zheng_mm", "zheng_mm_tpex_holdout.h5ad", "scanorama", 12274, 0.0054),
+    ("zheng_mm", "zheng_mm_tpex_holdout.h5ad", "scvi", 12274, 0.0044),
 ]
 
 
