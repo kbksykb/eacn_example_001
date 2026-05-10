@@ -186,13 +186,19 @@ def score_ot(
     cand_ids = np.unique(candidate_labels[candidate_labels >= 0])
 
     # -- observed τ per cell, aggregated per candidate --------------------
+    # NOTE: use |τ| as the two-sided statistic. Rare-subpop loss manifests as
+    # either (a) absorption into a denser region (τ > 0) or (b) dispersion into
+    # a less-dense region (τ < 0). Both are collapse; the detector must fire on
+    # both.  Per CompBio bug-report: the one-sided test missed dispersion in
+    # the synthetic where rare (tight, spread 0.3) was dispersed into abundant
+    # (wide, spread 1.0).  See colm_admissibility §3 revised Remark.
     tau = per_cell_tau(emb_pre_t, emb_post_t, cfg.k_neighbors).cpu().numpy()
 
     stat_obs = np.empty(len(cand_ids))
     for i, cid in enumerate(cand_ids):
         mask = candidate_labels == cid
-        # Median per colm_admissibility §3 — robust to outliers within C_w.
-        stat_obs[i] = float(np.median(tau[mask]))
+        # Median of |τ| per colm_admissibility §3 — robust to outliers within C_w.
+        stat_obs[i] = float(np.median(np.abs(tau[mask])))
 
     # -- permutation null --------------------------------------------------
     # We permute batch labels within an ε-ball in emb_pre. This tests the null
@@ -209,11 +215,11 @@ def score_ot(
         # assignment in density estimation. This is the N1 null of
         # colm_admissibility §4.
         _ = perm_batch  # kept for clarity; actual null uses emb_pre permutation
-        # Simple bootstrap-residual permutation on τ:
+        # Bootstrap-residual permutation on τ; two-sided statistic.
         tau_perm = rng.permutation(tau)
         for i, cid in enumerate(cand_ids):
             mask = candidate_labels == cid
-            stat_null[r, i] = float(np.median(tau_perm[mask]))
+            stat_null[r, i] = float(np.median(np.abs(tau_perm[mask])))
 
     # p-value: one-sided, testing collapse (large positive τ means cells moved into
     # denser regions → absorbed into abundant population).
@@ -229,7 +235,7 @@ def score_ot(
         if n_c < 2:
             ci_low[i], ci_high[i] = np.nan, np.nan
             continue
-        boot = rng.choice(tau_cand, size=(200, n_c), replace=True)
+        boot = rng.choice(np.abs(tau_cand), size=(200, n_c), replace=True)
         meds = np.median(boot, axis=-1)
         ci_low[i], ci_high[i] = np.quantile(meds, [0.025, 0.975])
 
