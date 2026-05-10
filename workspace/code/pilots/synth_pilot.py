@@ -210,11 +210,12 @@ def write_post(adata_pre, emb_int: np.ndarray, method: str, dataset_name: str, r
 def run_real_channels(adata_pre, emb_int: np.ndarray, motif_candidates: np.ndarray):
     import pandas as pd
     from workspace.code.real_channels import ChannelConfig, loss_rate_at_k, score_purity_and_procrustes
+    from workspace.code.real_channels import ot_wrapper
+    from workspace.code.real_channels.ot_channel import OTChannelConfig
 
     batch_int = pd.Categorical(adata_pre.obs["batch"]).codes.astype(np.int32)
     d = emb_int.shape[1]
     pre_full = adata_pre.obsm["X_uncorrected_pca"].astype(np.float32)
-    # Truncate pre to same dim as post so Procrustes is well-posed.
     pre_trunc = pre_full[:, :d] if pre_full.shape[1] >= d else _pca_project(pre_full, d, 0)
     cfg = ChannelConfig(k=15, n_bootstrap=30, rare_abundance_threshold=0.10, seed=0)
     reports = score_purity_and_procrustes(
@@ -224,6 +225,28 @@ def run_real_channels(adata_pre, emb_int: np.ndarray, motif_candidates: np.ndarr
         batch_labels=batch_int,
         cfg=cfg,
     )
+
+    # CoLM/OT channel — ML's third channel, two-sided wrapper until ML patches.
+    # -1 for non-candidate cells; candidate_labels here is the Leiden over-clustering.
+    ot_cfg = OTChannelConfig(n_permutations=200, device="cpu", k_neighbors=15)
+    ot_res = ot_wrapper.score_two_sided(
+        emb_pre=pre_trunc,
+        emb_post=emb_int.astype(np.float32),
+        candidate_labels=motif_candidates,
+        batch_labels=batch_int,
+        cfg=ot_cfg,
+    )
+    ot_by_id = {int(cid): (stat, p, s) for cid, stat, p, s in zip(
+        ot_res["candidate_ids"], ot_res["stat"], ot_res["p_values"], ot_res["signed_stat_mean"]
+    )}
+
+    # Inject OT stats onto the CandidateReport objects as attributes.
+    for r in reports:
+        stat, p, signed = ot_by_id.get(r.candidate_id, (float("nan"), float("nan"), float("nan")))
+        r.ot_stat = stat         # |τ_median|
+        r.ot_p_value = p
+        r.ot_signed_mean = signed
+
     return reports, loss_rate_at_k(reports, k=1), loss_rate_at_k(reports, k=3)
 
 
@@ -320,6 +343,9 @@ def main():
                 "channel_mknn_nn_post": r.nn_identity_post,
                 "channel_proc_displacement": r.procrustes_displacement,
                 "channel_boot_stable": r.bootstrap_fraction_stable,
+                "channel_ot_stat": getattr(r, "ot_stat", float("nan")),
+                "channel_ot_p_value": getattr(r, "ot_p_value", float("nan")),
+                "channel_ot_signed": getattr(r, "ot_signed_mean", float("nan")),
                 "loss_probability": r.loss_probability,
                 "bootstrap_ci_low": float(np.nan),
                 "bootstrap_ci_high": float(np.nan),
