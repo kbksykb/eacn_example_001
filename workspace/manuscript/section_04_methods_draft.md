@@ -40,9 +40,15 @@ RareShield adds a differentiable protection loss L_rare to any integration encod
 
 λ_mass=2.0, 150 epochs, Adam lr=1e-3. ΔARI hard-gate ≤0.02 on Leiden major-type clustering against public-labels-minus-held-out-rare (primary metric per BioSci specification). Oracle-based ARI in Supp as robustness check.
 
-## 4.6 Scale-dependence of method ranking
+## 4.6 Scale-dependent and integrator-intrinsic detection regimes
 
-Scale-dependent method-ranking inversion was quantified on the same rare type (LAMP3+ mregDC) and the same integrator (Harmony) across three real pan-cancer cohorts: Cheng 2021 PAAD single-cancer (n=2,853, π=1.07%), Cheng 2021 5-cancer pool (n=20,341, π=1.50%), Cheng 2021 6-cancer pool incl. KIDNEY (n=49,271, π=1.15%). Detection strength measured by -log10(p_bh) grew monotonically 0 → 1.89 → 2.39 (Math's closed-form §rem:S1-lamp3-scale-series). All three whole-atlas points have n·π²·Δ² < Theorem-1 floor; detection is enabled by the CoLM channel operating at sub-compartment (myeloid-lineage) scale per Theorem S1-hierarchical's amplification. Consequence: **existing small-cohort scIB-based method-rankings are not predictive of atlas-scale method behavior**. This is the paper's method-level contribution.
+Two distinct detection regimes co-exist in the method × scale grid, and the paper distinguishes them explicitly rather than conflating them under a single scaling narrative.
+
+**Regime A — scale-induced detection** (conservative-linear integrators). Fixing method=Harmony and rare-type=LAMP3+ mregDC across Cheng 2021 PAAD (n=2,853, π=1.07%), Cheng 2021 5-cancer pool (n=20,341, π=1.50%), and Cheng 2021 6-cancer pool (n=49,271, π=1.15%): detection strength -log10(p_bh) grows monotonically 0 → 1.89 → 2.39, matching Math's closed-form §rem:S1-lamp3-scale-series Le Cam sigmoid derivative. All three whole-atlas points have n·π²·Δ² < Theorem-1 multi-channel-composite floor; below-floor detection is enabled by the CoLM channel operating at sub-compartment scale per §rem:S1-effective-floor-locality — effective n is the myeloid-lineage size, not the whole atlas.
+
+**Regime B — integrator-intrinsic detection** (aggressive-linear integrators). Fixing method=Scanorama on the same rare-type and the same three cohorts: -log10(p_bh) is 2.30, 2.10, 2.41 — detection fires at the smallest cohort (n=2,853) where Theorem 1 would predict preservation. This is NOT scale-induced: Scanorama dissolves LAMP3+ into cDC2-proximal DCs even at small n, a method-intrinsic overcorrection of the rare-DC state regardless of whole-atlas n·π²·Δ². The ℓ-locality test (Supp: locality_regression_v1_negative.md) shows that a single unifying ℓ-weighted scaling curve does NOT collapse the two regimes — coarse compartment-locality ℓ≈1.0 for both integrators at all three scales, and the integrator-aggressiveness channel fires orthogonally to scale.
+
+**Consequence for method ranking**: existing small-cohort scIB-based rankings conflate these two regimes. At n=2,853, a preservation-friendly ranking (Harmony > Scanorama) holds; at n=20k+ both fire on LAMP3+ and a different ranking emerges. The paper's method-level contribution is **not** "method rankings invert with scale" (which is too strong given the Regime-B data); it is "method rankings depend on which regime the target rare-type is in, and atlas-scale benchmarks must stratify."
 
 ## 4.7 Per-method outcome stratification under RareShield A/B
 

@@ -1,0 +1,7 @@
+dataset,method,n,pi,delta,p_bh,neg_log10_pbh,ell_coarse_median,ell_coarse_q1,ell_coarse_q3,ell_fine_median,ell_fine_q1,ell_fine_q3,ell_coarse_times_nlog10p,ell_fine_times_nlog10p,n_pi2_delta2,rare_type
+cheng_paad,harmony,2853,0.0107,0.8,1.0,-0.0,1.0,0.9,1.0,0.9667,0.8,1.0,-0.0,-0.0,0.209,LAMP3_mregDC
+cheng5,harmony,20341,0.015,0.8,0.013,1.8861,0.9667,0.8333,1.0,0.6,0.3,0.8667,1.8232,1.1316,2.9291,LAMP3_mregDC
+cheng6,harmony,49271,0.0115,0.8,0.0041,2.3872,0.9667,0.8333,1.0,0.6667,0.3,0.9667,2.3076,1.5915,4.1703,LAMP3_mregDC
+cheng_paad,scanorama,2853,0.0107,0.8,0.005,2.301,1.0,0.9,1.0,1.0,0.8,1.0,2.301,2.301,0.209,LAMP3_mregDC
+cheng5,scanorama,20341,0.015,0.8,0.008,2.0969,0.9667,0.8667,1.0,0.8667,0.5667,0.9667,2.027,1.8173,2.9291,LAMP3_mregDC
+cheng6,scanorama,49271,0.0115,0.8,0.0039,2.4089,1.0,0.9,1.0,0.9,0.5667,1.0,2.4089,2.168,4.1703,LAMP3_mregDC
