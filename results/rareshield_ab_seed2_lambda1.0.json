@@ -1,0 +1,27 @@
+{
+  "lambda_mass": 1.0,
+  "seed": 2,
+  "t_vanilla_s": 35.68289269198431,
+  "t_shield_s": 14.077468456001952,
+  "scvi_vanilla": {
+    "LossRate@1": 1.0,
+    "AUPRC_loss_prob": 0.8333333333333333,
+    "AUPRC_ot": 0.6,
+    "n_candidates": 8,
+    "n_rare_truth_candidates": 3,
+    "max_loss_prob_rare": 0.8907643366479581,
+    "max_loss_prob_non_rare": 0.8592471448066998,
+    "ARI": 1.0
+  },
+  "scvi_rareshield": {
+    "LossRate@1": 1.0,
+    "AUPRC_loss_prob": 0.6428571428571429,
+    "AUPRC_ot": 0.375,
+    "n_candidates": 8,
+    "n_rare_truth_candidates": 3,
+    "max_loss_prob_rare": 0.8845789072541355,
+    "max_loss_prob_non_rare": 0.8592466554871767,
+    "ARI": 1.0
+  },
+  "delta_ARI": 0.0
+}
