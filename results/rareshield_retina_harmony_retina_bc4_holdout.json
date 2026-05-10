@@ -1,0 +1,42 @@
+{
+  "method": "harmony",
+  "holdout_name": "retina_bc4_holdout",
+  "lambda_mass": 2.0,
+  "include_overcorrection_motifs": true,
+  "n_rare_truth_motifs": 1,
+  "n_overcorrection_target_motifs": 0,
+  "ARI_vanilla": 0.6208234405434363,
+  "ARI_rareshield": 0.6245052526862933,
+  "delta_ARI": 0.0036818121428570105,
+  "mean_OT_p_delta_rare_truth": 0.47540983606557374,
+  "mean_OT_p_delta_overcorrection_candidate": NaN,
+  "mean_lp_delta_rare_truth": 0.0007182480505723565,
+  "mean_lp_delta_overcorrection_candidate": NaN,
+  "fine_tune_seconds": 213.44908661500085,
+  "trace": [
+    {
+      "ep": 0,
+      "loss": 0.004821777809411287,
+      "lr": 0.0024108889047056437,
+      "anchor": 0.0
+    },
+    {
+      "ep": 25,
+      "loss": 0.0020545937586575747,
+      "lr": 0.0010141708189621568,
+      "anchor": 0.0005250410758890212
+    },
+    {
+      "ep": 50,
+      "loss": 0.0009397045942023396,
+      "lr": 0.0004378346202429384,
+      "anchor": 0.0012807067250832915
+    },
+    {
+      "ep": 75,
+      "loss": 0.00048442085972055793,
+      "lr": 0.00019808331853710115,
+      "anchor": 0.001765084220096469
+    }
+  ]
+}
