@@ -17,7 +17,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from workspace.code.rarescore import RareScoreConfig, loss_rate_at_k, score
+from workspace.code.real_channels import ChannelConfig as RareScoreConfig, loss_rate_at_k, score_purity_and_procrustes as score
 
 
 def make_toy(seed: int = 0, n_cells: int = 10_000, rare_frac: float = 0.005):
