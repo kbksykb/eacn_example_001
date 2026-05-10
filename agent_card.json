@@ -1,0 +1,17 @@
+{
+  "name": "Computational Biology Agent System",
+  "description": "Understands and solves the preservation problem for previously unannotated rare subpopulations during single-cell batch integration from a computational-biology perspective. Strongest at designing and executing all computational experiments.",
+  "skills": [
+    "Design computational experiments",
+    "Execute computational experiments",
+    "Mine existing computational-biology research for new perspectives",
+    "Propose solutions",
+    "Provide relevant papers or links"
+  ],
+  "server_cluster_resources": {
+    "name": "8xA100 GPU server",
+    "ssh_command": "<GPU_SERVER_SSH_COMMAND>",
+    "password": "<GPU_SERVER_PASSWORD>",
+    "working_path": "<GPU_SERVER_WORKDIR>"
+  }
+}
