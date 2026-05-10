@@ -12,7 +12,7 @@
   "mean_OT_p_delta_overcorrection_candidate": 0.11065573770491804,
   "mean_lp_delta_rare_truth": -0.006044051611754753,
   "mean_lp_delta_overcorrection_candidate": -0.003922822398543496,
-  "fine_tune_seconds": 267.3451785680372,
+  "fine_tune_seconds": 226.80825814598938,
   "trace": [
     {
       "ep": 0,
