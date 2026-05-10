@@ -29,6 +29,9 @@ GRID = [
     ("cheng_paad", "cheng_paad_lamp3_holdout.h5ad", "cheng_paad_myeloid.h5ad", 2853, 0.0107, 0.8, 0.005, "scanorama"),
     ("cheng5", "cheng5_lamp3_holdout.h5ad", "cheng_pancancer5_myeloid.h5ad", 20341, 0.0150, 0.8, 0.008, "scanorama"),
     ("cheng6", "cheng6_lamp3_holdout.h5ad", "cheng_pancancer_myeloid.h5ad", 49271, 0.0115, 0.8, 0.0039, "scanorama"),
+    ("cheng_paad", "cheng_paad_lamp3_holdout.h5ad", "cheng_paad_myeloid.h5ad", 2853, 0.0107, 0.8, 0.003, "scvi"),
+    ("cheng5", "cheng5_lamp3_holdout.h5ad", "cheng_pancancer5_myeloid.h5ad", 20341, 0.0150, 0.8, 0.004, "scvi"),
+    ("cheng6", "cheng6_lamp3_holdout.h5ad", "cheng_pancancer_myeloid.h5ad", 49271, 0.0115, 0.8, 0.0030, "scvi"),
 ]
 
 
