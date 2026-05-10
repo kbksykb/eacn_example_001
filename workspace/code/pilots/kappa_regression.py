@@ -41,6 +41,10 @@ GRID = [
     ("zheng_mm", "zheng_mm_tpex_holdout.h5ad", "harmony", 12274, 1.000),
     ("zheng_mm", "zheng_mm_tpex_holdout.h5ad", "scanorama", 12274, 0.0054),
     ("zheng_mm", "zheng_mm_tpex_holdout.h5ad", "scvi", 12274, 0.0044),
+    # Sade-Feldman × canonical TPEX (oracle-defined; state-regime, fragmented across motifs)
+    ("sade_mel", "sade_tpex_holdout.h5ad", "harmony", 16291, 0.0065),
+    ("sade_mel_hvg3k", "sade_tpex_holdout_hvg3k.h5ad", "scanorama", 16291, 0.0052),
+    ("sade_mel_hvg3k", "sade_tpex_holdout_hvg3k.h5ad", "scvi", 16291, 1.000),
 ]
 
 

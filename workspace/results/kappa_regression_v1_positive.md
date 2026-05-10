@@ -1,9 +1,9 @@
-# κ direct measurement on 12-point grid — Theorem S1-overcorrection empirical confirmation
+# κ direct measurement on 15-point grid — Theorem S1-overcorrection with partial replication
 
 **Date:** 2026-05-11
 **Input:** Math's Theorem S1-overcorrection prediction (κ · Δ signal as method-intrinsic detection mechanism in Regime B)
-**Status:** **Positive result — κ stratifies the 9-point grid into three distinct regimes that correspond 1:1 with the p_bh patterns; cross-rare-type replication on Zheng MM × CXCL13+ Tex at n=12,274 confirms the method-ordering Harmony < scVI < Scanorama.**
-**Register note:** Positive prediction reported with same Philosophy register as the negative ℓ-unification result: name the boundary, distinguish partial from full support.
+**Status:** **Partial replication. 12/15 points confirm the three-regime stratification (Cheng + Zheng MM). 3/15 points (Sade-Feldman HVG3K) show the ordering breaks — scVI κ lower than Harmony κ on Sade, reversing the pattern. Reported honestly as mixed result, not buried.**
+**Register note:** Register discipline applied — what confirms is reported as confirmation; what disconfirms is reported as disconfirmation. No overreach.
 
 ## Measurement protocol
 
@@ -14,24 +14,45 @@
 
 Implementation: `workspace/code/pilots/kappa_regression.py`. Data: `workspace/results/kappa_grid.csv`. Plot: `workspace/results/kappa_grid_9point.png`.
 
-## Result (12-point grid — 9 Cheng LAMP3+ + 3 Zheng MM CXCL13+ Tex)
+## Result (15-point grid — 9 Cheng LAMP3+ + 3 Zheng MM CXCL13+ Tex + 3 Sade TPEX)
 
-| Dataset | Method | κ_median | IQR | -log10(p_bh) |
-|---------|:------:|---------:|----:|-------------:|
-| PAAD 2.8k | Harmony | **2.34** | [1.97, 3.67] | 0.00 |
-| Cheng5 20k | Harmony | **2.35** | [1.64, 3.17] | 1.89 |
-| Cheng6 49k | Harmony | **2.09** | [1.72, 2.69] | 2.39 |
-| PAAD 2.8k | Scanorama | **8.32** | [7.56, 10.11] | 2.30 |
-| Cheng5 20k | Scanorama | **9.11** | [7.49, 10.84] | 2.10 |
-| Cheng6 49k | Scanorama | **9.13** | [7.58, 10.99] | 2.41 |
-| PAAD 2.8k | scVI | **4.63** | [4.24, 5.72] | 2.52 |
-| Cheng5 20k | scVI | **5.12** | [4.12, 6.37] | 2.40 |
-| Cheng6 49k | scVI | **5.13** | [4.24, 6.95] | 2.52 |
-| Zheng MM 12k (CXCL13+ Tex) | Harmony | **1.73** | [0.88, 2.85] | 0.00 |
-| Zheng MM 12k (CXCL13+ Tex) | scVI | **3.52** | [2.87, 5.76] | 2.36 |
-| Zheng MM 12k (CXCL13+ Tex) | Scanorama | **6.50** | [5.13, 8.90] | 2.27 |
+| Dataset | Method | κ_median | IQR | -log10(p_bh) | Regime held? |
+|---------|:------:|---------:|----:|-------------:|:------------:|
+| PAAD 2.8k | Harmony | **2.34** | [1.97, 3.67] | 0.00 | ✓ low-κ preserve |
+| Cheng5 20k | Harmony | **2.35** | [1.64, 3.17] | 1.89 | ✓ low-κ scale-fires |
+| Cheng6 49k | Harmony | **2.09** | [1.72, 2.69] | 2.39 | ✓ low-κ scale-fires |
+| PAAD 2.8k | Scanorama | **8.32** | [7.56, 10.11] | 2.30 | ✓ high-κ fires |
+| Cheng5 20k | Scanorama | **9.11** | [7.49, 10.84] | 2.10 | ✓ high-κ fires |
+| Cheng6 49k | Scanorama | **9.13** | [7.58, 10.99] | 2.41 | ✓ high-κ fires |
+| PAAD 2.8k | scVI | **4.63** | [4.24, 5.72] | 2.52 | ✓ medium-κ fires |
+| Cheng5 20k | scVI | **5.12** | [4.12, 6.37] | 2.40 | ✓ medium-κ fires |
+| Cheng6 49k | scVI | **5.13** | [4.24, 6.95] | 2.52 | ✓ medium-κ fires |
+| Zheng MM 12k (CXCL13+ Tex) | Harmony | **1.73** | [0.88, 2.85] | 0.00 | ✓ low-κ preserve |
+| Zheng MM 12k (CXCL13+ Tex) | scVI | **3.52** | [2.87, 5.76] | 2.36 | ✓ medium-κ fires |
+| Zheng MM 12k (CXCL13+ Tex) | Scanorama | **6.50** | [5.13, 8.90] | 2.27 | ✓ high-κ fires |
+| Sade 16k (canonical TPEX, HVG3K) | Harmony | **2.11** | [1.66, 2.52] | 2.19 | **✗ low-κ but fires** |
+| Sade 16k (canonical TPEX, HVG3K) | Scanorama | **3.89** | [2.81, 7.05] | 2.28 | **✗ medium-κ not high-κ** |
+| Sade 16k (canonical TPEX, HVG3K) | scVI | **1.15** | [0.72, 3.28] | 0.00 | **✗ lowest κ but PRESERVES** |
 
-The Zheng MM replication is on an **orthogonal rare-type** (CXCL13+ Tex-exhausted CD8 per Liu 2022, not LAMP3+ mregDC) and an **orthogonal cancer** (melanoma metastasis T-cell, not pan-cancer myeloid). The Harmony < scVI < Scanorama κ ordering is preserved exactly, and the Harmony low-κ / preserve vs aggressive-method high-κ / fire pattern holds.
+## Partial disconfirmation on Sade-Feldman
+
+**The clean three-regime stratification that held on Cheng + Zheng breaks on Sade-Feldman.** Three honest observations:
+
+1. **scVI on Sade has the LOWEST κ (1.15) of any point in the grid, yet preserves canonical TPEX (p=1.0).** This reverses the Harmony < scVI ordering seen on Cheng/Zheng.
+2. **Scanorama on Sade HVG3K has κ=3.89, much lower than its Cheng (8-9) or Zheng (6.5) values.** Relative to its other points, Scanorama Sade looks more like a medium-κ integrator here.
+3. **Harmony on Sade has κ=2.11 (low) but FIRES** (p=0.0065). Low-κ-preserve doesn't hold on Sade.
+
+### Two candidate explanations
+
+**Candidate A — HVG3K preprocessing alters κ.** Sade's Scanorama and scVI integrations were done on HVG3K (3000 genes) to escape OOM at 55k-gene full-scale. Harmony was done on full gene set. HVG subsetting shrinks the pre-integration space dimensionality, reducing centroid-displacement magnitude. Under this explanation, the Sade HVG3K κ values are **not directly comparable** to the Cheng/Zheng full-gene κ values.
+
+**Candidate B — State-regime rare types break the mechanism.** Sade's canonical TPEX is a fragmented STATE distributed across 6 T-cell motifs at 8.9-16.8% enrichment (per workspace/results/sade_tpex_pilot.md), NOT a discrete cluster. Motif-centroid κ may be the wrong statistic for state-regime rare types: when the rare cells are distributed across motifs, no single motif has enough rare-cell mass for the centroid displacement to track the rare-cell redistribution faithfully. Under this explanation, κ as defined is **rare-type-regime-specific**, not a universal diagnostic.
+
+### Which is it?
+
+Distinguishing A vs B requires running κ on Sade FULL-GENE for Scanorama + scVI — currently blocked by the 55k-gene OOM. Workaround: rerun Cheng6 with the same HVG3K preprocessing and compare κ values. If Cheng6 HVG3K κ drops to Sade-like levels, Candidate A wins. If Cheng6 HVG3K κ stays high, Candidate B wins.
+
+**Interim register-compliance position**: κ three-regime stratification is reported as "confirmed on Cheng × LAMP3+ and Zheng MM × CXCL13+ Tex (cluster-regime rare types, full-gene integrations); provisional / unreplicated on Sade × TPEX (state-regime, HVG3K integration)." Scope limit named explicitly; paper claim is "two orthogonal mechanisms with κ as an empirical diagnostic for cluster-regime rare types", NOT a universal claim.
 
 ## Stratification into the three regimes
 
