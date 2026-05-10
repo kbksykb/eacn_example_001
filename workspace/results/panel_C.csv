@@ -1,3 +1,8 @@
 population,whole_atlas_name,whole_atlas_n,compartment_atlas_name,compartment_atlas_n,whole_atlas_pred_TPR,compartment_emp_TPR,compartment_label,amplification_factor
 LAMP3_mregDC,cheng5_pancancer,20341,cheng_paad,2853,0.08,1.0,pancreatic_adenocarcinoma_myeloid_compartment,7.12968804766912
 BC8_9_ON_bipolar,retina_19829,19829,retina_4k_subsample,4000,0.08,1.0,retina_subsample,4.95725
+LAMP3_mregDC,cheng6_pancancer,49271,cheng6_PAAD_slice,2853,0.08,1.0,PAAD_myeloid_compartment,17.27
+LAMP3_mregDC,cheng6_pancancer,49271,cheng6_THCA_slice,5312,0.12,1.0,THCA_myeloid_compartment,9.28
+LAMP3_mregDC,cheng6_pancancer,49271,cheng6_ESCA_slice,7673,0.12,1.0,ESCA_myeloid_compartment,6.42
+LAMP3_mregDC,cheng6_pancancer,49271,cheng6_OV-FTC_slice,3888,0.02,1.0,OV-FTC_myeloid_compartment,12.67
+LAMP3_mregDC,cheng6_pancancer,49271,cheng6_KIDNEY_slice,28930,0.18,1.0,KIDNEY_myeloid_compartment,1.7
