@@ -7,20 +7,20 @@
 
 **Test protocol**: Rerun Cheng6 Scanorama and scVI on HVG3K preprocessing, measure κ, compare to full-gene Cheng6 κ values. Same dataset, same rare type (LAMP3+ mregDC), only preprocessing differs.
 
-## Result — scVI (Scanorama retry in progress)
+## Result — both methods now tested
 
 | Integrator | Preprocessing | n × genes | κ_median | IQR |
 |-----------|---------------|----------:|---------:|----:|
 | scVI | **Full-gene** | 49,271 × 11,104 | **5.13** | [4.24, 6.95] |
 | scVI | **HVG3K** | 49,271 × 3,000 | **6.44** | [5.80, 7.70] |
-| Scanorama | Full-gene | 49,271 × 11,104 | 9.13 | [7.58, 10.99] |
-| Scanorama | HVG3K | 49,271 × 3,000 | **pending retry (background)** | — |
+| Scanorama | Full-gene | 49,271 × 11,104 | **9.13** | [7.58, 10.99] |
+| Scanorama | HVG3K | 49,271 × 3,000 | **9.82** | [8.82, 11.34] |
 
-## Candidate A disconfirmed for scVI
+## Candidate A disconfirmed for both methods
 
-HVG3K preprocessing **increases** Cheng6 scVI κ from 5.13 to 6.44 (not decreases). This **disconfirms Candidate A for scVI**: HVG3K preprocessing does NOT shrink κ.
+HVG3K preprocessing **slightly increases** κ for both scVI (5.13 → 6.44, +25%) and Scanorama (9.13 → 9.82, +8%). The direction is consistently upward, not downward. **Candidate A is therefore disconfirmed** — HVG3K preprocessing does NOT shrink κ on Cheng6 data.
 
-Consequence: the Sade scVI κ=1.15 (LOW) cannot be attributed to HVG3K preprocessing. Something else — most likely Candidate B (state-regime vs cluster-regime mechanism) — is responsible.
+Consequence: the Sade scVI κ=1.15 and Sade Scanorama HVG3K κ=3.89 (both LOWER than full-gene Cheng6 values) cannot be attributed to HVG3K preprocessing. The shrinkage must come from something about Sade-Feldman itself.
 
 ## Candidate B now has positive support
 

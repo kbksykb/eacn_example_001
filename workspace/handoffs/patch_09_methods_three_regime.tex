@@ -1,0 +1,30 @@
+% Patch for §09 Methods (09_methods.tex): add three-regime + adapter-specification
+% + Popperian-register-compliance subsection. Intended to live right after the
+% "Benchmarks against 12 integrators" subsection and before "Immunology-anchored
+% experiments". All numbers anchored to commit ba2c2e0.
+
+\subsection{Scale-dependent and integrator-intrinsic detection regimes (real-data anchor)}
+
+The LAMP3\textsuperscript{+} mregDC holdout on Cheng~2021 PAAD ($n=2{,}853$), Cheng5 pan-cancer pool ($n=20{,}341$), and Cheng6 pan-cancer pool including KIDNEY ($n=49{,}271$) was run for all three methods (Harmony, Scanorama, scVI) with hyperparameters frozen at \texttt{workspace/code/configs/frozen\_tier\_a.yaml}. Integrations are stored at \texttt{/shared/integrations/\{harmony,scanorama,scvi\}/cheng\{\_paad,5,6\}\_lamp3\_holdout.h5ad}. REAL OT scoring used $B=500$ permutations with BH-FDR within-dataset correction.
+
+Three distinct detection regimes are observed and reported without a single unifying scaling story:
+\begin{itemize}\itemsep0pt
+    \item \textbf{Regime A (scale-mediated)}: Harmony exhibits $\kappa_{\text{median}} \in [2.09, 2.35]$ and scale-monotonic $-\log_{10}(p_{\mathrm{bh}})$ values $0 \to 1.89 \to 2.39$ matching Theorem~1's Le~Cam local-sigmoid derivative. All three whole-atlas operating points sit below the Theorem~1 multi-channel-composite floor; below-floor detection is enabled by the CoLM channel operating at sub-compartment $k$NN scale (\Cref{rem:S1-effective-floor-locality}).
+    \item \textbf{Regime B (integrator-intrinsic, mild-modulation)}: Scanorama exhibits $\kappa_{\text{median}} \in [8.32, 9.13]$ and fires at all three scales ($p_{\mathrm{bh}} \in \{0.005, 0.008, 0.004\}$). Method-intrinsic overcorrection of rare-DC into cDC2-proximal clusters operates regardless of $n$ per Theorem~S1-overcorrection's $\kappa\cdot\Delta$ signal.
+    \item \textbf{Regime C (integrator-intrinsic, scale-flat)}: scVI exhibits $\kappa_{\text{median}} \in [4.63, 5.13]$ and fires uniformly across scales. Regime~C has a regime-dependent specificity transition: at small-cohort curated scale (Sade-Feldman $n=16{,}291$, canonical TPEX) scVI preserves the motif at $p_{\mathrm{bh}}=1.0$ (mild regularisation); at pan-cancer Cheng6 scale its non-rare flag-rate rises to $0.647$ (scaling-induced feature-space dilution).
+\end{itemize}
+
+Cross-rare-type cross-cancer replication on Zheng~2021 MM $\times$ CXCL13\textsuperscript{+} Tex preserves the Harmony $<$ scVI $<$ Scanorama $\kappa$-ordering exactly, with $\kappa_{\text{median}} = 1.73, 3.52, 6.50$ respectively. Full 12-point grid at \texttt{workspace/results/kappa\_grid.csv}; 15-point extended grid including Sade-Feldman at \texttt{workspace/results/kappa\_regression\_v1\_positive.md}.
+
+\paragraph{$\kappa$ framework scope.} $\kappa$ is computed on the integrator's output embedding \texttt{X\_integrated}. For integrators producing a native point-embedding (Harmony, scVI, Scanorama, scDREAMER, scCRAFT), this is direct. For graph-only integrators (BBKNN, Seurat-RPCA-via-$k$NN), an adapter is required; we recommend \texttt{X\_pca} passthrough as the least-confounded choice. Specifically, for BBKNN on Cheng~PAAD and Cheng6, \texttt{X\_pca} passthrough yields $\kappa_{\text{median}} = 1.27$ and $2.03$ (Regime~A, confirming the prediction that BBKNN preserves $k$NN structure); a diffmap adapter yields $\kappa_{\text{median}} = 8.4$ and $9.3$, artefactually elevated by the spectral reduction. The adapter is therefore part of the integrator specification for the $\kappa$ framework. Reporting $\kappa$ without adapter specification is under-determined.
+
+\paragraph{Popperian register compliance.} Three falsifiability experiments were run as part of this work:
+\begin{itemize}\itemsep0pt
+    \item A pre-specified cross-method unifying $\ell$-weighted scaling curve (Math §\ref{rem:S1-effective-floor-locality} candidate) was empirically disconfirmed on the 9-point grid (\texttt{workspace/results/locality\_regression\_v1\_negative.md}). The scale-mediated and method-intrinsic mechanisms are therefore reported as distinct rather than unified.
+    \item A pre-registered prospective prediction on BBKNN (Math: $\kappa \le 2.5$, Regime~A) was disconfirmed under a diffmap adapter and confirmed under \texttt{X\_pca} passthrough. This is a documented instance of auxiliary-hypothesis disconfirmation: the core $\kappa$ prediction remains unfalsified; the auxiliary assumption that downstream adapters are innocuous is falsified. The paper gains a framework-boundary rather than losing the prediction.
+    \item A partial scope-limit disconfirmation on Sade-Feldman canonical TPEX (state-regime rare type) shows motif-centroid $\kappa$ does not generalise to rare types distributed across multiple motifs. The three-regime stratification is reported as a descriptive empirical tool on cluster-regime rare types, not a predictive theoretical taxonomy.
+\end{itemize}
+Un-disconfirmed core claims (Theorem~1 Harmony scale-monotonicity, $\kappa$ three-regime stratification on cluster-regime full-gene integrations, $|\Delta\mathrm{ARI}|\le 0.02$ RareShield gate) accrue evidence weight proportionate to the disconfirmation rate. Supp.~Note~S5 catalogs all mechanisms considered and empirically falsified.
+
+%% END PATCH 09 — splice after `\subsection{Benchmarks against 12 integrators}`
+%% and before `\subsection{Immunology-anchored experiments (Exp-I1/I2/I3)}`
