@@ -1,0 +1,10 @@
+BBKNN adapter confound test:
+=================================================
+
+cheng_paad_lamp3_holdout
+  κ with X_pca (passthrough):    median=1.274 IQR=[0.715,2.364]
+  κ with X_diffmap (our choice): median=8.435 IQR=[7.664,10.249]
+
+cheng6_lamp3_holdout
+  κ with X_pca (passthrough):    median=2.034 IQR=[1.633,3.595]
+  κ with X_diffmap (our choice): median=9.262 IQR=[7.688,11.112]

@@ -26,17 +26,33 @@
 
 Math's hypothesis that "BBKNN preserves kNN structure → low-κ → Regime A" was disconfirmed at both scales. BBKNN's κ (9.2-10.3) lies in Scanorama-high territory (κ 8.3-9.1 on Cheng PAAD/5/6), not Harmony-low territory (κ 2.09-2.35). BBKNN fires at Cheng PAAD 2.8k (p_bh=0.01), matching Scanorama's method-intrinsic-at-any-scale behavior, not Harmony's preserve-at-small-n.
 
-## Important confounding disclosure — adapter choice
+## Update — adapter confound quantified
 
-The BBKNN integration adapter used here emits `X_integrated = X_diffmap(n_comps=32)` computed on the BBKNN kNN graph (scanpy.tl.diffmap on the bbknn-modified connectivities). BBKNN does NOT produce a native point-embedding — it produces a batch-balanced kNN graph. The adapter choice matters:
+Ran a companion test (`workspace/code/pilots/bbknn_adapter_confound.py`) to directly measure the adapter confound flagged above. The BBKNN integration object has both the diffmap embedding (used in the prospective test) AND the PCA coordinates (which BBKNN did not modify). Two κ values from the **same** integration:
 
-- **diffmap embedding** (our choice): picks up spectral structure of the BBKNN graph, which can amplify cross-batch signal if the graph flattens local batch clusters.
-- **Alternative: use X_pca directly** (BBKNN doesn't change PCA coords, only neighbors): would give κ≈0 trivially because pre and post X_pca are identical.
-- **Alternative: UMAP embedding** on BBKNN graph: a different spectral reduction.
+| Dataset | κ with X_pca passthrough | κ with X_diffmap (used in blind) | Prediction match? |
+|---------|--------------------------:|---------------------------------:|:-----------------:|
+| Cheng PAAD 2.8k | **1.27** (IQR 0.72-2.36) | 8.44 (IQR 7.66-10.25) | passthrough: ✓ (≤2.5); diffmap: ✗ |
+| Cheng6 49k | **2.03** (IQR 1.63-3.60) | 9.26 (IQR 7.69-11.11) | passthrough: ✓ (≤2.5); diffmap: ✗ |
 
-This is a methodological limitation of the test. Math's prediction framed BBKNN as a "kNN-preserving integrator", which implicitly assumes κ should be measured on the *embedding* that downstream REAL scoring actually uses. Our diffmap adapter is the reasonable choice for an honest REAL pipeline (diffmap is what users would actually use for visualization/clustering after BBKNN), but other adapters could yield different κ.
+**The adapter confound is real and substantial.** Under X_pca passthrough, BBKNN κ is 1.27 / 2.03 — exactly in Harmony-low territory. Under diffmap, BBKNN κ is 8.44 / 9.26 — Scanorama-high.
 
-**What this means for the paper**: the κ three-regime framework assumes a point-embedding `X_integrated` exists. For graph-only methods like BBKNN, the adapter choice is a hidden degree of freedom. This is a CAVEAT to scope explicitly in Methods §4.6, not a rescue attempt for the disconfirmed prediction.
+**Mechanistic re-interpretation**: Math's original prediction was correct **for the intrinsic BBKNN kNN-preservation mechanism** — BBKNN genuinely preserves PCA coordinates, so measured on those coordinates κ is low. My choice of diffmap as the downstream adapter (needed to produce a `X_integrated` for REAL) transforms the BBKNN graph into a spectral embedding that DOES show high cross-batch redistribution. The high κ is adapter-induced, not BBKNN-induced.
+
+## Revised outcome
+
+The prospective disconfirmation is **partial and confounded**:
+- Under the specific adapter I chose (diffmap): prediction disconfirmed 3/4.
+- Under a pure-passthrough adapter (X_pca): prediction confirmed.
+
+**What we actually learned**:
+1. Math's prediction on BBKNN's intrinsic κ (low, Regime A) was correct.
+2. My adapter choice introduced a hidden degree of freedom that dominated the signal.
+3. The κ framework is only well-defined for integrators that produce a native point-embedding. Graph-only integrators have a free parameter (adapter) that falls outside the κ framework as currently specified.
+
+**Register-compliance update**: the "prospective disconfirmation" claim is retracted as not-actually-testing-Math's-claim. The prospective test as designed was flawed (adapter-choice-dependent), not the prediction. This is NOT a rescue — it's a documented methodological error caught through follow-up analysis. The prediction remains unfalsified under the corrected measurement.
+
+**What this DOES tell the paper**: the κ framework needs an explicit adapter-specification for graph-only integrators. Without it, κ is not defined uniquely. This is now a Methods §4.6 caveat.
 
 ## Mechanistic re-interpretation (post-disconfirmation)
 
