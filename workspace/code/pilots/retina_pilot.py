@@ -48,6 +48,9 @@ def main():
 
     logger.info("loading retina H5AD %s", args.h5ad)
     adata = ad.read_h5ad(args.h5ad)
+    # Ensure var['gene_symbol'] is populated — downstream oracle scorers need a named column.
+    if "gene_symbol" not in adata.var.columns:
+        adata.var["gene_symbol"] = adata.var_names.astype(str).to_numpy()
     adata.obs["cell_type_public"] = adata.obs["labels"].astype("category")
     adata.obs["batch"] = adata.obs["batch"].astype(str).astype("category")
 
