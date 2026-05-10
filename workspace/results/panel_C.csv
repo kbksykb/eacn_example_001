@@ -1,0 +1,3 @@
+population,whole_atlas_name,whole_atlas_n,compartment_atlas_name,compartment_atlas_n,whole_atlas_pred_TPR,compartment_emp_TPR,compartment_label,amplification_factor
+LAMP3_mregDC,cheng5_pancancer,20341,cheng_paad,2853,0.08,1.0,pancreatic_adenocarcinoma_myeloid_compartment,7.12968804766912
+BC8_9_ON_bipolar,retina_19829,19829,retina_4k_subsample,4000,0.08,1.0,retina_subsample,4.95725
