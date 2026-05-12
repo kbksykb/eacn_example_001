@@ -1,2 +1,0 @@
-method,LossRate@1,LossRate@3,AUPRC,min_ot_p_rare,min_ot_p_nonrare,n_candidates,n_rare_truth_candidates
-scanorama,0.0,0.0,0.05,0.009900990099009901,0.009900990099009901,30,1
