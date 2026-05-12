@@ -1,0 +1,16 @@
+{
+  "method": "scvi",
+  "n_permutations": 2000,
+  "n_obs": 22472,
+  "n_batches": 1043,
+  "t_total_s": 140.2,
+  "t_ot_s": 0.9,
+  "lamp3_detection": {
+    "n_candidate": 225,
+    "p_value": 0.0004997501249375312,
+    "neg_log10_p": 3.301,
+    "tau": 114.12486267089844,
+    "ci_low": 112.90392303466797,
+    "ci_high": 115.23978595733642
+  }
+}
