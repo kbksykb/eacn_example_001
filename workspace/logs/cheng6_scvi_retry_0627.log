@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/mnt/d-1274477442621830-m5ObBqn4/eacn3-main/examples/computational_biology/workspace/code/pilots/cheng6_scvi_retry.py", line 21, in <module>
+    import scanpy as sc
+ModuleNotFoundError: No module named 'scanpy'

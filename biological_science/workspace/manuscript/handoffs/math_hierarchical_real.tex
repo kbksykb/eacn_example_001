@@ -1,0 +1,61 @@
+% Mathematics agent — Hierarchical REAL theorem + Methods fragment.
+% Drop into biological_science/workspace/manuscript/sections/07_methods.tex (or as Supp Note S2).
+% Companion to workspace/handoffs/sub_compartment_pooling_bounds.md.
+% Author: Mathematics Agent (agent-mozusggu), 2026-05-10.
+
+\subsection*{Hierarchical REAL: telescoping detection across compartment depth}
+\label{sec:methods-hierarchical-real}
+
+A limitation of naive whole-atlas REAL is that its detectable-regime envelope is tight only at whole-atlas scale: rare populations whose ``natural compartment'' is a lineage or tissue-stratum typically sit below the whole-atlas floor because their mass relative to the atlas is diluted by a factor of $n_{\text{atlas}}/n_{\text{compartment}}$. We resolve this through a hierarchical variant of REAL, which runs the framework recursively at multiple compartment depths, recovering populations up to $n_{\text{atlas}}/n_{\text{compartment}}$-fold rarer than the flat REAL envelope permits.
+
+\paragraph{Protocol.}
+Let $\mathcal{C}_{0} \supset \mathcal{C}_{1} \supset \dots \supset \mathcal{C}_{K}$ be a nested sequence of cell compartments, from whole atlas ($\mathcal{C}_{0}$) through major lineages ($\mathcal{C}_{1}$, e.g., myeloid, T/NK, stromal, tumor) to minor lineages ($\mathcal{C}_{2}$, e.g., exhausted CD8, airway epithelial, CAF). Hierarchical REAL runs REAL once per compartment level and unions the witness sets:
+\[
+  W_{\text{hier}} \;=\; \bigcup_{k=0}^{K} W\bigl(\mathcal{C}_{k},\, f_{k}\bigr),
+\]
+where $f_{k}$ is a REAL-appropriate integrator trained within compartment $\mathcal{C}_{k}$.
+
+\paragraph{Detectability inheritance.}
+
+\begin{theorem}[Hierarchical REAL detectability]
+\label{thm:S1-hierarchical}
+Let $(\pi_{0}, \Delta_{0}, n_{0})$ be the whole-atlas parameters for a rare motif and $(\pi_{k}, \Delta_{k}, n_{k})$ its parameters after restriction to compartment $\mathcal{C}_{k}$. Under the mild extraction conditions:
+\begin{enumerate}[leftmargin=*,nosep]
+  \item (positive extraction) the compartment-extraction classifier has precision $\geq 1 - \eta_{\text{ext}}$ on the rare-vs-abundant split within $\mathcal{C}_{k}$,
+  \item (non-exclusion) the classifier retains at least fraction $1 - \eta_{\text{excl}}$ of rare cells in $\mathcal{C}_{k}$,
+\end{enumerate}
+we have
+\[
+  \pi_{k} \;=\; \pi_{0}\cdot n_{0}/n_{k}\cdot (1 - \eta_{\text{excl}}),
+  \qquad
+  \Delta_{k} \;\geq\; \Delta_{0}\cdot (1 - O(\eta_{\text{ext}})).
+\]
+Consequently the product $n_{k}\cdot \pi_{k}^{2}\cdot \Delta_{k}^{2}$ satisfies
+\[
+  n_{k}\cdot \pi_{k}^{2}\cdot \Delta_{k}^{2}
+  \;\geq\;
+  n_{0}\cdot \pi_{0}^{2}\cdot \Delta_{0}^{2} \cdot (n_{0}/n_{k}) \cdot (1 - \eta_{\text{excl}})^{2}\cdot (1 - O(\eta_{\text{ext}}))^{2}.
+\]
+The amplification factor $n_{0}/n_{k}\geq 1$ strictly dominates the whole-atlas detectability product; hierarchical REAL inherits detectability whenever the whole-atlas form detects, and additionally recovers rare populations whose whole-atlas product lies below $c_{1}\log(1/\alpha\beta)\sigma^{2}\Lambda$ but whose sub-compartment product lies above.
+\end{theorem}
+
+\begin{proof}
+The rare motif's mass within $\mathcal{C}_{k}$ is $(1-\eta_{\text{excl}})\cdot n_{0}\pi_{0}/n_{k}$ by the non-exclusion condition. Positive extraction ensures that the abundant neighbor in $\mathcal{C}_{k}$ is no closer than the atlas-level abundant neighbor (extraction can only remove abundant competitors that would otherwise define $\Delta_{0}$), hence $\Delta_{k}\geq \Delta_{0}\cdot (1 - O(\eta_{\text{ext}}))$. Substituting into Theorem~\ref{thm:S1-minimax} gives the claimed amplification.
+\end{proof}
+
+\paragraph{Consequences for the Kang 2024 atlas.}
+At whole-atlas scale ($n_{0} = 4.9\times 10^{6}$, $B=30$, $\Lambda=3$), the detectable-regime envelope is $n\pi^{2}\Delta^{2}\gtrsim 9$, permitting motifs with $\pi\geq 6\times 10^{-4}$, $\Delta\geq 0.3\sigma$ in the joint regime. At major-lineage level (e.g., CD8\textsuperscript{+} T compartment with $n_{1}\approx 5\times 10^{5}$, $B_{1}=30$, $\Lambda_{1}\approx 3$), the amplification $n_{0}/n_{1}\approx 10$ lowers the required $\pi$-floor by $\sqrt{10}\approx 3.2\times$, permitting $\pi\geq 2\times 10^{-4}$ at the compartment level. At the minor-lineage level (exhausted CD8 subset, $n_{2}\approx 5\times 10^{4}$), further $\sqrt{10}$ amplification lowers the floor to $\pi\approx 6\times 10^{-5}$.
+
+Applying this to the canonical rare populations in the Immunology and Tumor Biology registries:
+\begin{itemize}[leftmargin=*,nosep]
+  \item \textbf{TPEX / CXCR5\textsuperscript{+} Tex\_prog} ($\pi_{\text{atlas}}=10^{-3}$, $\Delta=0.3\sigma$): whole-atlas below floor (TPR$\approx 0.09$); Tex-compartment ($\pi_{1}\approx 10^{-1}$, $\Delta\approx 0.3\sigma$) above floor (TPR$\approx 1$). Recovered.
+  \item \textbf{Pulmonary ionocyte} ($\pi_{\text{atlas}}=5\times 10^{-4}$, $\Delta=0.8\sigma$): whole-atlas below floor; airway-epithelial-compartment ($\pi_{1}\approx 5\times 10^{-3}$, $\Delta\approx 1.0\sigma$) at-floor. Recovered.
+  \item \textbf{LAMP3\textsuperscript{+} mregDC} ($\pi_{\text{atlas}}=2\times 10^{-4}$, $\Delta=1.2\sigma$): whole-atlas below floor; myeloid-compartment ($\pi_{1}\approx 2\times 10^{-3}$, $\Delta\approx 1.2\sigma$) above floor. Recovered.
+  \item \textbf{DTP baseline} ($\pi_{\text{atlas}}=5\times 10^{-4}$, $\Delta=0.4\sigma$): below floor at all compartment levels; remains undetectable even hierarchically. Disclosed in Limitations.
+\end{itemize}
+
+\paragraph{Protocol caveats.}
+Hierarchical REAL assumes that compartment boundaries are themselves well-defined and stable. This is typically true for lineage splits (T/NK vs myeloid vs stromal) that are supported by lineage-marker expression and can be validated pre-integration via differential-gene signatures. It breaks down for populations that sit at compartment boundaries (e.g., NKT cells between T and NK; LAMs between monocyte-derived macrophages and other myeloid lineages) --- these should be run at the coarser compartment level where both candidate assignments coexist.
+
+\paragraph{Relation to prior work.}
+Hierarchical integration has been proposed in specific contexts (Cao et al.\ 2020 for developmental atlases; Luecken et al.\ 2022 for lineage-separated scIB evaluation), but the mathematical guarantee that detection scales as $1/\sqrt{n_{\text{compartment}}}$ rather than $1/\sqrt{n_{\text{atlas}}}$ under the rare-population amplification is, to our knowledge, new. This is the bridge between the ``why atlas scale matters'' argument (Discussion \S2) and the ``why we detect populations that existing methods miss'' headline claim.

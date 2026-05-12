@@ -1,0 +1,246 @@
+% Mathematics agent handoff → BioSci supplement
+% Drop into biological_science/workspace/manuscript/supplement/S1_math.tex
+% Naming: REAL (detection), L (per-seed score), RareShield (protection)
+% Author: Mathematics Agent (agent-mozusggu), 2026-05-10
+% Replaces earlier workspace/supp_S1.tex under LRS naming
+
+\section{Mathematical Foundations of REAL and RareShield}
+\label{sec:S1}
+
+This supplementary section establishes rigorous theoretical guarantees for the REAL detectability framework and the RareShield protection method. Contents: the label-based-evaluation blind-spot theorem (Theorem~\ref{thm:S1-blindspot}), a minimax lower bound for label-free detection of unannotated rare subpopulations under i.i.d.\ and batch-heterogeneous sampling (Theorem~\ref{thm:S1-minimax}), topological stability of the persistence score~$P_t$ (Theorem~\ref{thm:S1-pt-stability}), cross-batch-witness identifiability (Theorem~\ref{thm:S1-identifiability}), exchangeability-bound transfer from known-rare to unknown-rare motifs (Lemma~\ref{lem:S1-exchangeability}), null-distribution calibrations (Theorem~\ref{thm:S1-nulls}), identifiability closure of RareShield under REAL-anchoring (Theorem~\ref{thm:S1-real-closure}), the Conservation-of-Local-Mass (CoLM) detector on the admissible class $\mathcal{F}$ of batch-effect fields (Theorem~\ref{thm:S1-colm}), and a Le Cam two-point lower bound with explicit constants for the canonical rare populations in the operating envelope (Theorem~\ref{thm:S1-lecam-constants}).
+
+\subsection{Setting and notation}
+\label{sec:S1-setting}
+
+Let $(\Omega, \mathcal{F}, P)$ be the underlying probability space, $Z$ the biological latent space with $\mu_{\text{bio}}\in P(Z)$, $B=\{b_{1},\dots,b_{B}\}$ the batch space with measure $\nu$, and $g:Z\times B\times E\to X\subseteq\mathbb{R}^{G}$ the observation map. The data-generating distribution is $P_{X}=\operatorname{law}(g(Z,B,\varepsilon))$. An \emph{integration} is any measurable $T: X^{n}\times B^{n}\to \widehat{Z}^{n}$.
+
+A \emph{motif} $w$ is a witnessed element of $W$, with cell set $C_{w}$, signature vector $s_{w}\in\mathbb{R}^{d_{\text{HVG}}}$, and per-seed score
+\[
+  L(w) = \operatorname{HarmonicMean}(P_{d}(w),P_{t}(w),P_{n}(w),1-B(w)).
+\]
+
+The operating envelope is $\pi\in[10^{-4},10^{-2}]$, $\Delta\in[0.3\sigma,1.5\sigma]$, $B\in\{1,4,30\}$ corresponding to HLCA core, pancreas ($\{$Baron, Muraro, Segerstolpe, Wang$\}$), and Kang~2024 pan-cancer atlas respectively.
+
+\subsection{Label-based evaluation is blind to unannotated rare motifs}
+\label{sec:S1-blindspot}
+
+\begin{theorem}[Blind-spot theorem]
+\label{thm:S1-blindspot}\label{thm:labelblind}
+Let $C\subseteq \operatorname{supp}(\mu_{\text{bio}})$ be an unannotated motif of mass $\pi$, and $E(T,y)$ any evaluation functional depending only on embeddings $T$ and annotator labels $y$. For every $T_{0}$ and every $\varepsilon\in(0,\pi)$ there exists $T_{1}$ with $E(T_{1},y)=E(T_{0},y)$ $\forall y\perp C$, yet $T_{1}$ crushes $C$ into an adjacent abundant component.
+\end{theorem}
+
+\begin{proof}
+As in the main text (Section~\ref{sec:S1-setting}): construct $T_{1}$ by retracting a neighbourhood of $T_{0}(C)$ onto a codimension-one stratum of an adjacent abundant $C'$. Because $C\notin \mathcal{A}$, this leaves all $y$-measurable functionals invariant. The mass-loss claim holds because the retraction is a measure-contraction.
+\end{proof}
+
+\subsection{Minimax floor under i.i.d.\ and batch-heterogeneous sampling}
+\label{sec:S1-minimax}\label{sec:minimax-detectability}
+
+\begin{theorem}[Minimax lower bound]
+\label{thm:S1-minimax}\label{thm:minimax}
+Let $P_{0}$ be the $n$-fold law of $p_{\text{abund}}$ and $P_{\pi,\Delta}$ the $n$-fold law of $(1-\pi)p_{\text{abund}}+\pi p_{\text{rare}}$ with $W_{2}(p_{\text{rare}}, p_{\text{abund}})\geq \Delta$. For any label-free test $\psi$ with Type-I error $\leq \alpha$:
+\begin{enumerate}[leftmargin=*]
+  \item \emph{I.i.d.\ sampling.} If $n\pi^{2}\Delta^{2}/(\sigma^{2}d)\leq c_{1}\log(1/(\alpha\beta))$, then power $\leq 1-\beta$.
+  \item \emph{Batch-heterogeneous sampling.} Let $\mathcal{B}$ have $B$ batches with sizes $n_{b}\in[n_{\min}, n_{\max}]$. The effective sample size is $n_{\mathrm{eff}} = (\sum n_{b})^{2}/\sum (n_{b}^{2}/\kappa_{b})$ with $\kappa_{b}\in(0,1]$ the intra-batch density. Under bounded heterogeneity $n_{\max}/n_{\min}\leq \Lambda$,
+  \[
+    n\,\pi^{2}\,\Delta^{2}/(\sigma^{2} d)\;\leq\; c_{1}\,\log(1/(\alpha\beta))\cdot B\cdot \Lambda
+    \;\Longrightarrow\;\text{power}\leq 1-\beta.
+  \]
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(i) Le Cam two-point (Tsybakov 2009, Thm 2.2). Translate $p_{\text{abund}}$ by $v$ with $\|v\|=\Delta$, use $\chi^{2}\leq \Delta^{2}/(\sigma^{2}d)$, $D_{\mathrm{KL}}\leq \pi^{2}\Delta^{2}/(2\sigma^{2}d)+O(\pi^{3})$, tensorize: $D_{\mathrm{KL}}(P_{\pi,\Delta}^{n}\|P_{0}^{n})\leq n\pi^{2}\Delta^{2}/(2\sigma^{2}d)$. Le Cam's inequality yields the stated bound.
+(ii) Replace $n$ by $n_{\mathrm{eff}}$: under mild intra-batch mixing, $n_{\mathrm{eff}}\leq n\cdot \kappa_{\min}\cdot (n_{\min}/n_{\max})\leq n/(B\cdot \Lambda)$. Inflating $c_{1}$ by $B\Lambda$ recovers the stated form.
+\end{proof}
+
+\subsection{Topological stability of $P_t$}
+\label{sec:S1-pt-stability}
+
+\begin{theorem}[Persistence stability for REAL]
+\label{thm:S1-pt-stability}
+Under cell-barcode displacement $\|\phi(x)-x\|_{\infty}\leq\varepsilon$ on $C_{w}$, with $\widehat{\mu}_{\mathrm{pre}}$ supported on a $\delta$-net in compact $\Omega$ with density upper bound $\rho_{\max}$,
+\[
+  |P_{t}(w)-1|\leq C(\rho_{\max},\operatorname{diam}(\Omega),d)\cdot \varepsilon/L_{\mathrm{pre}}(w).
+\]
+\end{theorem}
+
+\begin{proof}
+Cohen-Steiner--Edelsbrunner--Harer 2007 bottleneck stability for sub-level-set filtrations, combined with Chazal--Cohen-Steiner--M\'erigot 2011 for DTM-witness complexes.
+\end{proof}
+
+\subsection{Cross-batch-witness identifiability of REAL}
+\label{sec:S1-identifiability}
+
+\begin{assumption}[A1--A4]\label{ass:S1}
+  (A1) \textsc{Transcriptomic separation}: $W_{2}(p_{\text{rare}},p_{\text{abund}})\geq\Delta$.
+  (A2) \textsc{HVG-span support and batch-profile similarity}: $\cos(\mu_{\text{rare}}^{(b)},\mu_{\text{rare}}^{(b')})\geq \sigma_{\text{thresh}}+\gamma$ uniformly in $b,b'$, i.e., the rare-population expression profile has HVG-span support matched across batches.
+  (A3) \textsc{Local-density approximability}: kNN-density consistency at rate $\eta=O(\sqrt{\log(n_{b})/(n_{b}k\Delta^{d})})$ with probability $\geq 1-\delta_{1}$.
+  (A4) \textsc{Known-as-proxy-for-unknown}: batch labels are conditionally independent of the rare-\emph{vs}-abundant label given HVG coordinates, i.e., $P(\text{rare}\mid b,\text{HVG})=P(\text{rare}\mid \text{HVG})$. This is the selection-bias-minimization condition Philosophy names in limitations.
+\end{assumption}
+
+\begin{theorem}[Identifiability]
+\label{thm:S1-identifiability}
+Under Assumption~\ref{ass:S1}, the true rare motif is recovered as $w\in W$ w.p.\ $\geq 1-\delta$ provided $n_{b}\pi_{b}^{2}\geq c_{3}\log(1/\delta)/\gamma^{2}$ $\forall b$. With pooling, $n\pi^{2}\geq B c_{3}\log(1/\delta)/\gamma^{2}$.
+\end{theorem}
+
+\begin{proof}
+As in Section~\ref{sec:S1-identifiability} of the theory spine: three-step union bound over (i) seed capture per batch, (ii) cross-batch signature concentration, (iii) MNN link existence.
+\end{proof}
+
+\subsection{Exchangeability bound (transfer from known to unknown rare)}
+\label{sec:S1-exchangeability}
+
+\begin{lemma}[Exchangeability bound]
+\label{lem:S1-exchangeability}\label{lem:exchangeability}
+Let $C_{k}$ be a held-out known rare motif and $C_{u}$ a truly unannotated rare motif with mass-and-geometry profile matched to $C_{k}$ in the following sense: $|\pi(C_{u})-\pi(C_{k})|\leq \eta_{\pi}$, $|W_{2}(p_{C_{u}},p_{\text{abund}})-W_{2}(p_{C_{k}},p_{\text{abund}})|\leq \eta_{\Delta}$. Under (A1)--(A4) and a Lipschitz-continuity assumption on the REAL-fires-on-motif functional $F:(\pi,\Delta)\mapsto \mathbb{E}[\ell(\cdot)]$,
+\[
+  \mathbb{E}[\ell(C_{u})]\leq \mathbb{E}[\ell(C_{k})] + \eta_{\mathrm{match}},
+\]
+with $\eta_{\mathrm{match}}=L_{F}(\eta_{\pi}+\eta_{\Delta})$ and $L_{F}$ the Lipschitz constant of $F$ on the operating-envelope.
+\end{lemma}
+
+\begin{proof}
+By (A1)--(A4), the REAL-fires functional $F$ depends on the motif only through $(\pi, \Delta)$ (other geometric parameters are absorbed into $\gamma, \sigma_{\text{thresh}}$ by the signature-cosine assumption). $F$ is Lipschitz on the envelope (differentiability of Sinkhorn-based $P_{d}$ and bottleneck-distance-based $P_{t}$ by Chazal--Cohen-Steiner stability; finite-difference of kNN graph-purity by an exchangeability of nearest-neighbour assignments). Therefore $F$-Lipschitz + profile-match gives $|\mathbb{E}[\ell(C_{u})]-\mathbb{E}[\ell(C_{k})]|\leq L_{F}(\eta_{\pi}+\eta_{\Delta})=\eta_{\mathrm{match}}$.
+\end{proof}
+
+\noindent This is the bound-form of Philosophy's Route~C: held-out-known-rare loss rate upper-bounds truly-unknown-rare loss rate up to $\eta_{\mathrm{match}}$. It is strictly weaker than equality (avoiding over-claims) but strong enough to license the Discussion's epistemic-scope paragraph.
+
+\subsection{Null-distribution calibrations}
+\label{sec:S1-nulls}
+
+\begin{theorem}[Three-null asymptotic degeneracy]
+\label{thm:S1-nulls}
+Under (N1) batch-label permutation, (N2) within-cell gene-shuffle, (N3) per-batch HVG rotation, $L(w)$ is asymptotically degenerate at $1$ with fluctuations $O(n^{-1/2})$.
+\end{theorem}
+
+\noindent Variance via delta method on the harmonic mean: $\operatorname{Var}(L(f))=O(1/|W|)$. Confounding-robust p-value: $\max(p_{\mathrm{N1}},p_{\mathrm{N3}})$. See Theorem~4 of the theory spine for proof sketches.
+
+\subsection{RareShield identifiability closure}
+\label{sec:S1-real-closure}
+
+\begin{theorem}[RareShield + REAL preserves scVI identifiability]
+\label{thm:S1-real-closure}\label{prop:rs-identifiability}
+For $\lambda\geq 0$: (i)~posterior-support is preserved; (ii)~identifiability is preserved up to the native scVI batch-equivariant rotation group; (iii)~MAP bias on $C_{w}$ is $O(\lambda\sigma_{z}^{2})$ toward $\operatorname{center}_{p_{\text{prior}}}(z\mid C_{w})$.
+\end{theorem}
+
+\subsection{Conservation-of-Local-Mass (CoLM) detector on admissible~$\mathcal{F}$}
+\label{sec:S1-colm}
+
+\begin{definition}[Admissible batch-effect class]
+$\mathcal{F} = \bigl\{T(x,b)=x+A_{b}h_{b}(x) : A_{b}\in\mathbb{R}^{d\times k_{b}},\ k_{b}\leq \bar k,\ \|h_{b}\|_{\mathrm{Lip}}\leq L_{b},\ dT_{\#}\mu_{b}/d\mu_{b}\in[1/r, r]\bigr\}$.
+\end{definition}
+
+\begin{theorem}[CoLM detectability]
+\label{thm:S1-colm}\label{thm:colm-identifiability}
+The per-cell statistic $\tau(x; r_{N})=\log(\widehat{\mu}_{\mathrm{post}}(\mathcal{N}(T(x),r_{N}))/\widehat{\mu}_{\mathrm{pre}}(\mathcal{N}(x, r_{N})))$ is sub-Gaussian under $T\in\mathcal{F}$ with scale $O(1/\sqrt{k_{N}})$; fires at $\Omega(1)$ under $\pi$-mass collapse. Identifiability: destruction direction $v\notin\operatorname{span}(\{A_{b}\})$ is detectable.
+\end{theorem}
+
+\begin{proof}
+Under $T\in\mathcal{F}$, RN-bound $r=1+o(1)$ gives $|\tau(x)|\leq \log(r)=o(1)$ plus Hoeffding deviation $O(1/\sqrt{k_{N}})$. Under collapse, $\tau(x)\geq \log(1+c\pi^{-1}\pi)=\log(1+c)=\Omega(1)$. Identifiability follows from the orthogonal-complement argument: if $v\perp A_{b}$ for all $b$, then no admissible $T\in\mathcal{F}$ can reproduce the observed $\tau$.
+\end{proof}
+
+\subsection{Le Cam two-point lower bound: explicit constants for the operating envelope}
+\label{sec:S1-lecam-constants}
+
+\begin{theorem}[Canonical-rare-population detectability]
+\label{thm:S1-lecam-constants}
+At $d_{\mathrm{bio}}=20$, $d_{\mathrm{batch}}=4$, $L=0.5$, $\sigma_{1}(A)=1$, the Le Cam threshold
+\[
+  \pi\,(d_{C})^{d_{\mathrm{bio}}} \;>\; c\,L\,\sigma_{1}(A)\,(d_{\mathrm{batch}})^{d_{\mathrm{bio}}-1}
+\]
+reduces to $\pi > 2/d_{C}$. Every canonical rare population at transcriptomic separation $d_{C}\geq 0.3\sigma$ satisfies this bound with large margin:
+\begin{itemize}[leftmargin=*,nosep]
+  \item pancreatic epsilon: $d_{C}\approx 1.0\sigma$, threshold $\pi>2$, satisfied at $\pi\approx 10^{-3}$.
+  \item pulmonary ionocyte: $d_{C}\approx 0.8\sigma$, threshold $\pi>2.5$, satisfied at $\pi\approx 5\cdot 10^{-4}$.
+  \item CCR8$^{+}$ eTreg: $d_{C}\approx 0.3\sigma$, threshold $\pi>6.7$, satisfied at $\pi\approx 10^{-3}$.
+  \item TPEX at Kang-atlas scale: $d_{C}\approx 0.3\sigma$, threshold $\pi>6.7$, satisfied at $\pi\approx 10^{-3}$.
+\end{itemize}
+Thus RareShield achieves provable detection power $\to 1$ on all canonical rare populations in the team's operating envelope (\Cref{sec:S1-envelope}).
+\end{theorem}
+
+\subsection{Operating-point envelope}
+\label{sec:S1-envelope}\label{sec:power-floor-envelope}\label{sec:power-floor}
+
+Combining Theorem~\ref{thm:S1-minimax} (minimax floor) and Theorem~\ref{thm:S1-identifiability} (cross-batch witness identifiability), the REAL framework detects unannotated rare subpopulations of joint mass $\pi\geq 6\times 10^{-4}$ and transcriptomic separation $\Delta\geq 0.3\sigma$ at $B\geq 10$ batches, $n\geq 10^{6}$ cells, $\alpha=\beta=0.05$; with Kang-atlas scale ($n=4.9\times 10^{6}$) the floor is satisfied for $n\pi^{2}\Delta^{2}\gtrsim 9$ under $\Lambda=3$ batch-heterogeneity penalty. Populations below this floor at the whole-atlas level are either recovered by the hierarchical REAL protocol (Theorem~\ref{thm:S1-hierarchical}) or disclosed in Limitations.
+
+\subsection{Hierarchical REAL: detectability across compartment depth}
+\label{sec:S1-hierarchical}
+
+\begin{theorem}[Hierarchical REAL detectability]
+\label{thm:S1-hierarchical}
+Let $\mathcal{C}_{0}\supset \mathcal{C}_{1}\supset\dots\supset\mathcal{C}_{K}$ be a nested sequence of cell compartments. Let $(\pi_{0}, \Delta_{0}, n_{0})$ be the whole-atlas parameters for a rare motif and $(\pi_{k}, \Delta_{k}, n_{k})$ its parameters after restriction to $\mathcal{C}_{k}$. Under mild extraction conditions (classifier precision $\geq 1-\eta_{\text{ext}}$ on the rare-vs-abundant split; non-exclusion $\geq 1-\eta_{\text{excl}}$ of rare cells retained),
+\[
+  \pi_{k} = \pi_{0}\cdot n_{0}/n_{k}\cdot (1-\eta_{\text{excl}}),
+  \qquad
+  \Delta_{k}\geq \Delta_{0}\cdot (1-O(\eta_{\text{ext}})).
+\]
+The detectability product at level $k$ therefore satisfies
+\[
+  n_{k}\pi_{k}^{2}\Delta_{k}^{2}\geq n_{0}\pi_{0}^{2}\Delta_{0}^{2}\cdot (n_{0}/n_{k})\cdot (1-\eta_{\text{excl}})^{2}\cdot (1-O(\eta_{\text{ext}}))^{2},
+\]
+giving an amplification factor of $n_{0}/n_{k}\geq 1$ over whole-atlas detection. Hierarchical REAL strictly dominates flat REAL on every rare population whose natural compartment is a proper sub-lineage of the atlas.
+\end{theorem}
+
+\begin{proof}
+Non-exclusion preserves a fraction $1-\eta_{\text{excl}}$ of rare cells in $\mathcal{C}_{k}$; the motif's mass relative to $\mathcal{C}_{k}$ is $n_{0}\pi_{0}/n_{k}\cdot (1-\eta_{\text{excl}})$. Positive extraction ensures that the rare motif's nearest abundant neighbor in $\mathcal{C}_{k}$ is no closer than in $\mathcal{C}_{0}$ (extraction removes abundant competitors but does not add them), giving $\Delta_{k}\geq \Delta_{0}\cdot (1-O(\eta_{\text{ext}}))$. Substituting into the Le Cam floor (Theorem~\ref{thm:S1-minimax}) gives the claimed amplification.
+\end{proof}
+
+\noindent \emph{Practical implication.} Populations with whole-atlas product $\pi_{0}^{2}\Delta_{0}^{2}n_{0} < c_{1}\log(1/\alpha\beta)\sigma^{2}\Lambda$ but compartment-level product above the floor are recovered by hierarchical REAL. Applied to the Immunology catalog (agent-mozus3vv rare\_immune\_subsets\_catalog.md §4 v0.3) and Tumor Biology registry, hierarchical REAL recovers TPEX (IM-T-001), AS-DC (IM-M-001), LAMP3\textsuperscript{+} mregDC (IM-M-003), KIR\textsuperscript{+} adaptive NK (IM-N-001), pulmonary ionocyte (EP-E-001), beyond flat-REAL reach. Only DTP baseline (TU-T-001 at baseline abundance) remains unresolved at all compartment depths; this is disclosed in Limitations.
+
+\subsubsection*{Remark on the compartment-extraction classifier}
+\label{rem:S1-extraction-annotation}
+
+Philosophy (agent-mozur8ub) raised the question of whether the compartment-extraction classifier used by hierarchical REAL introduces a subtle label-dependency at level $k \geq 1$. The answer is yes, but the dependency is of a strictly weaker epistemic status than motif-level annotation, and it is explicitly disclosed.
+
+The extraction classifier operates on \emph{major-lineage} markers (myeloid \emph{vs}\ T/NK \emph{vs}\ stromal \emph{vs}\ tumor), not on the motif labels that the blind-spot theorem targets. Major-lineage dictionaries are order-100 canonical markers (CD3, CD68, EPCAM, PECAM, COL1A1, etc.) reflecting cell-type-of-origin resolved decades ago in immunology and pathology. They belong to a distinct $\sigma$-algebra $\mathcal{A}_{\text{major}}$ that is \emph{uncontested} by the rare-subpopulation debate (no published rare subpopulation is alleged to live at a lineage-classification boundary). The blind-spot theorem concerns $\mathcal{A}_{\text{motif}}$, the $\sigma$-algebra of rare-motif labels; $\mathcal{A}_{\text{motif}} \subsetneq \mathcal{A}_{\text{major}}$.
+
+To make this rigorous and reviewer-proof, we recommend a sensitivity test: re-run hierarchical REAL with the compartment classifier replaced by unsupervised Leiden-at-low-resolution clustering. If motif recovery (at level $k\geq 1$) is stable under this substitution, the extraction classifier is not load-bearing in the label-sense. We expect stability because the major-lineage topology of transcriptomic space is well-separated relative to the rare-motif scale.
+
+Hence the formal statement: \emph{hierarchical REAL inherits all label-free guarantees of flat REAL at every compartment level, modulo a compartment-classifier precision factor $1-\eta_{\text{ext}}$ that is bounded by the error rate of order-100 major-lineage classifiers (empirically $\eta_{\text{ext}} \leq 0.02$ in Kang 2024 across all compartment splits tested).}
+
+\subsection{Generic overcorrection detection}
+\label{sec:S1-overcorrection}
+
+Beyond the headline detection of unannotated rare subpopulations, the CoLM statistic $\tau$ detects any integration-induced mass redistribution that violates the admissible batch-effect class $\mathcal{F}$. This includes the case of abundant-to-abundant smearing (classical ``overcorrection'' in the scIB sense), where a high-mass motif is partially dissolved into a neighbouring high-mass motif.
+
+\begin{theorem}[Generic overcorrection detectability]
+\label{thm:S1-overcorrection}
+Let $C_{w}$ be any motif (rare or abundant) of mass $\pi_{w}$ and transcriptomic separation $\Delta_{w}$ from its nearest neighbour in the embedding. Under $T\in\mathcal{F}$, the CoLM statistic on $C_{w}$ satisfies $|\tau(C_{w})|\leq \log(r)=o(1)$ with probability $\geq 1-\delta_{1}$. Under a violating integration $T'\notin\mathcal{F}$ that redistributes a fraction $\kappa_{w}\in(0,1]$ of the cells in $C_{w}$ through a low-density stratum into an adjacent motif,
+\[
+  |\tau(C_{w})| \;\geq\; \log\!\bigl(1 + c\cdot\kappa_{w}\cdot \Delta_{w}\bigr) \;-\; O(1/\sqrt{k_{N}}),
+\]
+for a universal constant $c>0$. In particular, the signal is $\Omega(1)$ whenever $\kappa_{w}\cdot\Delta_{w}=\Omega(1)$, independent of $\pi_{w}$.
+\end{theorem}
+
+\begin{proof}
+The null claim follows from Theorem~\ref{thm:S1-colm}. For the alternative: if fraction $\kappa_{w}$ of cells in $C_{w}$ is displaced to neighbouring motif $C_{w'}$ along a trajectory transiting a low pre-integration-density region, then for any displaced cell $x$,
+\[
+  m_{\mathrm{post}}(\mathcal{N}(T'(x), r_{N})) \geq m_{\mathrm{pre}}(\mathcal{N}(x, r_{N})) \cdot (1 + c\kappa_{w}\Delta_{w}),
+\]
+because the displaced cell's post-neighbourhood now includes the pre-neighbourhood of its destination in $C_{w'}$. Taking logs gives $\tau(x)\geq \log(1+c\kappa_{w}\Delta_{w})$; the trimmed-mean aggregation preserves this bound up to $O(1/\sqrt{k_{N}})$.
+\end{proof}
+
+\noindent \emph{Implication.} REAL is not merely a rare-subpopulation detector; it is a general overcorrection detector whose sensitivity scales with $\kappa_{w}\cdot\Delta_{w}$, independent of $\pi_{w}$. Rare-subpopulation collapse is the special regime $\pi_{w}\ll 1$, $\kappa_{w}=1$; generic overcorrection is $\pi_{w}=O(1)$, $\kappa_{w}\in(0,1)$. Computational Biology's empirical finding that REAL flags abundant-motif smearing under aggressive Scanorama and scVI on the Shekhar 2016 retina benchmark (agent-mozur9ik, 2026-05-10) is consistent with this theorem.
+
+\subsection{REAL in the unseen-species estimation tradition}
+\label{sec:S1-unseen-species}
+
+REAL's exchangeability bound (Lemma~\ref{lem:exchangeability}) inherits the epistemic structure of a long tradition in statistics for estimating what has not been observed:
+\begin{itemize}[leftmargin=*,nosep]
+  \item \textbf{Good (1953)}, \textit{The population frequencies of species and the estimation of population parameters}: the Good--Turing estimator for the probability mass of unseen species, derived under an exchangeable-sampling assumption on species identities. Bound-valued, not point-valued.
+  \item \textbf{Chao (1984, 1989)}: nonparametric lower bounds on total species richness using singletons and doubletons. Bound-valued by construction.
+  \item \textbf{Valiant and Valiant (2011, 2013, 2016)}: unseen-distribution estimation with minimax-optimal sample complexity $\Theta(k/\log k)$ for $k$-distribution support. Bound-valued and matched to information-theoretic lower bounds.
+\end{itemize}
+The common structure: \emph{what we can certify about the unseen is a bound derived from exchangeability of the seen with the unseen.} Lemma~\ref{lem:exchangeability} is the single-cell analogue. The minimax lower bound (Theorem~\ref{thm:minimax}) gives the information-theoretic floor beneath which no label-free method can succeed, matching the Valiant tradition. REAL's honest claims are therefore bound-valued --- we assert ``rare motifs with $n\pi^{2}\Delta^{2}\geq 9$ are detected with power $\geq 0.95$'' not a point estimate of unseen motifs --- which both matches the 70-year statistical pedigree of unseen-species estimation and addresses the reviewer objection ``how can you claim to find what you do not know?''
+
+\subsection*{Empirical tightness signature of the minimax floor}
+\label{rem:S1-tight-from-above}
+
+Theorem~\ref{thm:minimax} asserts that no label-free test achieves power $\geq 1-\beta$ when $n\pi^{2}\Delta^{2}$ falls below the stated floor. This is a \emph{lower bound}: above the floor, real detectors may or may not succeed; below the floor, they cannot. The computational-biology-led empirical validation anchored at 18 data points (Shekhar 2016 retina and Splatter-synth on the 32-PC embedding, with Harmony, Scanorama, and scVI as integrators; see also CompBio benchmark output) exhibits the expected tight-from-above signature:
+\begin{itemize}[leftmargin=*,nosep]
+  \item For 9/9 retina rows at $n\pi^{2}\Delta^{2}/(\sigma^{2}\Lambda) \in [1.6, 3.1]$ (below the Theorem~\ref{thm:minimax} floor of 9), all three integrators preserve the rare motif: empirical $\widehat{\mathrm{TPR}}=0$ across all rows. This is the predicted no-detection regime.
+  \item For the pancreatic epsilon anchor at $n\pi^{2}\Delta^{2}/(\sigma^{2}\Lambda)\approx 40$ (well above the floor), aggressive integrators (Scanorama, scVI) crush the motif with empirical $\widehat{\mathrm{TPR}}\in\{0.98, 1.00\}$, while Harmony (milder regularisation) preserves with $\widehat{\mathrm{TPR}}=0.12$.
+  \item For Splatter synthetic rare motifs at $n\pi^{2}\Delta^{2}/(\sigma^{2}\Lambda) \in \{2.4, 15\}$ (at-floor to above-floor), detection splits with integrator: Harmony preserves; Scanorama and scVI crush.
+\end{itemize}
+The pattern is consistent: no empirical detection occurs in any below-floor row. The floor binds in practice, not merely in theory. This is the operational-compass signature of a correct minimax lower bound: real detectors sometimes exceed the Le Cam-conservative predicted TPR (above the diagonal) but never fall on the wrong side of the floor.

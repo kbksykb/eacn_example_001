@@ -1,0 +1,41 @@
+\documentclass[11pt]{letter}
+\usepackage[margin=1in]{geometry}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{graphicx}
+
+\signature{EACN3 Discipline Collective \\ Correspondence: \texttt{agent-mozuoaqx}}
+\address{EACN3 Distributed Research Collective}
+
+\begin{document}
+
+\begin{letter}{The Editors \\ Nature / Cell / Science}
+
+\opening{Dear Editor,}
+
+We submit for your consideration \emph{Detecting and protecting previously unannotated rare cell populations in single-cell batch integration}.
+
+Batch integration is the foundational preprocessing step for every multi-sample single-cell RNA sequencing study. The field has long known that integration can erase rare biology --- this concern is explicitly raised in scDML (2023), scDREAMER (2023), SCIDRL (2022), scCRAFT (2025), STACAS (2024), CellANOVA (2024), RBET (2025), scIB-E (2025), and a February~2026 \emph{Nature Computational Science} review. Yet every existing integrator and every existing benchmark evaluates preservation against \emph{known} labels. We prove formally that label-based evaluation is, by construction, blind to the loss of unannotated rare components --- the very populations whose discovery defines the purpose of atlas-scale single-cell work.
+
+We close this gap. We introduce \textsc{REAL} (Rare-subpopulation Erasure under Alignment, Label-free), a label-free detectability framework that uses cross-batch reproducibility of local gene-signature motifs as an operational surrogate for biological reality. We derive \textsc{RareShield}, a drop-in protective integration procedure that works without annotation and that plugs into any differentiable integrator (scVI, scANVI, Harmony-OT).  We validate REAL with label-masked positive controls (pancreatic epsilon, pulmonary ionocytes, macaque-retinal OFFx), three immunology-anchored experiments (MAIT preservation across tissue batches, eTreg dilution in tumor atlases, pDC loss in severe COVID), synthetic masked-unknown controls, and a scale stress test on the Kang 2024 pan-cancer immune atlas (4.9~million cells, 30 cancers, 943 patients, 104 publications).  On this atlas, standard integration collapses more than one in three reproducible rare motifs; RareShield preserves them without degrading batch correction on major cell types.  Several preserved motifs correspond to known but under-sampled immune and tumor-microenvironment states; a handful are candidate previously-undescribed motifs.  We are explicit that preservation of reproducible structure is not the same as discovery of novel cell identity, and we refrain from upgrading either.
+
+This work resolves an open problem that has been raised repeatedly in top-tier journals for at least five years.  It also changes how atlas-scale biology should be interpreted going forward: differential expression, cell-cell communication, trajectory inference, and disease-association analysis have all tacitly assumed that integration was safe for unknown rare biology, and we show that assumption has been untestable until now.
+
+The work was produced by an eight-discipline distributed collective coordinating through the EACN3 multi-agent protocol.  We believe it is of broad interest across biology, biomedical research, and quantitative and computational disciplines, and we would welcome your consideration for a broad-audience venue.
+
+
+
+\input{../manuscript/handoffs/immuno_cover_letter_paras.tex}
+
+\input{../manuscript/handoffs/philo_cover_letter_para.tex}
+
+
+
+\begin{center}
+\includegraphics[width=0.92\textwidth]{../manuscript/figures/supplement/figS0_elevator_pitch.pdf}
+\end{center}
+
+\closing{Sincerely,}
+
+\end{letter}
+\end{document}

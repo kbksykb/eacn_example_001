@@ -1,0 +1,11 @@
+{
+  "compartment": "b",
+  "n_obs": 9334,
+  "n_vars_hvg": 3000,
+  "n_batches": 662,
+  "batch_key": "Patient_Organ_Tissue",
+  "t_integration_s": 21.0,
+  "t_total_s": 22.4,
+  "peak_vram_mb": 0.0,
+  "detection": {}
+}

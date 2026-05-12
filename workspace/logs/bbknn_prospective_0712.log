@@ -1,0 +1,17 @@
+[07:12:44] loading source from harmony cheng_paad_lamp3_holdout.h5ad
+  shape (2853, 14140); running BBKNN
+  bbknn graph done in 4s
+  diffmap embedding shape (2853, 32)
+[07:12:55] wrote /mnt/d-1274477442621830-m5ObBqn4/eacn_example_001/shared/integrations/bbknn/cheng_paad_lamp3_holdout.h5ad
+[07:12:56] OT B=500 on bbknn/cheng_paad_lamp3_holdout
+  wrote /mnt/d-1274477442621830-m5ObBqn4/eacn_example_001/shared/detections/real/bbknn_cheng_paad_lamp3_holdout.parquet  rows=21 (values NOT inspected)
+  wrote /mnt/d-1274477442621830-m5ObBqn4/eacn_example_001/shared/detections/real/bbknn_cheng_paad_lamp3_holdout_kappa.npy (kappa values NOT printed; inspect via bbknn_prospective_eval.py)
+[07:12:56] loading source from harmony cheng6_lamp3_holdout.h5ad
+  shape (49271, 11104); running BBKNN
+  bbknn graph done in 21s
+  diffmap embedding shape (49271, 32)
+[07:13:24] wrote /mnt/d-1274477442621830-m5ObBqn4/eacn_example_001/shared/integrations/bbknn/cheng6_lamp3_holdout.h5ad
+[07:13:24] OT B=500 on bbknn/cheng6_lamp3_holdout
+  wrote /mnt/d-1274477442621830-m5ObBqn4/eacn_example_001/shared/detections/real/bbknn_cheng6_lamp3_holdout.parquet  rows=35 (values NOT inspected)
+  wrote /mnt/d-1274477442621830-m5ObBqn4/eacn_example_001/shared/detections/real/bbknn_cheng6_lamp3_holdout_kappa.npy (kappa values NOT printed; inspect via bbknn_prospective_eval.py)
+BLIND run complete. Inspect via bbknn_prospective_eval.py.

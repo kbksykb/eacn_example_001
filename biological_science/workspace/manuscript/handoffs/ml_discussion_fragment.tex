@@ -1,0 +1,28 @@
+% Discussion / Limitations — ML contribution drop-in fragment
+% Author: ML (agent-mozurrmd). Source: workspace/proposals/unified_ML_spec_v2.md §6, §7;
+%   workspace/notes/reviewer_objections.md.
+% Intended for sections/06_discussion.tex. Biosci to merge with philosophy's Limitations.
+
+\subsection*{Scope and boundary conditions of the claim}
+
+REAL provides (i) a label-free, transport-theoretic detector of rare-subpopulation loss during integration, (ii) an integration-time regularizer that minimizes the same inequality the detector thresholds, and (iii) an identifiability bound under which detection is statistically possible. The boundary is equally important to state. We do \emph{not} claim to name previously-unannotated subpopulations \emph{in advance of their annotation}; we claim to preserve them and flag their existence through geometric invariants. The manuscript's strongest defensible claim is stated in Methods (Theorem~\ref{thm:colm-identifiability}) and the Philosophy appendix.
+
+Seven technical limitations deserve explicit discussion.
+
+\textbf{Admissible-field choice.} The admissible batch-effect class $\mathcal{F}$ has two tuning knobs $(k, L)$. We select them by stability on held-out \emph{major} cell types, not on rare types, which avoids circularity but does introduce dependence on the bulk of the dataset; data-adaptive $(k, L)$ selection is an open direction.
+
+\textbf{Density-estimator misspecification.} Density estimates on raw counts are known to be unreliable \citep{nalisnick2019knowdontknow}. We mitigate this by estimating densities on the 32-dim learned latent rather than on counts, and by using \emph{relative} (pre vs post) log-densities instead of absolute likelihoods.
+
+\textbf{Witness threshold.} The witness construction requires $\sigma > 0.85$ signature cosine across $\ge k_\text{wit}$ batches. Sensitivity to these thresholds is reported in Extended Data (Fig.~\ref{figS:witness-sensitivity}); LRS is monotone in the threshold on the interval $[0.75, 0.92]$.
+
+\textbf{Rare-in-one-batch-only pockets.} When a rare subpopulation appears in a single batch, cross-batch witnessing is impossible and REAL reduces to ``do no harm'' (no positive pull across batches, intra-batch structure preserved). This is a genuine boundary; the detector does not flag such pockets. We document this in the main text.
+
+\textbf{Post-hoc interpretation of flagged witnesses.} The detector outputs a set of flagged neighborhoods. Immunological and oncological interpretation --- whether a flagged witness is a known rare subset, a plausibly novel state, or an artifact --- is post-hoc and requires domain curation. We provide a per-cluster evidence template (Fig.~\ref{fig5}) and a minimal FACS-sort validation plan (Methods §\ref{sec:wetlab}).
+
+\textbf{Label leakage.} Any marker panel used in witness construction or loss computation would leak labels \emph{in proxy form}. We enforce strict isolation: marker panels are consumed only by post-hoc annotation, never by the integration model or the detector \citep[Philosophy appendix \S]{pooled-epistemic-framing}.
+
+\textbf{Transfer from held-out known to unknown rare.} Our computational validation (Methods §\ref{sec:validation}) binds the loss rate observed on held-out \emph{known} rare subpopulations (pancreatic epsilon, pulmonary ionocytes, macaque retinal OFFx) to the expected loss rate on \emph{unknown} rare subpopulations via an exchangeability argument (Methods §\ref{sec:transfer}). This is the crux of our strong-claim-vs-weak-claim negotiation. The exchangeability assumption is strong; its boundary conditions are discussed in the Philosophy appendix.
+
+\subsection*{Future directions}
+
+REAL is a protection method for a \emph{single} integration run. Chained integrations (atlas-of-atlases) compound the trade-off. Extending CoLM to hierarchical integration --- where each level's admissible-field class depends on the previous level's certified preservation --- is a natural next step. Flow-matching / rectified-flow backbones (Methods §\ref{sec:flow-matching}) give a cleaner place to attach the inequality exactly but at $3$--$5\times$ compute, and should be revisited when hardware budgets allow. Finally, the CoLM inequality admits generalization to multi-modal integration (CITE-seq, spatial, ATAC), where the admissible-field class is richer but the same mass-preservation logic applies.

@@ -1,0 +1,110 @@
+\documentclass[10pt]{article}
+\usepackage[margin=0.9in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{amsthm}
+\usepackage{enumitem}
+\usepackage{longtable}
+\usepackage{mathtools}
+\usepackage[capitalise]{cleveref}
+\providecommand{\etal}{\emph{et~al.}}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}
+\newtheorem{definition}{Definition}
+\newtheorem{assumption}{Assumption}
+
+
+\title{Supplementary Information for \\ \emph{Detecting and protecting previously unannotated rare cell populations in single-cell batch integration}}
+\author{EACN3 Discipline Collective}
+\date{Draft \today}
+
+\begin{document}
+\maketitle
+
+\tableofcontents
+\vspace{1em}
+
+\input{../manuscript/handoffs/philo_supp_S0.tex}
+
+\input{../manuscript/handoffs/philo_math_s0_concordance.tex}
+
+\section*{Supplementary Note S1 --- Formal model and detectability theorems}
+
+\textit{Owner: Mathematics (agent-mozusggu). LaTeX fragment pulled from agent/mathematics:workspace/supp\_S1.tex.}
+
+\input{../manuscript/handoffs/math_supp_S1.tex}
+
+\subsection*{Per-population detectability table}
+
+\input{../manuscript/handoffs/math_supp_table_S1.tex}
+
+\section*{Supplementary Note S2 --- Rare-subpopulation registry (immune + tumor + stromal)}
+\textit{Owner: Immunology + Tumor Biology (joint). Source: agent/immunology workspace/handoffs/immuno\_supp\_table\_S2.tex.}
+
+\input{../manuscript/handoffs/immuno_supp_S2_table.tex}
+
+\section*{Supplementary Note S3 --- Full marker panels (oracle-only; not used in integration)}
+\textit{Owner: Immunology + Tumor Biology (joint). Source: agent/immunology workspace/handoffs/immuno\_S3\_markers.tex. Oracle panels are used only for out-of-band scoring and verification; never fed into integration or REAL.}
+
+\input{../manuscript/handoffs/immuno_S3_markers.tex}
+
+\section*{Supplementary Note S4 --- Immunology calibration set and marker panels}
+
+\textit{Owner: Immunology (agent-mozus3vv).}  Content in \texttt{agent/immunology:workspace/rare\_immune\_subsets\_catalog.md} and \texttt{marker\_panels.md}.
+
+\section*{Supplementary Note S5 --- Wet-lab validation plans for candidate novel motifs}
+
+\textit{Owner: Immunology.}  Minimal FACS panel proposals and in-silico replication strategies for selected Kang-atlas motifs receiving the "candidate novel state" call.
+
+\section*{Supplementary Note S6 --- REAL sensitivity analysis}
+
+\textit{Owner: Computational Biology + Data Science.}  Sensitivity of REAL to Leiden resolution, $\rho$, $k$, $K$, $\mu$ (witnessing depth), $\tau$, $\sigma_{\rm thresh}$, $\alpha$, and random seed.
+
+\section*{Supplementary Note S7 --- Runtime and memory}
+
+Wall-clock and peak GPU memory for REAL and for each integrator on the Kang 2024 atlas on an 8$\times$A100 node; streaming / approximate variant prescriptions.
+
+\section*{Supplementary Note S8 --- Cross-atlas replication details}
+
+Per-motif reproducibility on HCA Lung Cancer and Gut Cell Atlas tumor arm; Jaccard overlap with main-text motif list.
+
+\input{../manuscript/handoffs/philo_supp_unseen_species.tex}
+
+\section*{Supplementary Note S9 --- Ethics and data use}
+
+All data is publicly available; no new human-subjects work is reported.
+
+\section*{Supplementary Table S1 --- Datasets}
+
+(See Note S2.)
+
+\section*{Supplementary Table S2 --- Rare immune subsets and canonical markers}
+
+Placeholder; content from \texttt{rare\_immune\_subsets\_catalog.md}.
+
+\section*{Supplementary Table S3 --- Hyperparameters and seeds}
+
+Full sheet of every integrator version, every REAL / RareShield hyperparameter value, every random seed used in the paper.
+
+\section*{Author contributions (full)}
+
+\begin{itemize}
+\item \textbf{Biological Science} (\texttt{agent-mozuoaqx}): scientific framing, manuscript integration, writing, cover letter, research-rigor review gate.
+\item \textbf{Data Science} (\texttt{agent-mozutvsy}): REAL framework design, figure plan and all figures, benchmark harness.
+\item \textbf{Computational Biology} (\texttt{agent-mozur9ik}): implementation, GPU experiments, scaling.
+\item \textbf{Mathematics} (\texttt{agent-mozusggu}): formal detectability theorem, identifiability, null calibration.
+\item \textbf{Machine Learning} (\texttt{agent-mozurrmd}): literature positioning, RareShield loss design.
+\item \textbf{Immunology} (\texttt{agent-mozus3vv}): immunological framing, rare-subset catalog, MAIT/eTreg/pDC experiments, motif interpretation.
+\item \textbf{Tumor Biology} (\texttt{agent-mozurh1r}): oncological framing, rare cancer subpopulation registry, Kang motif cancer-type interpretation, clinical-implications discussion.
+\item \textbf{Philosophy} (\texttt{agent-mozur8ub}): epistemic framing, limitations subsection, hidden-assumption audit.
+\end{itemize}
+
+\end{document}

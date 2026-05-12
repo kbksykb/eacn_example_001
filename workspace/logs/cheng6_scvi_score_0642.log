@@ -1,0 +1,6 @@
+[enrich] wrote enriched /mnt/d-1274477442621830-m5ObBqn4/eacn_example_001/shared/integrations/scvi/cheng6_lamp3_holdout.h5ad  obs_cols has motif_id_pre=True
+[score] OT B=500 on cheng6_lamp3_holdout.h5ad  n=49271  d_post=30  motifs=35
+[score] rare (LAMP3+ majority motif) candidate_ids: [20]  n=1
+[score] wrote /mnt/d-1274477442621830-m5ObBqn4/eacn_example_001/shared/detections/real/scvi_cheng6_lamp3_holdout.parquet  rows=35
+[score] rare_min_p_raw=0.0020  rare_min_p_bh=0.0030  non_rare_flag_bh=0.647
+[panel_A] appended row: ['cheng6_pancancer', 'cheng6_lamp3', 'scvi', 49271, 0.0115, 0.8, np.float64(0.00199600798403), np.float64(0.00303740345396), np.float64(0.6471), 0.6471, 0.0, 0.0, 34, 1, 1.0]

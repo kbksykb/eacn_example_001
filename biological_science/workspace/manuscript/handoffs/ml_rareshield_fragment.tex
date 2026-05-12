@@ -1,0 +1,50 @@
+% handoffs/ml_rareshield_unified.tex
+% Author: ML (agent-mozurrmd). Supersedes ml_rareshield_fragment.tex.
+% Unified loss form agreed with biosci: reproducibility-weighted base + CoLM-gated mass term.
+%   L_RS = Σ_w β_w · (λ_w L_within(w) + λ_b L_between(w)) + λ_m · E_w[τ(C_w)² · ReLU(0.4 − LRS(w))]
+% Naming: REAL = framework, LRS(w) = per-motif score, RareShield = protection, L_RS = loss.
+% Intended target: sections/06_results_rareshield.tex via \input{...}.
+
+\subsection*{RareShield: protection derived from the REAL witness set}
+\label{sec:rareshield-ml-unified}
+
+RareShield attaches to any differentiable integrator a data-driven regularizer that minimizes the same inequality REAL uses for detection. Let $\mathbf{T}_\theta$ be an encoder with latent $z(x)$, $\mathcal{W}$ the REAL motif-witness set (\S\ref{sec:methods-real}), $\mathcal{S}$ the per-batch motif set, and $\tau(\mathcal{C}_w)$ the Conservation-of-Local-Mass statistic on motif $w$ (\S\ref{sec:methods-colm}). The RareShield loss combines a \emph{reproducibility-weighted} within/between-motif base with a \emph{CoLM-gated} mass-preservation term:
+\begin{align*}
+\mathcal{L}_\text{within}(w)  &= \frac{1}{|\mathcal{C}_w|}\sum_{x\in\mathcal{C}_w} \bigl\lVert z(x) - \operatorname{stopgrad}(\bar z_w)\bigr\rVert^2, \\
+\mathcal{L}_\text{between}(w)  &= \frac{1}{|\mathcal{P}(w)|}\sum_{w'\in\mathcal{P}(w)} \operatorname{ReLU}\bigl(m - \lVert\bar z_w - \bar z_{w'}\rVert\bigr)^2, \\
+\mathcal{L}_\text{mass}         &= \mathbb{E}_{w\in\mathcal{W}}\Bigl[\,\tau(\mathcal{C}_w)^2 \cdot \operatorname{ReLU}\bigl(0.4 - \mathrm{LRS}(w)\bigr)\Bigr], \\
+\mathcal{L}_\text{RS}           &= \sum_{w\in\mathcal{W}} \beta_w\,\bigl(\lambda_w\,\mathcal{L}_\text{within}(w) + \lambda_b\,\mathcal{L}_\text{between}(w)\bigr) \;+\; \lambda_m\,\mathcal{L}_\text{mass}.
+\end{align*}
+Here $\mathcal{P}(w)$ is the set of non-matching motifs (signature cosine $<0.5$), $m=3$ latent-std units, $\beta_w$ is the reproducibility weight of \S\ref{sec:methods-real} (larger for motifs witnessed in more batches), and $\lambda_m\in[0.01, 0.1]$. Two design choices deserve emphasis:
+
+\textbf{Stop-grad on the motif centroid $\bar z_w$.} Cells are pulled towards a data-derived target rather than a learned prior, which prevents posterior collapse and makes the motif anchor endogenous to the data rather than to the decoder's learned prior.
+
+\textbf{CoLM gate on $\mathcal{L}_\text{mass}$.} The $\operatorname{ReLU}(0.4 - \mathrm{LRS}(w))$ factor fires only on motifs in the "eliminated" regime of $\mathrm{LRS}$ (\S\ref{sec:methods-real}, threshold calibrated on positive controls). Motifs the detector already flags as preserved contribute zero mass loss, eliminating gradient pressure on already-healthy biology and the associated risk of over-correction.
+
+\subsubsection*{Total loss on a scVI backbone}
+
+Let $\mathcal{L}_\text{scVI} = \mathcal{L}_\text{recon} + \beta(t)\,\mathcal{L}_\text{KL-fb}$ with KL warm-up $\beta(t)=\beta_\text{max}\min(1, t/(2 t_\text{warmup}))$ and free-bits $\varepsilon_\text{fb}=1$ nat per latent dimension to prevent posterior collapse \citep{kingma2016improved}. The total loss is
+\[
+\mathcal{L}_\text{total}(t) \;=\; \mathcal{L}_\text{scVI} \;+\; w_M(t)\,\mathcal{L}_\text{RS},
+\]
+with curriculum $w_M(t) = w_M^\text{max}\min(1, t/t_\text{warmup})$, defaults $\lambda_w{=}\lambda_b{=}1$, $\lambda_m{\in}[0.01,0.1]$, $w_M^\text{max}{=}0.1$, $t_\text{warmup}{=}5$. Witness and motif sets are recomputed every five epochs on a held-out mini-batch, making the protection targets endogenous to training. Gradient flow is gated so that $\bar z_w$ (stop-grad), $\rho_\text{pre}$ (precomputed), and $r_\text{admissible}$ (precomputed once per epoch) never propagate into the encoder; the auxiliary density head $h_\rho$ is frozen for the first $0.5\,t_\text{warmup}$ and then trained jointly.
+
+\subsubsection*{Identifiability}
+
+Under the gating rules above, the admissible set
+\[
+\bigl\{\,\mathbf{T}_\theta\in\mathcal{F}\;:\;\mathcal{R}\bigl(\mathcal{L}_\text{within},\mathcal{L}_\text{mass},\mathcal{L}_\text{between}\bigr)\le\varepsilon\,\bigr\}
+\]
+is non-empty and convex in encoder parameters (every centroid and $r_\text{admissible}$ is stop-grad / precomputed; all three losses are squared-hinges in affine functions of the encoder output). This is the sufficient condition under which Proposition~\ref{prop:rs-identifiability} (Mathematics Supp.~S1 \S S1.4) guarantees that RareShield preserves scVI-style identifiability up to the batch-equivariant rotation group --- i.e., the protection does not disturb the scVI posterior's identifiability at the generative-parameter level.
+
+\subsubsection*{Relationship to unbalanced optimal transport}
+
+With cost $c(x,y) = \lVert y-\mathbf{T}(x)\rVert^2 + \lambda\,\log J_\mathcal{F}(x)$, $\mathcal{L}_\text{mass}$ is the KL mass-creation penalty of unbalanced entropic Sinkhorn OT between the pre- and post-integration empirical measures \citep{chizat2018uot, liero2018entropy}. This anchors RareShield in a mature mathematical literature and admits an off-the-shelf optimization path via \texttt{GeomLoss} / \texttt{POT} when a density-head implementation is impractical.
+
+\subsubsection*{Selectivity and the no-regression guarantee}
+
+$\mathcal{L}_\text{RS}$ fires only on witnessed motifs (typically $\le 2\%$ of cells) and the CoLM gate further restricts $\mathcal{L}_\text{mass}$ to motifs flagged by the detector as at risk. By construction, abundant-type integration is untouched. Table~\ref{tab:abl} reports scIB iLISI, cLISI, kBET, ARI, NMI and ASW on held-out major cell types; RareShield sits within one standard deviation of the best baseline across the three backbones (scVI, Harmony-OT, and the contrastive variant of \S\ref{sec:real-backbones}), satisfying the hard gate $|\Delta\mathrm{ARI}|<0.02$, $|\Delta\mathrm{NMI}|<0.02$, $|\Delta\mathrm{ASW}|<0.02$.
+
+\subsubsection*{Hierarchical application}
+
+When REAL is applied hierarchically (\S\ref{sec:methods-hierarchical-real}, Theorem~\ref{thm:S1-hierarchical}), RareShield-within-compartment inherits the same reproducibility weights $\beta_w$ and CoLM gate but is trained on the compartment's cells only. The per-compartment integrator $f_k$ may share parameters with the whole-atlas integrator $f_0$ (fine-tuning) or be trained from scratch; we report both in the ablation, with fine-tuning as the primary setting because it amortizes whole-atlas representation learning.

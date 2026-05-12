@@ -1,0 +1,94 @@
+{
+  "n_obs": 144147,
+  "n_vars_hvg": 3000,
+  "n_batches": 24,
+  "cohorts": [
+    "mel_GSE200218.h5ad.xz",
+    "mel_uv_GSE138433.h5ad.xz",
+    "mel_uv_GSE139829.h5ad.xz",
+    "mel_uv_GSE176029.h5ad.xz"
+  ],
+  "t_total_s": 236.3,
+  "tpex_detection": {
+    "channel": "ot_density_flow",
+    "candidate_ids": [
+      0
+    ],
+    "stat": [
+      5.167999267578125
+    ],
+    "p_values": [
+      1.0
+    ],
+    "ci_low": [
+      4.995806121826172
+    ],
+    "ci_high": [
+      5.2991033554077145
+    ],
+    "config": {
+      "sinkhorn_reg": 0.05,
+      "sinkhorn_iters": 100,
+      "sinkhorn_tol": 1e-06,
+      "unbalanced_tau": 1.0,
+      "minibatch_threshold": 200000,
+      "minibatch_size": 4096,
+      "minibatch_rounds": 20,
+      "n_permutations": 200,
+      "permutation_radius": 3.0,
+      "k_neighbors": 30,
+      "r_N_scales": [
+        0.5,
+        1.0,
+        2.0
+      ],
+      "device": "cpu",
+      "dtype": "torch.float32",
+      "seed": 42
+    },
+    "label_name": "TPEX",
+    "n_candidate": 2883,
+    "n_total": 144147
+  },
+  "lamp3_detection": {
+    "channel": "ot_density_flow",
+    "candidate_ids": [
+      0
+    ],
+    "stat": [
+      6.178916931152344
+    ],
+    "p_values": [
+      0.4626865671641791
+    ],
+    "ci_low": [
+      6.034709453582764
+    ],
+    "ci_high": [
+      6.386432647705078
+    ],
+    "config": {
+      "sinkhorn_reg": 0.05,
+      "sinkhorn_iters": 100,
+      "sinkhorn_tol": 1e-06,
+      "unbalanced_tau": 1.0,
+      "minibatch_threshold": 200000,
+      "minibatch_size": 4096,
+      "minibatch_rounds": 20,
+      "n_permutations": 200,
+      "permutation_radius": 3.0,
+      "k_neighbors": 30,
+      "r_N_scales": [
+        0.5,
+        1.0,
+        2.0
+      ],
+      "device": "cpu",
+      "dtype": "torch.float32",
+      "seed": 42
+    },
+    "label_name": "LAMP3_mregDC",
+    "n_candidate": 1442,
+    "n_total": 144147
+  }
+}

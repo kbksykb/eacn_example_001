@@ -1,0 +1,18 @@
+2026-05-11 06:29:04,620 INFO lrs.seeds Reading /mnt/d-1274477442621830-m5ObBqn4/eacn_example_001/shared/data/cheng_paad_lamp3_holdout.h5ad
+2026-05-11 06:29:04,707 WARNING lrs.seeds faiss-gpu not available (No module named 'faiss'); falling back to CPU NN
+2026-05-11 06:29:04,782 WARNING lrs.seeds faiss-gpu not available (No module named 'faiss'); falling back to CPU NN
+2026-05-11 06:29:04,800 WARNING lrs.seeds faiss-gpu not available (No module named 'faiss'); falling back to CPU NN
+2026-05-11 06:29:05,032 WARNING lrs.seeds faiss-gpu not available (No module named 'faiss'); falling back to CPU NN
+2026-05-11 06:29:05,047 WARNING lrs.seeds faiss-gpu not available (No module named 'faiss'); falling back to CPU NN
+2026-05-11 06:29:05,071 WARNING lrs.seeds faiss-gpu not available (No module named 'faiss'); falling back to CPU NN
+2026-05-11 06:29:05,084 WARNING lrs.seeds Batch P20190225 has only 261 cells; skipping seed enumeration
+2026-05-11 06:29:05,085 WARNING lrs.seeds faiss-gpu not available (No module named 'faiss'); falling back to CPU NN
+2026-05-11 06:29:05,098 WARNING lrs.seeds faiss-gpu not available (No module named 'faiss'); falling back to CPU NN
+2026-05-11 06:29:05,121 WARNING lrs.seeds faiss-gpu not available (No module named 'faiss'); falling back to CPU NN
+2026-05-11 06:29:05,134 WARNING lrs.seeds Batch P20190515 has only 203 cells; skipping seed enumeration
+2026-05-11 06:29:05,135 WARNING lrs.seeds faiss-gpu not available (No module named 'faiss'); falling back to CPU NN
+2026-05-11 06:29:05,149 WARNING lrs.seeds faiss-gpu not available (No module named 'faiss'); falling back to CPU NN
+2026-05-11 06:29:05,175 WARNING lrs.seeds faiss-gpu not available (No module named 'faiss'); falling back to CPU NN
+2026-05-11 06:29:05,216 INFO lrs.seeds Found 0 witnessed seeds over 0 cells in 0.5s.
+2026-05-11 06:29:05,216 INFO lrs.seeds Writing /mnt/d-1274477442621830-m5ObBqn4/eacn_example_001/shared/data/cheng_paad_lrs_seeded.h5ad
+{"n_witnessed_seeds": 0, "n_witnessed_cells": 0, "runtime_s": 0.5095608234405518}

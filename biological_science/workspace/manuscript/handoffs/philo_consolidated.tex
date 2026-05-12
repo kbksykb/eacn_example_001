@@ -1,0 +1,206 @@
+% PHILO_CONSOLIDATED.TEX
+% Single consolidated philosophy deliverable for the REAL / RareShield CNS manuscript.
+% Serves all 5 Philosophy-invited tasks: t-mozv8oul (BioSci), t-mozv8bgn (DS),
+% t-mozv2zuu (Tumor Biology), t-mozvdeb7 (ML), t-mozveh1b (Mathematics).
+%
+% Framework names (canonical, per BioSci broadcast):
+%   REAL        — Rare-subpopulation Erasure under Alignment, Label-free
+%   LRS(w)/LRS(f) — per-seed / per-method survival score
+%   W / motif   — detected rare-structure motif set
+%   RareShield  — protection regulariser
+%
+% Formal anchors:
+%   Theorem 2.1 (Math, agent/mathematics@71fea68 workspace/formal_model.md):
+%     every label-based evaluation functional is invariant under local couplings
+%     that crush an unannotated rare component onto an adjacent annotated one.
+%   Lemma S1-exchangeability (Math, workspace/handoffs/supplement_S1.tex):
+%     held-out-known-rare loss rate *upper bounds* the unknown-rare loss rate,
+%     conditional on abundance / local geometry / batch profile.
+%   Theorem 1 (Math, minimax lower bound):
+%     n·pi^2·Delta^2/(sigma^2 d) <= c_1 log(1/alpha beta) => no label-free test
+%     has power >= 1-beta. Defines the sample-complexity envelope.
+%
+% Sections below are ordered so BioSci can \input them into the right files:
+%   \input{workspace/handoffs/philo_consolidated.tex} and slice by \label.
+% Individual drop-in files (philo_intro_para.tex, philo_limitations.tex,
+% philo_discussion_meno.tex, philo_supp_note_S0.tex) remain in workspace/handoffs/
+% and are identical in content — this file is the single-artifact consolidation.
+
+% ============================================================
+% 1. INTRO HOOK (≈250w). Section 01 (Introduction). Meno-problem framing.
+% ============================================================
+\section*{[CONSOLIDATED §1] Introduction hook --- the Meno problem for unannotated rare subpopulations}
+\label{philo:intro_hook}
+
+Plato's \emph{Meno} asks how one can search for what one does not know: if the object of inquiry is unknown, it cannot be recognised even if encountered. The preservation of previously unannotated rare cell subpopulations during single-cell batch integration instantiates this paradox in a concrete form. Every standard evaluation---$\mathrm{ARI}$, $\mathrm{NMI}$, $\mathrm{ASW}$, and their kin in scIB, scIB-E and RBET---certifies preservation against an annotation. If a subpopulation has never been annotated, no score moves when it is destroyed, and no score moves when it is preserved; the object is simply not in the evaluator's vocabulary. Theorem~\ref{thm:labelblind} makes this precise: every label-based evaluation functional is invariant under local deformations of the integration coupling that can crush an unannotated rare component onto an adjacent abundant one. The failure mode the field has most worried about for at least five years is thus \emph{unmeasurable} within its own evaluation apparatus, not merely hard to measure. This is a closure property of the evaluation $\sigma$-algebra, inherited from the community's annotation vocabulary, not a precision defect to be fixed by a new label-based score. Our resolution replaces the \emph{semantic} criterion (does the subpopulation have a name?) with a \emph{syntactic} one (is there reproducible structure across independent observations?). Reproducibility is a label-free property, witnessed geometrically by local-density motifs $w \in \mathcal{W}$ that recur across batches and persist under admissible batch-effect deformations, and quantified by per-seed and per-method survival scores $\mathrm{LRS}(w)$, $\mathrm{LRS}(f)$. We validate the criterion on held-out known rare types---pancreatic $\epsilon$, pulmonary ionocytes, LAMP3$^+$ mregDC, TCF7$^+$ TPEX, FOLR2$^+$ perivascular macrophages, apCAF---by hiding their labels, confirming detection, and transferring the estimate to genuinely unannotated subpopulations under an explicit exchangeability bound (Lemma~\ref{lem:exchangeability}). REAL detects; RareShield protects. The bound, not the field's habits, licenses the transfer.
+
+% ============================================================
+% 2. LIMITATIONS & EPISTEMIC SCOPE (≤500w). Section 08 (Discussion) subsection.
+% ============================================================
+\subsection*{[CONSOLIDATED §2] Limitations and epistemic scope}
+\label{philo:limitations}
+
+REAL relies on an exchangeability assumption between the known rare populations we hold out for calibration (pancreatic $\epsilon$, pulmonary ionocytes, LAMP3$^+$ mregDC, TCF7$^+$ TPEX, FOLR2$^+$ perivascular macrophages, and the populations enumerated in Table~S\ref{tab:heldout}) and the genuinely unannotated rare subpopulations to which we transfer the estimate. The assumption is stated in Lemma~\ref{lem:exchangeability} as a \emph{bound}: the held-out-rare loss rate upper-bounds the expected loss rate for unannotated rare subpopulations of comparable abundance, local geometry, and batch profile. Four boundary conditions under which the bound is not tight deserve explicit statement.
+
+\textit{First}, the bound degrades when the unannotated population lies outside the span of the highly-variable genes used to construct the latent space; REAL cannot protect what the representation cannot see. \textit{Second}, the bound degrades when the unannotated population has a qualitatively different batch-effect signature from the calibration populations---for instance, a cancer-specific state observed in only one batch, where disease state is confounded with batch, so that batch-correction isotropy removes biology in direct proportion to the non-exchangeability of batches. \textit{Third}, the bound is conservative for populations whose local density profile is not well approximated by the level-set stratification used for calibration; transitional cells along a continuum appear as low-density but are not rare in the sampling sense. \textit{Fourth}, the use of known rare populations as proxies for unknown ones inherits a selection bias: the populations we can hold out are those the field has already discovered, and the discovered set may not be exchangeable with the undiscovered set in all relevant geometric or temporal dimensions.
+
+Our strongest defensible claim is therefore deliberately limited. REAL provides (i) a label-free, invariant-based detectability framework calibrated on held-out known rare subpopulations, (ii) a RareShield-based integration strategy that demonstrably reduces the held-out-rare loss rate at pan-cancer-atlas scale (Kang~2024) without degrading batch correction for abundant cell types, and (iii) an explicit exchangeability bound under which the held-out loss rate is an upper bound on the loss rate of truly unannotated rare subpopulations. A motif $w \in \mathcal{W}$ is a claim that reproducible structure has been destroyed, not a claim that a novel cell type exists; upgrading to an ontological claim requires the usual experimental burden (sorting, orthogonal markers, spatial validation, replication). The complementary negative is equally important: a low $|\mathcal{W}|$ under a candidate integration is evidence that no cross-batch-reproducible rare structure was erased above the calibrated sensitivity, but not a guarantee that no such structure existed---we cannot rule out subpopulations whose reproducibility signal was below our sampling resolution or outside the evaluated feature span. These boundaries are not weaknesses of REAL specifically; they are the price of reasoning about what the evaluation framework cannot directly observe. Naming the price is what distinguishes an epistemically calibrated claim from a framework-captured one.
+
+% ============================================================
+% 3. EPISTEMOLOGICAL NOTE (≈250w). Section 08 (Discussion), preceding §2 above.
+%    Fixes the is/ought gap: "reproducible structure destroyed" ≠ "novel cell type".
+% ============================================================
+\subsection*{[CONSOLIDATED §3] Epistemological note --- what a REAL flag is, and is not}
+\label{philo:episto_note}
+
+A motif flagged by REAL is a claim that a local, reproducible geometric structure---witnessed across independent batches before integration, with measurable local-mass distortion after---has been erased by the integration map beyond what admissible batch-effect deformations can explain. This is a claim about \emph{evaluation}, not about ontology. It is not a claim that a novel cell type exists. A motif $w \in \mathcal{W}$ with low $\mathrm{LRS}(w)$ licenses exactly one inference: the integration has discarded reproducible structure of the kind a biologist would want to interrogate. Whether that structure corresponds to a novel cell type, a transitional state along an already-known trajectory, a rare disease-specific configuration, or a technical sub-mode that merely looks biological, is a further question REAL does not answer. Upgrading a motif to a cell-type claim requires the usual burden of single-cell biology: independent sampling, orthogonal markers, targeted protocol (sorting, spatial validation, experimental perturbation), and community replication. REAL's value is that it identifies \emph{where to look}, not what has been found. Conflating the two would recreate the very error this paper is designed to expose: treating a framework-internal signal as a fact about the world. Our strong claim is therefore deliberately asymmetric. A high motif set $|\mathcal{W}|$ under a candidate integration is evidence of measurement insufficiency; a low motif set is evidence that the integration respected the syntactic reproducibility criterion. Ontology is downstream of both.
+
+% ============================================================
+% 4. CIRCULARITY & BATCH-RARE EDGE CASE (short paragraph).
+%    Goes in Methods or Supplementary. Answers DS's one concrete technical concern.
+% ============================================================
+\subsection*{[CONSOLIDATED §4] Circularity and the batch-rare edge case}
+\label{philo:circ_batchrare}
+
+LRS operationalises ``previously unannotated rare subpopulation'' as a cross-batch-witnessed density anchor that persists under admissible batch-effect deformations. A reasonable worry is that this definition begs the question for \emph{batch-rare} populations, observed in only a subset of batches, and for statistically reproducible batch-specific noise. The reply has two parts. First, LRS targets a well-defined subclass of rare populations: those whose existence is \emph{syntactically} certifiable via cross-batch reproducibility. Populations observed in only one batch are, from the evaluator's standpoint, indistinguishable from batch artefacts, and any method that flagged them would have to make a semantic commitment REAL is designed to avoid. Second, the null-calibration of LRS ties the rejection region to structures that survive (i) a batch-permutation null (shuffling batch labels destroys the cross-batch signal if the anchor was due to batch identity), (ii) a gene-shuffle null (shuffling per-batch genes destroys the signal if the anchor was due to noise alignment), and (iii) a rotation null (applying a random rotation in the HVG space destroys the signal if the anchor was a geometric accident). A motif that survives all three nulls is not a reproducible artefact in any of the three ways artefacts can masquerade as biology; this is the formal content of the acceptance test. We therefore do not claim LRS detects every rare population; we claim it detects exactly the subclass for which the syntactic reproducibility criterion is defensible, and we name the scope boundary (single-batch singletons, artefact subclass covered by the null panel) in Methods rather than hiding it in Limitations. CompBio's batch-artefact negative control (Fig.~2, schematic panel (d)) is the empirical instantiation of this acceptance test: REAL is required to return $|\mathcal{W}| = 0$ on a synthetic rare mode built from batch-specific noise; failure of this test would indicate the metric is measuring technical rather than biological signal.
+
+% ============================================================
+% 5. SUPPLEMENTARY NOTE S0 — Epistemic scope & 8-trap checklist.
+%    BioSci will \input this from supplement/supplement.tex.
+%    The standalone copy is workspace/handoffs/philo_supp_note_S0.tex (same content).
+% ============================================================
+\section*{[CONSOLIDATED §5] Supplementary Note S0 --- Epistemic scope and reviewer-anticipation checklist}
+\label{philo:supp_s0}
+
+The following eight traps summarise the hidden-assumption checklist against which every peer contribution in this manuscript has been reviewed. Each pair (i) names the trap, (ii) describes how it could manifest in a paper on rare-subpopulation preservation, (iii) names how REAL guards against it, and (iv) states the residual risk we do not claim to have eliminated.
+
+\begin{enumerate}[label=\textbf{S0.\arabic*}, leftmargin=*]
+  \item \textbf{Label leakage.}
+    \emph{Manifestation}: a ``label-free'' metric quietly uses marker genes, cell-type priors, or a reference-atlas embedding.
+    \emph{Our guard}: integration and REAL detection use no cell-type marker panels; markers enter only in out-of-band verification. Integration inputs are HVG-selected from raw counts.
+    \emph{Residual risk}: HVG selection on pooled data implicitly biases the representation toward genes with cross-batch variation; documented in Methods.
+
+  \item \textbf{Smoothness as truth.}
+    \emph{Manifestation}: treating local smoothness of the integrated embedding as biological correctness.
+    \emph{Our guard}: $P_n$ (neighbourhood penalty) and $B$ (batch-witness penalty) in $\mathrm{LRS}(w)$ explicitly penalise over-smoothing. Invariants (local mass distortion, persistent-homology bottleneck distance, spectral Laplacian gap) are sensitive to the disappearance of small features smoothing would produce.
+    \emph{Residual risk}: genuine over-smoothing is not distinguishable from legitimate batch alignment at scales below the local kNN bandwidth.
+
+  \item \textbf{Abundance invariance.}
+    \emph{Manifestation}: assuming metrics that work for abundant cell types degrade gracefully for rare cell types.
+    \emph{Our guard}: $\mathrm{LRS}(w)$ is defined per motif without volume weighting; rare-cell claims are not made on ARI/NMI/ASW. \emph{No aggregate scIB score is reported on rare cells anywhere in the manuscript.}
+    \emph{Residual risk}: sample-complexity limits (Theorem~\ref{thm:minimax}, $n \pi^2 \Delta^2/(\sigma^2 d)$) imply a floor below which detection is information-theoretically impossible.
+
+  \item \textbf{Benchmark realism.}
+    \emph{Manifestation}: preservation of known rare types on curated datasets presented as evidence for uncurated pan-cancer-scale performance.
+    \emph{Our guard}: pan-cancer-atlas validation on Kang~2024 ($\approx 4.9$M cells; 30 cancer types; 943 patients) with explicit scaling analysis. \emph{Our framework certifies populations above the Theorem~\ref{thm:minimax} power floor ($\pi\Delta \geq 10^{-3}\sigma$ at Kang scale) and discloses below-floor populations separately with explicit caveat (see \Cref{sec:below-floor-epistemic}).}
+    \emph{Residual risk}: the exchangeability bound is batch-profile-conditional; novel batch regimes (new sequencing chemistries, new tissue preservation protocols) lie outside the calibration set.
+
+  \item \textbf{Annotation completeness.}
+    \emph{Manifestation}: treating any published atlas (Kang~2024 included) as a complete cell-type dictionary.
+    \emph{Our guard}: REAL detection runs label-free; the manuscript states we do not treat Kang annotation as ground truth. The AS~DC / LAMP3$^+$ mregDC / FOLR2$^+$ macrophage historical examples (cited in the companion immunology Introduction paragraph, \texttt{immuno\_intro\_para.tex} \S2) demonstrate the historical incompleteness of single-cell atlas annotations.
+    \emph{Residual risk}: the historical record of ``unknown became known'' cases suggests the dictionary is incomplete even for well-studied tissues.
+
+  \item \textbf{Post-hoc detection $\neq$ solution.}
+    \emph{Manifestation}: recovering information from post-integration data (CellANOVA-style) conflated with preventing loss.
+    \emph{Our guard}: detection (REAL) is separated from protection (RareShield). A recovered motif under a post-hoc method is not equivalent to a motif never erased, because the recovered motif's counterfactual is unobserved.
+    \emph{Residual risk}: for populations where RareShield cannot protect \emph{and} REAL flags loss, the paper is explicit that only post-hoc recovery applies, with its own epistemic status.
+
+  \item \textbf{Evaluation circularity.}
+    \emph{Manifestation}: evaluating integration on datasets whose annotation was produced by a similar integration pipeline.
+    \emph{Our guard}: at least two datasets in the evaluation panel---Baron pancreas (FACS-sorted + manual) and Travaglini~2020 lung atlas (targeted resorting for ionocytes)---were annotated independently of batch integration. CompBio's batch-artefact negative control (Fig.~2d) is a pre-specified acceptance test.
+    \emph{Residual risk}: most public atlases were annotated after some integration step; the non-integration-annotated tier is unavoidably small.
+
+  \item \textbf{Failure-to-reject as success.}
+    \emph{Manifestation}: reading ``no metric dropped after integration'' as ``nothing was lost''.
+    \emph{Our guard}: Theorem~\ref{thm:labelblind} establishes that label-based metrics are invariant to exactly the deformations that destroy unannotated rare components. The manuscript never asserts ``safe'' from a null reading; a positive REAL reading is required.
+    \emph{Residual risk}: power analyses are conditional on the generative assumptions stated in Methods (abundance, local geometry, batch profile).
+\end{enumerate}
+
+\paragraph*{Pre-merge review gate.} This checklist is a mandatory pre-PDF-build review pass: any contributor PR that modifies a scientific claim must be checked against the 8 items as a lint step (\texttt{lint:epistemic} target), alongside \texttt{lint:grammar} and \texttt{lint:bib}. Any peer contribution that trips an item without a matching guard is returned for revision before merging to \texttt{main.tex}.
+
+% ============================================================
+% 6. Reference-class taxonomy and detect-vs-protect relationship.
+%    Short addenda that plug into §2 / §3 if BioSci wants them inline.
+% ============================================================
+\subsection*{[CONSOLIDATED §6] Reference-class taxonomy and detect-vs-protect co-emergence}
+\label{philo:refclass_coemergence}
+
+``Previously unannotated'' admits three nested reference classes. \textbf{C1: novel-to-dataset}---present in the biological samples, absent from this annotation; trivial realism (annotation is incomplete; the category is in the paradigm). \textbf{C2: novel-to-literature}---present in the samples; not yet named anywhere in the single-cell literature, though possibly named elsewhere (FACS, histology); Lakatosian progressive problem shift; Hacking-style entity realism by intervention. \textbf{C3: novel-in-principle}---present in the samples; systematically outside the community's hypothesis space at this historical moment; the strong Meno case \citep{stanford2006}. REAL targets \textbf{C2 directly, bounded to C3} via Lemma~\ref{lem:exchangeability}. C1 is trivial (standard metrics recover most of it); claiming C3 directly is unprovable. The C2/C3 scope distinction is the manuscript's load-bearing scope statement and is named in Methods, not buried in Limitations.
+
+Detection and protection, in REAL and RareShield respectively, are two uses of a single invariant set $\mathcal{I} = \{\mathcal{I}_k\}$: local-mass distortion in Wasserstein geometry, persistent homology on a DTM-filtered witness complex, and the spectral Laplacian gap on a local kNN graph. REAL measures $\mathcal{I}$ before and after integration and reports the motif set $\mathcal{W}$ of invariant violations; RareShield regularises the integration objective by a penalty on the expected violation of $\mathcal{I}$. The logical independence required for evaluation is preserved because RareShield does not see the per-batch partition used to evaluate REAL: the invariants are a shared functional, but the data partition is not. This co-emergence is a feature, not a redundancy: it rules out the failure mode in which a protective method silently trains its own detector, and anchors the Discussion claim that protection without diagnosis, or diagnosis without protection, is not what the community needs.
+
+% ============================================================
+% 7. Assumption audit (10 items).
+% ============================================================
+\subsection*{[CONSOLIDATED §7] Methodological assumption audit}
+\label{philo:assumption_audit}
+
+Every methodological commitment of REAL / RareShield is classified as \textbf{D}efensible, \textbf{C}ontroversial, or \textbf{H}idden load-bearing.
+
+\begin{itemize}[leftmargin=*]
+  \item (D) Cross-batch reproducibility of local density is a proxy for biological reality (cite Hacking's intervention realism).
+  \item (C) The HVG space spans the directions along which rare populations differ from abundant ones. Boundary condition in Limitations; HVG-cutoff sensitivity in Supp.
+  \item (C) Persistent-homology features are stable under integration-induced embedding smoothing. Cite Cohen-Steiner stability; DTM choice in Supp.
+  \item (\textbf{H}) The admissible batch-effect deformation class $\mathcal{F}$ is compact and excludes the identity's continuous extension. $\mathcal{F}$ is stated in Methods; $\mathcal{F}$-sensitivity in Supp.
+  \item (\textbf{H}) Exchangeability of held-out known rare and unannotated rare populations conditional on abundance, local geometry, batch profile. This is the manuscript's largest philosophical load; Lemma~\ref{lem:exchangeability} is a \emph{bound}; four boundary conditions in Limitations.
+  \item (C) The batch-artefact negative control is representative of pan-cancer-atlas batch artefacts. Construction documented; falsification criterion stated.
+  \item (C) Witness threshold $\geq 2$ is the right default (lower threshold over-permissive, higher over-restrictive). Curve in Supp.
+  \item (D) ``Rare'' $= \pi < \pi_0$ with $\pi_0$ calibrated per dataset; robustness shown for $\pi \in [\pi_0, 2\pi_0]$.
+  \item (C) Kang 2024 atlas is representative of pan-cancer-scale stress testing. Kang's own inclusion/annotation biases acknowledged.
+  \item (\textbf{H}) A low $|\mathcal{W}|$ does \emph{not} imply ``safe for downstream discovery''. Explicitly rejected in Discussion and Supp Note~S0 trap~8.
+\end{itemize}
+
+The three Hidden load-bearing items must live in main-text Methods with sensitivity analyses, not in Supp. These are the knobs reviewers will press.
+
+% ============================================================
+% 8. Pre-staged reviewer responses.
+% ============================================================
+\subsection*{[CONSOLIDATED §8] Pre-staged reviewer responses}
+\label{philo:reviewer_preempt}
+
+Twelve expected reviewer objections, with 2--3 line responses keyed to the above structure. See also \texttt{workspace/handoffs/philo\_reviewer\_objections.md} for the unabridged reviewer-rebuttal workbench.
+
+\begin{enumerate}[label=\textbf{O\arabic*},leftmargin=*]
+  \item ``You cannot validate detection of the unknown.'' We do not. We validate on held-out known rare populations and transfer under Lemma~\ref{lem:exchangeability}. The bound is an inequality; four boundary conditions under which the bound is not tight are named in §Limitations.
+  \item ``You target novel-to-dataset, not novel-to-literature.'' Our reference class is C2 (novel-to-literature) bounded to C3 (novel-in-principle); C1 is not our target. The taxonomy is stated in Methods.
+  \item ``A REAL-flagged motif is not a cell type.'' Explicit: a motif is a claim about evaluation, not ontology. Upgrading requires sorting, markers, spatial, replication.
+  \item ``Exchangeability is untested.'' Stated as an upper-bound assumption; boundaries diagnosed by varying abundance, geometry, batch profile in Fig.~3.
+  \item ``Label-free evaluation cannot work.'' Reality of a motif is operationalised syntactically (cross-batch reproducibility under $\mathcal{F}$). Weaker than ontological realism; price enumerated in Limitations.
+  \item ``scDML / scDREAMER / scCRAFT already preserve rare populations.'' Their evaluation framework is blind by construction (Theorem~\ref{thm:labelblind}) to the deformations that destroy unannotated rare components; we do not contest their improvements on known types.
+  \item ``$\mathcal{F}$ is a choice.'' Yes. Its compactness, closure, and scRNA-seq instantiation are in Methods; $\mathcal{F}$-sensitivity in Supp.
+  \item ``Theorem~\ref{thm:minimax} is a no-go.'' It is a feasibility envelope; REAL operates above $n\pi^2\Delta^2/(\sigma^2 d) \geq c_1 \log(1/\alpha\beta)$.
+  \item ``Transitions will be flagged as lost.'' DTM-persistent homology and local intrinsic dimension distinguish transitional cells from low-density discrete modes.
+  \item ``Kang 2024 is curated; pan-cancer scalability is a reach.'' Scaling analysis (wall-clock, memory, numerical stability) in Supp.
+  \item ``Low $|\mathcal{W}|$ does not prove absence.'' Correct. A low $|\mathcal{W}|$ is a failure to detect above the calibrated sensitivity, not a proof. Explicit in Discussion.
+  \item ``Philosophy of science, not science.'' The formal content is Theorems~\ref{thm:labelblind} and \ref{thm:minimax}, Lemma~\ref{lem:exchangeability}, six datasets, Kang-atlas validation, and RareShield results. The framing is interpretive scaffolding for $\sim 5\%$ of the manuscript body.
+\end{enumerate}
+
+% ============================================================
+% 9. Philosophy of science references (≥ 15). Cite from main text via \cite{...}.
+% ============================================================
+\subsection*{[CONSOLIDATED §9] Bibliography of philosophy-of-science references}
+\label{philo:bibliography}
+
+The canonical list (15 items) the manuscript should carry, with role indicated in brackets:
+
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Stanford, P.K.} (2006). \emph{Exceeding Our Grasp: Science, History, and the Problem of Unconceived Alternatives}. Oxford. [Meno framing; C3 reference class]
+  \item \textbf{Stanford, P.K.} (2019). ``Underdetermination of Scientific Theory.'' \emph{Stanford Encyclopedia of Philosophy}. [Concise statement of unconceived alternatives]
+  \item \textbf{Hacking, I.} (1983). \emph{Representing and Intervening}. Cambridge. [Entity realism via intervention: motif as measurement-theoretic construct]
+  \item \textbf{Hacking, I.} (1999). \emph{The Social Construction of What?} Harvard. [Natural kinds vs interactive kinds; cell-type taxonomy]
+  \item \textbf{Kuhn, T.} (1970). \emph{The Structure of Scientific Revolutions} (2nd ed.). Chicago. [C1 vs C2 distinction]
+  \item \textbf{Lakatos, I.} (1978). \emph{The Methodology of Scientific Research Programmes}. Cambridge. [Progressive vs degenerating problem shift]
+  \item \textbf{Chang, H.} (2004). \emph{Inventing Temperature: Measurement and Scientific Progress}. Oxford. [``No measurement without a theory of the measured'': the ontic-to-geometric substitution]
+  \item \textbf{Massimi, M.} (2022). \emph{Perspectival Realism}. Oxford. [Stance: reality-within-perspective, agnosticism across]
+  \item \textbf{Woodward, J.} (2003). \emph{Making Things Happen: A Theory of Causal Explanation}. Oxford. [Invariance under intervention: $\mathcal{F}$]
+  \item \textbf{Potochnik, A.} (2017). \emph{Idealization and the Aims of Science}. Chicago. [Legitimate role of simplifying assumptions: exchangeability]
+  \item \textbf{Cartwright, N.} (1983). \emph{How the Laws of Physics Lie}. Oxford. [Entity realism without full law realism]
+  \item \textbf{Dupré, J.} (1993). \emph{The Disorder of Things}. Harvard. [Promiscuous realism: multiple taxonomies]
+  \item \textbf{Kitcher, P.} (2001). \emph{Science, Truth, and Democracy}. Oxford. [Annotation completeness as a social fact]
+  \item \textbf{Putnam, H.} (1975). ``The Meaning of `Meaning'.'' In \emph{Mind, Language and Reality}. Cambridge. [Reference to natural kinds prior to complete theory]
+  \item \textbf{Popper, K.} (1959). \emph{The Logic of Scientific Discovery}. Hutchinson. [Background on falsifiability; we explicitly \emph{do not} rest on an unfalsifiability claim]
+\end{itemize}
+
+\paragraph*{Optional supplement additions.} Chao (1984) on unseen-species estimators, Good (1953) on population-frequency estimation, and Massimi \& McCoy (2019) eds.~\emph{Understanding Perspectivism} for the contemporary perspectival-realism literature.
+
+% End of philo_consolidated.tex

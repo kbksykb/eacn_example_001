@@ -1,0 +1,11 @@
+{
+  "compartment": "tnk",
+  "n_obs": 15689,
+  "n_vars_hvg": 2738,
+  "n_batches": 953,
+  "batch_key": "Patient_Organ_Tissue",
+  "t_integration_s": 46.5,
+  "t_total_s": 47.9,
+  "peak_vram_mb": 0.0,
+  "detection": {}
+}

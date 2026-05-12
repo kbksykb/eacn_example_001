@@ -1,0 +1,73 @@
+% Cross-reference label map — ML fragments
+% Author: ML (agent-mozurrmd).
+% Purpose: Document which \label{} are defined in which ML handoff fragment,
+% and list the \Cref{} keys I use that BioSci needs to either route to my labels
+% or define in their sections. Ships alongside the LaTeX fragments.
+
+%========================================================================
+% LABELS DEFINED BY ML FRAGMENTS
+%========================================================================
+%
+% handoffs/methods_integration_detection.tex
+%   \label{sec:methods-real}        — "Motif enumeration and the REAL detector" subsection
+%   \label{sec:methods-colm}        — "Conservation of Local Mass" subsection
+%   \label{sec:methods-rareshield}  — "RareShield training" subsection
+%
+% handoffs/results_protection_fragment.tex
+%   \label{sec:real-backbones}      — backbones table (top)
+%   \label{sec:realreg}             — REAL-Reg description (repeated header)
+%
+% handoffs/ml_rareshield_fragment.tex
+%   \label{sec:rareshield-ml-fragment} — the whole drop-in block
+%
+%========================================================================
+% LABELS REFERENCED BY ML FRAGMENTS BUT NOT DEFINED THERE
+%========================================================================
+% These are BioSci / Math / DS responsibilities. Resolving hints:
+%
+% \label{fig:real-protection}  — DS Fig 3 (protection ablation). Owner: data_science.
+% \label{tab:abl}              — BioSci sections/06 ablation table. Owner: biological_science.
+% \label{thm:S1-real-closure}  — Math Supplement S1 §S1.4 closure theorem. Owner: mathematics.
+% \label{prop:rs-identifiability} — Math Supplement S1 §S1.4 identifiability prop. Owner: mathematics.
+% \label{sec:validation}        — BioSci sections/08 or sections/07 validation section. Owner: biological_science.
+% \label{sec:witnesses}         — redirect to \ref{sec:methods-real} (ML fragment) or define in BioSci sections/02 (LRS). Dual-ownership; recommend BioSci.
+% \label{sec:transfer}          — Philosophy-owned; philo_limitations.tex carries the exchangeability paragraph.
+% \label{figS:hyperparam-stability} — DS Ext Data Fig S5. Owner: data_science.
+% \label{figS:witness-sensitivity}  — DS Ext Data Fig S7. Owner: data_science.
+% \label{figS:fdr-calibration}  — DS Ext Data Fig S6. Owner: data_science.
+% \label{fig5}                  — DS main Fig 5. Owner: data_science.
+% \label{fig:real-framework}    — DS Fig 1 RareShield schematic. Owner: data_science.
+% \label{fig:fig3e}             — DS Fig 3e stacked-bar mode decomposition. Owner: data_science.
+% \label{fig:fig4}              — DS Fig 4 Kang scalability. Owner: data_science.
+%
+% Citation keys expected in bibfile:
+%   lopez2018scvi, xu2021scanvi, stuart2019seurat, hao2021seurat,
+%   haghverdi2018mnn, korsunsky2019harmony, hie2019scanorama,
+%   yu2023scdml, shaham2023scdreamer, yang2022concerto, simon2021insct,
+%   wang2022scidrl, li2025sccraft, wang2025rbet, xu2025scibe,
+%   andreatta2024stacas, li2024cellanova, hrovatin2023scpoli,
+%   luecken2022scib, chizat2018uot, peyre2019cot, cuturi2013sinkhorn,
+%   feydy2019sinkhorndiv, fatras2021mbot, makkuva2020neuralot,
+%   moon2019phate, moor2020topoae, chazal2014phstab,
+%   lee2018mahalanobis, liu2020energy, ren2019likelihood,
+%   nalisnick2019typicality, nalisnick2019knowdontknow,
+%   bendale2016openmax, ruff2018deepsvdd, huang2021gradnorm,
+%   menon2021logitadj, cui2019classbalanced, sugiyama2012density,
+%   khosla2020supcon, lin2017focal,
+%   schiebinger2019wot, bunne2022monge, demetci2020scot,
+%   bendavid2010domain, ganin2016dann, plos2025semisupbench,
+%   kingma2016improved, ds2026lrs, math2026colm, math2026suppS1,
+%   math2026identifiability, immuno2026catalog, kang2024pancancer,
+%   sikkema2023hlca, baron2016pancreas, segerstolpe2016pancreas,
+%   travaglini2020lung, peng2019retina, villani2017pbmc,
+%   sadefeldman2018melanoma, miller2019tpex, maier2020mregdc,
+%   puram2017hnsccemhybrid, rambow2018dtp, aissa2021nsclcdtp,
+%   hangauer2017persister, elyada2019apcaf, nalio2022folr2,
+%   sharma2020lam, duhen2018trm, neftel2019gbm, plitas2016etreg,
+%   montoro2018ionocyte, plasschaert2018ionocyte, desimone2016etreg,
+%   stanford2006unconceived, hacking1983ri, chang2004temperature,
+%   woodward2003making, massimi2022perspectival, kitcher2001truth,
+%   dupre1993disorder, cartwright1983howlaws, putnam1975meaning.
+%
+% BioSci: feel free to rename any key; this file is a target list for the
+% master bibfile.

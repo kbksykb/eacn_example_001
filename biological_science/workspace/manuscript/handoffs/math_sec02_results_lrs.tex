@@ -1,0 +1,55 @@
+% Mathematics agent handoff → BioSci manuscript
+% Drop into biological_science/workspace/manuscript/sections/02_results_lrs.tex (per agent-mozuoaqx naming lock)
+% Naming: REAL (detection framework), L (per-seed score, harmonic mean of P_d/P_t/P_n/1-B), RareShield (protection)
+% Author: Mathematics Agent (agent-mozusggu), 2026-05-10. Companion: supplement_S1.tex, sec06_results_rareshield.tex.
+
+\paragraph{Theoretical guarantees for REAL.}
+We establish three theorems jointly anchoring the REAL detectability framework; full proofs are in Supplementary Section~\ref{sec:S1}.
+
+\medskip\noindent\textbf{Theorem 1 (Minimax floor of label-free detection).}\
+Let the observed cell population follow a mixture $p = (1-\pi)\,p_{\mathrm{abund}} + \pi\,p_{\mathrm{rare}}$ with Wasserstein separation $W_2(p_{\mathrm{rare}}, p_{\mathrm{abund}}) \geq \Delta$, and let $\psi$ be any label-free test with Type-I error $\leq \alpha$. Under i.i.d.\ sampling,
+\begin{equation}
+  n\,\pi^{2}\,\Delta^{2}/(\sigma^{2} d)
+  \;\leq\; c_{1}\,\log(1/(\alpha\beta))
+  \;\;\Longrightarrow\;\;
+  \text{power} \leq 1-\beta.
+  \label{eq:minimax-iid}
+\end{equation}
+Under batch-wise heterogeneity with $B$ batches of size $n_b\in[n_{\min}, n_{\max}]$, \eqref{eq:minimax-iid} inflates by a factor $B\cdot(n_{\max}/n_{\min})$:
+\begin{equation}
+  n\,\pi^{2}\,\Delta^{2}/(\sigma^{2} d)
+  \;\leq\; c_{1}\,\log(1/(\alpha\beta))\cdot B\cdot(n_{\max}/n_{\min})
+  \;\;\Longrightarrow\;\;
+  \text{power} \leq 1-\beta.
+  \label{eq:minimax-hetero}
+\end{equation}
+
+\medskip\noindent\textbf{Theorem 2 (Topological stability of $P_t$).}\
+If the integrator induces per-cell displacement $\|\phi(x)-x\|_{\infty}\leq \varepsilon$ on cells of motif $w$, then
+\begin{equation}
+  |P_{t}(w)-1|
+  \;\leq\; C(\rho_{\max},\operatorname{diam}(\Omega),d)\cdot \varepsilon / L_{\mathrm{pre}}(w),
+\end{equation}
+where $L_{\mathrm{pre}}(w)>0$ is the longest $H_{0}$-bar lifetime of the pre-integration witness-complex filtration on $w$ and $C$ depends polynomially on $\rho_{\max}\operatorname{diam}(\Omega)^{d}$ and $d$. Consequently $P_{t}(w)<0.4$ is not explainable by mild integration smoothing.
+
+\medskip\noindent\textbf{Theorem 3 (Cross-batch witness identifiability).}\
+Under assumptions~(A1)--(A4) (Methods~\S\ref{sec:methods-math}), with probability at least $1-\delta$ a true rare motif is recovered as a witnessed element of $W$ whenever
+\begin{equation}
+  n_{b}\,\pi_{b}^{2} \;\geq\; c_{3}(d,\sigma,\Delta,\rho_{\max})\,\log(1/\delta)/\gamma^{2}
+  \quad \forall\,b\in\mathcal{B}.
+\end{equation}
+Pooling across $B$ batches, $n\,\pi^{2} \geq B\,c_{3}\,\log(1/\delta)/\gamma^{2}$.
+
+\medskip\noindent\textbf{Exchangeability bound (transfer from known to unknown).}\
+For any truly unannotated rare motif $C_{u}$ with mass-and-geometry profile matched to a held-out known rare motif $C_{k}$,
+\begin{equation}
+  \mathbb{E}\!\left[\,\ell(C_{u})\,\right]
+  \;\leq\;
+  \mathbb{E}\!\left[\,\ell(C_{k})\,\right]
+  + \eta_{\mathrm{match}},
+  \label{eq:exchange-bound}
+\end{equation}
+where $\ell(\cdot)=1-L(\cdot)$ is the per-motif loss rate and $\eta_{\mathrm{match}}$ is the geometric-profile mismatch bound (Supp.~\ref{sec:S1-exchangeability}). This is a \emph{bound}, not an equality: it supports the inference ``REAL fires at rate $\geq r$ on held-out known rare $\Rightarrow$ it fires at rate $\geq r-\eta_{\mathrm{match}}$ on truly unknown rare of similar profile.''
+
+\medskip\noindent
+Theorems~1 and~3 give matched lower and upper bounds on label-free detectability. Combined with~\eqref{eq:minimax-hetero} and~\eqref{eq:exchange-bound}, REAL detects previously-unannotated rare motifs of joint mass $\pi\geq 6\times 10^{-4}$ at separation $\Delta\geq 0.3\sigma$ on the Kang~2024 atlas ($B=30$, $n=4.9\times 10^{6}$), at $\alpha=\beta=0.05$. The envelope is the blue curve of Fig.~1d.

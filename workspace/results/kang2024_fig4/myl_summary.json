@@ -1,0 +1,51 @@
+{
+  "compartment": "myl",
+  "n_obs": 22472,
+  "n_vars_hvg": 2889,
+  "n_batches": 1043,
+  "batch_key": "Patient_Organ_Tissue",
+  "t_integration_s": 77.4,
+  "t_total_s": 356.6,
+  "peak_vram_mb": 0.0,
+  "detection": {
+    "channel": "ot_density_flow",
+    "candidate_ids": [
+      0
+    ],
+    "stat": [
+      93.81940460205078
+    ],
+    "p_values": [
+      0.004975124378109453
+    ],
+    "ci_low": [
+      88.35279083251953
+    ],
+    "ci_high": [
+      103.60662231445313
+    ],
+    "config": {
+      "sinkhorn_reg": 0.05,
+      "sinkhorn_iters": 100,
+      "sinkhorn_tol": 1e-06,
+      "unbalanced_tau": 1.0,
+      "minibatch_threshold": 200000,
+      "minibatch_size": 4096,
+      "minibatch_rounds": 20,
+      "n_permutations": 200,
+      "permutation_radius": 3.0,
+      "k_neighbors": 30,
+      "r_N_scales": [
+        0.5,
+        1.0,
+        2.0
+      ],
+      "device": "cuda",
+      "dtype": "torch.float32",
+      "seed": 42
+    },
+    "n_lamp3": 225,
+    "n_total": 22472,
+    "frac_lamp3": 0.0100124599501602
+  }
+}

@@ -1,0 +1,80 @@
+% ---------------------------------------------------------------------
+% Immunology paragraph for the Introduction of the CNS submission.
+% ~500 words. Contributed by Immunology agent (agent-mozus3vv) for
+% task t-mozv8ou4 (follow-up: Biological Science asked for this
+% explicitly as workspace/handoffs/immuno_intro_para.tex).
+% Target: sections/01_introduction.tex, probably after the general
+% motivation paragraph on integration + overcorrection and before
+% the paragraph that introduces our framework (LRS / RareShield).
+% ---------------------------------------------------------------------
+
+The stakes of this failure mode are not uniformly distributed across
+the cell-biology landscape; they are most concentrated in the immune
+compartment, which is also the compartment where the majority of
+integration-atlas effort now accumulates. Three structural properties
+of immunology make unannotated rare subpopulations especially
+vulnerable to batch-integration overcorrection. First, the immune
+system is a lineage continuum: committed lineages pass through
+progenitor, activation, and terminal states whose rare intermediates
+(pre-DC, transitional B, progenitor-exhausted CD8) sit at the joints
+of an explicitly hierarchical tree \citep{villani2017single,
+cancro2020abcs}. Because integration methods penalize between-batch
+dispersion in a shared latent space, these joint populations --- the
+populations that are rare precisely because they are transitional ---
+are the populations with the highest expected displacement under
+batch alignment. Second, an immune cell's transcriptome is tissue-,
+antigen-, and context-dependent to a degree rarely matched elsewhere:
+a circulating memory CD8 T cell and its tissue-resident counterpart
+share at most 60\% of their differentially expressed genes, and
+mucosal-associated invariant T cells (MAIT) in blood, gut, and lung
+cluster as effectively distinct populations despite identical TCR
+identity \citep{provine2020mait, dominguez2022crosstissue}. Standard
+batch covariates (patient, chemistry, sequencing centre) collapse
+precisely those axes, rendering biologically informative structure
+indistinguishable from technical noise. Third, prevalence itself is
+informative: the clinical readout in immunology is often the fold
+change in a rare population's abundance across conditions --- MAIT
+collapse in severe COVID-19, age-associated B-cell expansion in
+systemic lupus erythematosus, CD103$^+$CD39$^+$ tumour-reactive
+tissue-resident memory CD8 ratios between checkpoint-blockade
+responders and non-responders. Integration methods that normalize
+cell-type prevalence across batches to ``correct'' sampling
+imbalance obliterate exactly the signal the downstream analysis is
+designed to measure \citep{duhen2018coexpression,
+caushi2021transcriptional, vandamme2021depletion}.
+
+The historical record amplifies the concern. Nearly every
+mechanistic advance in the past decade of immunology began as a
+small, ambiguously-identified cluster that predated its nameable
+identity. Plasmacytoid dendritic cells, at $<\!0.5\%$ of peripheral
+blood and transcriptomically adjacent to B cells, would not have
+established the type-I interferon axis of antiviral immunity had
+they been absorbed into their abundant neighbour during integration;
+the \textit{AXL}$^+$\textit{SIGLEC6}$^+$ ``AS-DC'' population (DC5),
+at $\sim\!0.05\%$ of PBMC, rewrote the classification of the
+conventional DC lineage only after Villani \etal\ isolated it as a
+distinct cluster from several thousand cells
+\citep{villani2017single}; tumour-reactive \textit{CD103$^+$CD39$^+$}
+tissue-resident memory T cells at $<\!1\%$ of tumour cells now drive
+adoptive-cell-therapy patient selection in multiple trials
+\citep{duhen2018coexpression}. In every case, the cluster existed
+before the biology was understood, and in every case, an integration
+pipeline that silently merged the cluster into its abundant
+neighbour would have delayed or extinguished the discovery. To the
+degree that pan-cancer and pan-tissue atlases now dominate immune
+biology \citep{kang2024integrated, cheng2021pancancer,
+zheng2021pancancer}, integration is no longer a pre-processing step;
+it is the step at which future rare-population discoveries are
+either protected or silently lost. A detection framework that
+operates without relying on prior annotation, and an integration
+strategy that is rare-aware by construction, are therefore not
+refinements of an existing toolkit but the prerequisites for the
+next generation of immunological discovery.
+
+% ---------------------------------------------------------------------
+% Requires: villani2017single, cancro2020abcs, provine2020mait,
+% dominguez2022crosstissue, duhen2018coexpression,
+% caushi2021transcriptional, vandamme2021depletion, kang2024integrated,
+% cheng2021pancancer, zheng2021pancancer. All in
+% workspace/handoffs/bib_additions_immunology.bib.
+% ---------------------------------------------------------------------

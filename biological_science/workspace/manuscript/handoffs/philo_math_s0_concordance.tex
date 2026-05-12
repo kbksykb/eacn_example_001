@@ -1,0 +1,47 @@
+% LaTeX port of the Math-Philosophy S0 concordance.
+% Source: workspace/handoffs/philo_math_s0_concordance.md (markdown, readable).
+% This LaTeX form is for BioSci to \input into Supp Note S0 §3, per the recommended
+% supplement layout:
+%   Supp Note S0 §1 — Philosophy's 8-trap prose list (philo_supp_note_S0.tex, \label{sec:eightTraps}).
+%   Supp Note S0 §2 — Math's 8-entry mathematical-characterisation table (math_supp_note_S0_8traps.tex).
+%   Supp Note S0 §3 — This concordance (reader-facing crosswalk).
+%
+% Author: Philosophy agent-mozur8ub. Companion: philo_math_s0_concordance.md.
+
+\subsection*{Concordance: Math's 8-entry table vs Philosophy's 8-trap checklist}
+\label{sec:S0-concordance}
+
+The previous two subsections present two independently numbered eight-entry lists. These are \textbf{orthogonal axes of the epistemic-scope audit, not alternative numberings of the same list}. Philosophy's 8-trap checklist (\S\ref{sec:eightTraps}) enumerates hidden-assumption traps at the \emph{claim-writing} level, functioning as a reviewer-anticipation gate (manifestation $\rightarrow$ guard $\rightarrow$ residual risk). Math's 8-entry table (\Cref{tab:epistemic-traps}) enumerates \emph{mathematical characterisations} of concerns raised in an earlier Philosophy framing document, mapping each to the specific theorem, lemma, or assumption in Supp S1 that formalises it.
+
+The two reinforce each other: Philosophy's checklist gives the reviewer the lint pass; Math's table gives the formal warrant for each guard. The concordance below eliminates the ``why are there two eight-entry lists?'' confusion.
+
+\begin{table}[h]
+\centering
+\caption{Mapping of Math's eight mathematical-characterisation entries (\Cref{tab:epistemic-traps}) to Philosophy's eight-trap checklist (\S\ref{sec:eightTraps}). ``$\leftrightarrow$'' indicates a shared concern; ``$\subseteq$'' indicates a subcomponent; ``\textit{math-only}'' indicates a concern surfaced by the formalism that does not map to a writing-level trap.}
+\label{tab:s0-concordance}
+\small
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{p{1.0cm} p{4.2cm} p{1.4cm} p{5.2cm}}
+\toprule
+\textbf{Math \#} & \textbf{Math label} & \textbf{Relation} & \textbf{Philosophy S0.\# (sec:eightTraps)} \\
+\midrule
+1 & Semantic drift: ``unannotated at time $t$'' & $\leftrightarrow$ & S0.5 Annotation completeness (Math adds the $\mathcal{A}(t)$ $\sigma$-algebra dependency). \\
+\addlinespace[2pt]
+2 & Circular validation & $\leftrightarrow$ & S0.7 Evaluation circularity (Math adds the Lipschitz error term $\eta_{\mathrm{match}}$ for Lemma~\ref{lem:exchangeability}). \\
+\addlinespace[2pt]
+3 & Over-claiming: detection $=$ novel cell type & $\leftrightarrow$ & S0.6 Post-hoc detection $\neq$ solution (Math makes the $\sigma$-algebra separation explicit). \\
+\addlinespace[2pt]
+4 & Selection bias: known $\neq$ unknown unknowns & $\subseteq$ & S0.5 Annotation completeness, overlapping S0.3 Abundance invariance. \\
+\addlinespace[2pt]
+5 & Confounding in (A4) & \textit{math-only} & No writing-level trap; implementation-level refinement of (A4) using Theorem~\ref{thm:S1-nulls} confounding-robust $p$-value. \\
+\addlinespace[2pt]
+6 & Framework capture & $\leftrightarrow$ & S0.8 Failure-to-reject as success (Math: Theorem~\ref{thm:S1-minimax} is the formal self-bound). \\
+\addlinespace[2pt]
+7 & Hidden load-bearing assumption: kNN density consistency & \textit{math-only} & No writing-level trap; Assumption (A3) in \Cref{ass:S1}. \\
+\addlinespace[2pt]
+8 & Reference class: novel-to-dataset vs novel-to-literature & $\leftrightarrow$ & S0.5 Annotation completeness (Math: reference-class $\sigma$-algebra parameter). \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph*{Usage.} The concordance is consulted only when a reviewer or future author cross-references one list and wants to know whether the other list speaks to the same concern. Routine manuscript reading follows either list independently: Philosophy's list for the writing-level lint, Math's table for the formal warrant.

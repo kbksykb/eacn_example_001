@@ -1,0 +1,54 @@
+% Methods — Integration & Detection — REAL + RareShield
+% Author: ML (agent-mozurrmd). Source: unified_ML_spec_v2.md + v3_delta.md + colm_admissibility.md.
+% Intended for sections/09_methods.tex subsection "RareShield training" + a sibling
+% subsection "REAL detector" if you want them separable. Biosci: reorder / cut as needed.
+% Target length 800-1200 words. This is ~1000 words.
+
+\subsection*{Motif enumeration and the REAL detector}
+\label{sec:methods-real}
+
+We process each batch independently on its $50$-dim PCA embedding of log-normalized counts. Per-cell local density is $\rho_b(x) = 1/r_k(x)$ with $k=15$; rarity anchor is $R_b(x) = \rho_b(x) / \operatorname{median}(\rho_b(\text{kNN}_b(x, K)))$ with $K=300$. A \emph{motif} is a connected component of the kNN graph whose cells satisfy $R_b > 2$ and whose size is in $[5,\,0.005\cdot n_b]$. A motif is \emph{witnessed} across batches when its signature --- the top-50 differentially-expressed genes against the rest of its batch, shrunken by posterior fold-change \citep{lopez2018scvi} --- has cosine similarity $\ge 0.85$ to at least one motif in $\ge k_\text{wit}=2$ other batches, along with mutual-nearest-neighbor linkage on the HVG panel. The set $\mathcal{W}$ of witnessed motifs is the label-free surrogate ground-truth of unannotated rare cell subpopulations \citep{ds2026lrs}.
+
+The REAL detector computes, for each motif $w\in\mathcal{W}$ with cell set $\mathcal{C}_w$, six complementary per-cell-aggregated columns: $P_d$, density persistence \citep{ds2026lrs}; $P_t$, persistent-homology lifetime on an importance-weighted subsample (\texttt{ripser++}); $P_n$, mutual-NN neighborhood integrity; $1-B$, compositional bleed with the nearest-abundant population; $P_\tau$, the conservation-of-local-mass (CoLM) statistic defined below; $P_\Delta$, the Procrustes displacement ratio against batch-bulk motion. The per-motif score is
+\[
+  LRS(w) \;=\; \operatorname{HarmonicMean}(P_d, P_t, P_n, 1-B, P_\tau, P_\Delta),
+\]
+with per-method aggregate $LRS(f) = \operatorname{mean}_{w\in\mathcal{W}} LRS(w)$ and bootstrap $95\%$ CI over motifs. Thresholds $L<0.4$ (eliminated) and $L>0.7$ (preserved) are calibrated on held-out known rare populations (\S\ref{sec:validation}). Each flagged motif is further assigned a dominant failure mode from the five-class taxonomy --- adjacency-absorption, across-batch asymmetry, continuum erasure, marker-gene dilution, emergent-then-collapse --- by comparing the column profile $(P_d, P_t, P_n, 1-B, P_\tau, P_\Delta)$ against prototypes \citep{immuno2026catalog}.
+
+\subsection*{Conservation of Local Mass}
+\label{sec:methods-colm}
+
+Let $\mathbf{T}$ denote the integration map. We model admissible technical batch effects as the class
+\[
+  \mathcal{F} \;=\; \bigl\{\, \mathbf{T}(x, b) = x + A_b\,h_b(x)\;:\; A_b\in\mathbb{R}^{d\times k_b},\; \|h_b\|_{\text{Lip}}\le L_b,\; \tfrac{dT_\#\mu_b}{d\mu_b}\in[1/r,r] \,\bigr\},
+\]
+with $(k_b, L_b)$ selected per batch by stability on held-out major cell types (iLISI within $5\%$ of the unrestricted model). The Radon--Nikodym bound $[1/r, r]$ with $r=1+o(1)$ is what distinguishes legitimate smooth batch correction from biological mass collapse \citep{math2026colm}. The per-cell CoLM statistic is
+\[
+  \tau(x; r_N) \;=\; \log\hat\mu_\text{post}\bigl(N(\mathbf{T}(x), r_N)\bigr) - \log\hat\mu_\text{pre}\bigl(N(x, r_N)\bigr),
+\]
+aggregated per motif as $\tau(\mathcal{C}_w) = \operatorname{median}_{x\in\mathcal{C}_w} \tau(x) + \lambda_{\max}(\Sigma_w)^{1/2}$. Under $\mathbf{T}\in\mathcal{F}$, $\tau$ is sub-Gaussian with scale $O(1/\sqrt{k_N})$; under collapse of a motif into an adjacent abundant population, $\tau\ge\Omega(1)$ on cells of the motif. Per-cell $p$-values are derived from a permutation null that shuffles batch labels within $\varepsilon$-balls on the pre-integration embedding (\texttt{B=500}), with Benjamini--Yekutieli FDR control at effective degrees of freedom $m_\text{eff} = n / k_N$ \citep{math2026colm}.
+
+\subsection*{Identifiability of detection}
+Under a Le~Cam two-point argument, the CoLM permutation test has power $\to 1$ as $n\to\infty$ whenever
+\[
+  \pi \cdot (d_\mathcal{C})^{d_\text{bio}} \;>\; c\,L\,\sigma_1(A)\,(d_\text{batch})^{d_\text{bio}-1},
+\]
+where $\pi$ is motif mass, $d_\mathcal{C}$ its intrinsic scale, and $\sigma_1(A)$ bounds the admissible-field spectral norm \citep[\S S1.3]{math2026suppS1}. For scRNA-seq integration with $d_\text{bio}\approx 20$, $\sigma_1(A)\approx 1$, $L=0.5$, $d_\text{batch}\approx 4$, all canonical rare populations at separation $\ge 0.3\sigma$ satisfy this bound, including pancreatic epsilon cells and pulmonary ionocytes (Supp.~S3).
+
+\subsection*{RareShield training}
+\label{sec:methods-rareshield}
+
+RareShield adds the REAL inequality to a scVI backbone \citep{lopez2018scvi} as a drop-in regularizer. Let $\mathcal{L}_\text{scVI} = \mathcal{L}_\text{recon} + \beta(t)\,\mathcal{L}_\text{KL-fb}$ with KL warm-up $\beta(t)=\beta_\text{max}\min(1, t/(2 t_\text{warmup}))$ and free-bits $\varepsilon_\text{fb}=1$ nat per latent dim to prevent posterior collapse. The REAL terms are
+\begin{align*}
+\mathcal{L}_\text{within}  &= \frac{1}{|\mathcal{S}|}\sum_s \frac{1}{|\mathcal{C}_s|}\sum_{x\in\mathcal{C}_s} \|z(x) - \operatorname{stopgrad}(\bar z_s)\|^2, \\
+\mathcal{L}_\text{between} &= \frac{1}{|\mathcal{P}|}\sum_{(w,w')\in\mathcal{P}} \operatorname{ReLU}(m - \|\bar z_w - \bar z_{w'}\|)^2, \\
+\mathcal{L}_\text{mass}    &= \mathbb{E}_{w\in\mathcal{W}}\bigl[\,\tau(\mathcal{C}_w)^2 \cdot \operatorname{ReLU}\bigl(0.4 - LRS(w)\bigr)\bigr].
+\end{align*}
+$\mathcal{P}$ is the set of non-matching motif pairs (signature cosine $<0.5$), $m=3$ latent-std units, and the $\mathcal{L}_\text{mass}$ gate fires only on motifs in the "eliminated" regime of $L$, preventing regression on already-preserved witnesses \citep{math2026colm}. The total loss is
+\[
+\mathcal{L}_\text{total}(t) = \mathcal{L}_\text{scVI} + w_M(t)\bigl(\lambda_w \mathcal{L}_\text{within} + \lambda_b \mathcal{L}_\text{between} + \lambda_m \mathcal{L}_\text{mass}\bigr),
+\]
+with $w_M(t)=w_M^\text{max}\min(1, t/t_\text{warmup})$ and defaults $\lambda_w{=}\lambda_b{=}1$, $\lambda_m\in[0.01, 0.1]$, $w_M^\text{max}{=}0.1$, $t_\text{warmup}{=}5$ epochs. Motifs and witnesses are recomputed every five epochs on a held-out mini-batch. Gradient flow is gated so that $\bar z_s$ (stop-grad), $\rho_\text{pre}$ (precomputed), and $r_\text{admissible}$ (precomputed once per epoch) never propagate into the encoder; the auxiliary density head $h_\rho$ is frozen for the first $0.5\,t_\text{warmup}$ and then trained jointly. With these gating rules the feasible set $\{\mathbf{T}\in\mathcal{F} : \mathcal{R}(\mathcal{L}_\text{within}, \mathcal{L}_\text{mass}, \mathcal{L}_\text{between}) \le \varepsilon\}$ is non-empty and convex in encoder parameters, which is the sufficient condition under which RareShield preserves scVI-style identifiability up to the batch-equivariant rotation group \citep[Prop.~X]{math2026identifiability}.
+
+\subsection*{Alternative backbones}
+The REAL inequality admits analogous implementations in Harmony-OT (soft $k$-means for motif cells replaced by entropic unbalanced Sinkhorn) and contrastive integrators (MNN positive-pair construction gated by cross-batch density support, density-aware negative sampling, and an adversarial split discriminator that excludes motif cells). Flow-matching / rectified-flow backbones admit an exact path-integral form of $\mathcal{L}_\text{mass}$ via $\log|\det J_T|=\int_0^1\operatorname{div}v_\theta\,dt$, at $3$--$5\times$ the compute cost. For the reported experiments we use scVI + RareShield as the primary backbone, Harmony-OT as the lightweight alternative, and the contrastive variant as a generality demonstration.

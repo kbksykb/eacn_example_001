@@ -1,0 +1,89 @@
+/root/anaconda3/envs/scenv/lib/python3.11/functools.py:909: UserWarning: zero-centering a sparse array/matrix densifies it.
+  return dispatch(args[0].__class__)(*args, **kw)
+2026-05-12 11:23:36,192 - harmonypy - INFO - Running Harmony
+2026-05-12 11:23:36,192 - harmonypy - INFO -   Parameters:
+2026-05-12 11:23:36,192 - harmonypy - INFO -     max_iter_harmony: 20
+2026-05-12 11:23:36,192 - harmonypy - INFO -     max_iter_kmeans: 4
+2026-05-12 11:23:36,192 - harmonypy - INFO -     epsilon_cluster: 0.001
+2026-05-12 11:23:36,192 - harmonypy - INFO -     epsilon_harmony: 0.01
+2026-05-12 11:23:36,192 - harmonypy - INFO -     nclust: 100
+2026-05-12 11:23:36,192 - harmonypy - INFO -     block_size: 0.05
+2026-05-12 11:23:36,192 - harmonypy - INFO -     lamb: dynamic (alpha=0.2)
+2026-05-12 11:23:36,193 - harmonypy - INFO -     theta: [2. 2. 2. ... 2. 2. 2.]
+2026-05-12 11:23:36,193 - harmonypy - INFO -     sigma: [0.1 0.1 0.1 0.1 0.1]...
+2026-05-12 11:23:36,193 - harmonypy - INFO -     verbose: True
+2026-05-12 11:23:36,193 - harmonypy - INFO -     random_state: 0
+2026-05-12 11:23:36,193 - harmonypy - INFO -   Data: 50 PCs × 22472 cells
+2026-05-12 11:23:36,193 - harmonypy - INFO -   Batch variables: ['Patient_Organ_Tissue']
+2026-05-12 11:23:36,304 - harmonypy - INFO - Computing initial centroids...
+2026-05-12 11:23:37,061 - harmonypy - INFO - Initialization complete.
+2026-05-12 11:23:37,061 - harmonypy - INFO - Iteration 1 of 20
+2026-05-12 11:23:37,959 - harmonypy - INFO - Iteration 2 of 20
+2026-05-12 11:23:38,822 - harmonypy - INFO - Iteration 3 of 20
+2026-05-12 11:23:39,635 - harmonypy - INFO - Iteration 4 of 20
+2026-05-12 11:23:40,447 - harmonypy - INFO - Iteration 5 of 20
+2026-05-12 11:23:41,251 - harmonypy - INFO - Iteration 6 of 20
+2026-05-12 11:23:42,050 - harmonypy - INFO - Iteration 7 of 20
+2026-05-12 11:23:42,850 - harmonypy - INFO - Converged after 7 iterations
+
+=== Compartment: myl ===
+  [load] reading myl_NMF.h5ad...
+  [load] n_obs=22472, n_vars=2889
+  [load] obs columns: ['Patient_Organ_Tissue', 'Tissue', 'Organ_origin', 'Patient', 'Dataset', 'CancerAbbr', 'leiden', 'Cell_state', 'Tissue_specific', 'Chemistry']
+  [preprocess] n_obs=22472, n_vars=2889
+  [preprocess] done in 9.1s
+  [harmony] batch_key=Patient_Organ_Tissue, n_batches=1043
+  [harmony] done in 6.7s
+  [lamp3_holdout] n_lamp3=225 (1.00%)
+  [done] myl: 22472 cells, 356.6s total, 0 MB VRAM
+{
+  "compartment": "myl",
+  "n_obs": 22472,
+  "n_vars_hvg": 2889,
+  "n_batches": 1043,
+  "batch_key": "Patient_Organ_Tissue",
+  "t_integration_s": 77.4,
+  "t_total_s": 356.6,
+  "peak_vram_mb": 0.0,
+  "detection": {
+    "channel": "ot_density_flow",
+    "candidate_ids": [
+      0
+    ],
+    "stat": [
+      93.81940460205078
+    ],
+    "p_values": [
+      0.004975124378109453
+    ],
+    "ci_low": [
+      88.35279083251953
+    ],
+    "ci_high": [
+      103.60662231445313
+    ],
+    "config": {
+      "sinkhorn_reg": 0.05,
+      "sinkhorn_iters": 100,
+      "sinkhorn_tol": 1e-06,
+      "unbalanced_tau": 1.0,
+      "minibatch_threshold": 200000,
+      "minibatch_size": 4096,
+      "minibatch_rounds": 20,
+      "n_permutations": 200,
+      "permutation_radius": 3.0,
+      "k_neighbors": 30,
+      "r_N_scales": [
+        0.5,
+        1.0,
+        2.0
+      ],
+      "device": "cuda",
+      "dtype": "torch.float32",
+      "seed": 42
+    },
+    "n_lamp3": 225,
+    "n_total": 22472,
+    "frac_lamp3": 0.0100124599501602
+  }
+}

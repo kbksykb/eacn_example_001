@@ -1,0 +1,59 @@
+% Supplementary Note — Unseen-species estimators and REAL (philosophical + statistical appendix).
+% ≈800w. For supplement/supplement.tex as an optional Supp Note S4 (or similar).
+% Anchors: thm:minimax / lem:exchangeability / thm:S1-hierarchical.
+% Bib: Good 1953 / Chao 1984 / Bunge & Fitzpatrick 1993 / Orlitsky 2016 / Valiant 2011.
+%
+% Purpose: gives reviewers a classical statistical framing for the unseen-rare-subpopulation
+% problem. Reinforces the "bound-valued, not equality-valued" epistemic stance of Lemma S1
+% by placing it in the 70-year tradition of unseen-species estimation.
+%
+% lint:epistemic guarded by: explicit envelope citation, explicit non-equality framing,
+% explicit "not a cell-type claim" disclaimer.
+
+\section*{Supplementary Note --- Unseen-species estimators and the REAL framework}
+\label{sec:supp-unseen-species}
+
+The problem REAL addresses has a long statistical pedigree outside single-cell biology. The \emph{unseen-species problem} --- estimating the number of species in a sample when some species are present but unobserved --- has been studied since \citet{good1953population}, who, with Turing, derived estimators during WWII cryptanalytic work. Subsequent developments by \citet{chao1984nonparametric}, \citet{bunge1993species}, \citet{orlitsky2016optimal} and \citet{valiant2011estimating} produced estimators whose sample complexity is well understood and whose epistemic status is exactly the one we adopt for REAL: a \emph{bound-valued} claim about unobserved quantities, calibrated under exchangeability assumptions that are explicitly named. The purpose of this note is to situate REAL within that tradition, so that reviewers familiar with the species-estimation literature can map our guarantees onto known ground.
+
+\paragraph*{The analogue.}
+In the species-estimation setting, one observes frequencies $\{f_{1}, f_{2}, \dots\}$ where $f_{k}$ counts species observed exactly $k$ times in a sample of size $n$, and asks for the total (observed + unobserved) species count, or the mass of unobserved species. The Good--Turing estimator gives the mass of unobserved species as $f_{1}/n$ --- the proportion of the sample accounted for by singletons. Chao's nonparametric estimator gives a lower bound on unobserved species count, $\hat{S}_{\min} = S_{\text{obs}} + f_{1}^{2}/(2 f_{2})$. In both cases, the estimator is \emph{not} a cell-type identification; it is a population-level quantity about \emph{how much mass is invisible}.
+
+REAL occupies the same epistemic slot with one structural difference: where species estimators look at \emph{frequency} of observations, REAL looks at \emph{cross-batch reproducibility of local-density structure}. The analogue of a ``singleton species'' in REAL is a candidate motif observed in one batch only; the analogue of a ``doubleton'' is a motif observed in $\mu \geq 2$ batches under our witness threshold. The witness threshold $\mu$ is the discretised frequency; the minimax envelope \Cref{thm:S1-minimax} is the sample-complexity lower bound; the exchangeability bound \Cref{lem:exchangeability} is the bridge from what we can count (held-out known rare motifs) to what we want to bound (truly unannotated rare motifs).
+
+\paragraph*{What is and is not inherited.}
+The following parallels are load-bearing:
+\begin{itemize}[leftmargin=*]
+  \item \emph{Population-level, not individual-level, claims.} Neither Good--Turing nor REAL identifies a specific unobserved species or motif; both estimate \emph{population properties} (total mass, loss rate, detectability envelope). A REAL flag is population-level in this precise sense.
+  \item \emph{Exchangeability as an explicit assumption.} Classical unseen-species estimators are consistent under i.i.d.\ sampling; any structured nonexchangeability in the sampling distribution (e.g., rare species concentrated in undersampled strata) requires an exchangeability bound analogous to \Cref{lem:exchangeability}. The philosophy-of-statistics literature on this (e.g., \citet{potochnik2017idealization}) treats such assumptions as legitimate idealisations provided they are named and their boundary conditions are stated.
+  \item \emph{Bound, not equality.} Chao's estimator is explicitly a lower bound on unobserved species, never an equality. REAL's exchangeability transfer is explicitly an upper bound on unknown-rare loss, never an equality. The bound-valued form is what makes the claim empirically defensible.
+\end{itemize}
+
+The following distinctions are equally important:
+\begin{itemize}[leftmargin=*]
+  \item \emph{REAL is not a species count.} REAL outputs a motif set $\mathcal{W}$ of reproducible local-density structures and a per-method survival score $\mathrm{LRS}(f)$. It does not estimate a number of novel cell types; it identifies reproducible structural signals whose erasure under integration should be investigated further.
+  \item \emph{The unit of analysis is a motif, not an individual observation.} Good--Turing operates at the observation level (a single capture of a species); REAL operates at the motif level (a cross-batch-reproducible density signature). This is the appropriate unit for a question about \emph{structural} preservation rather than \emph{frequency} estimation.
+  \item \emph{Hierarchical amplification is not classical.} The telescoping detectability argument of \Cref{thm:S1-hierarchical} has no direct unseen-species analogue in the classical literature (though see \citet{orlitsky2016optimal} for hierarchical sampling variants). It is a consequence of the compartmental structure of single-cell biology --- sub-populations are nested within lineages, not drawn from a flat reference class.
+\end{itemize}
+
+\paragraph*{Philosophical reinforcement.}
+The bound-valued stance of \citet{good1953population} and \citet{chao1984nonparametric} is not a hedge; it is the only epistemically honest form such claims can take. An equality-valued claim about unobserved species, or about unannotated rare motifs, would require observing the thing that is by definition unobserved. The bound-valued form is what classical statistics has always been able to deliver, and it is what REAL delivers. The epistemic-scope paragraph of the Discussion (\Cref{philo:limitations}) should be read with this heritage in view: nothing about REAL's bounds is novel as a philosophical commitment; what is novel is the mapping of the commitment onto the structure of single-cell batch integration.
+
+\paragraph*{Further reading.}
+\citet{valiant2011estimating} gives sample-complexity-optimal estimators for unseen quantities; their analysis techniques map onto the Le Cam argument of \Cref{thm:S1-minimax}. \citet{bunge1993species} surveys the species-estimation literature through 1993. \citet{orlitsky2016optimal} extends Good--Turing to the sample-complexity-optimal regime.
+
+\paragraph*{Cancer-genomic and immunologic applications.}
+In oncology specifically, Chao-style unseen-species estimators have been applied since the mid-2010s to two distinct problems directly cognate to REAL's rare-subpopulation question. First, to estimate unsampled tumour \emph{subclones} from observed variant-allele-frequency (VAF) distributions: \citet{williams2016identification} and \citet{sottoriva2015big} use VAF-diversity indices built on Chao-like reasoning to infer subclonal heterogeneity beyond direct sample coverage, and the TRACERx programme extended the approach to multi-region NSCLC \citep{debruin2014spatial,jamalhanjani2017tracking}. Second, to estimate unsampled \emph{T- and B-cell receptor clonotypes} from observed tumor-infiltrating repertoires: \citet{valpione2020immune} (melanoma) and \citet{reuben2020comprehensive} (NSCLC) apply Chao1 and Chao--Shen-corrected Shannon indices to the diversity of observed TIL repertoires to estimate what the repertoire would look like under complete sampling. In both settings the claim-shape is exactly the one we adopt: a bound-valued, population-level, bounds-not-equality statement about what the data did not directly sample, calibrated under stated exchangeability assumptions. REAL extends this tradition from allele counts and receptor clones to transcriptomic rare-subpopulation detection, using cross-batch reproducibility in the HVG space as the analogue of cross-sample detection in allele or receptor space.
+
+% Minimal bib additions required:
+%   good1953population       — Good 1953 Biometrika 40, 237
+%   chao1984nonparametric    — Chao 1984 Scand J Stat 11, 265
+%   bunge1993species         — Bunge & Fitzpatrick 1993 JASA 88, 364
+%   orlitsky2016optimal      — Orlitsky, Suresh, Wu 2016 PNAS 113, 13283
+%   valiant2011estimating    — Valiant & Valiant 2011 STOC proceedings
+%   potochnik2017idealization — Potochnik 2017 Idealization and the Aims of Science
+%   williams2016identification — Williams et al. 2016 Nature Genetics
+%   sottoriva2015big          — Sottoriva et al. 2015 Nature Genetics
+%   debruin2014spatial        — de Bruin et al. 2014 Science
+%   jamalhanjani2017tracking  — Jamal-Hanjani et al. 2017 NEJM (TRACERx NSCLC)
+%   valpione2020immune        — Valpione et al. 2020 Nature Cancer (melanoma TCR)
+%   reuben2020comprehensive   — Reuben et al. 2020 Nature Communications (NSCLC TCR)
