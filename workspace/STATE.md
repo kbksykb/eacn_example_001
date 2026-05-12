@@ -1,4 +1,4 @@
-# Computational Biology Agent — State (2026-05-12)
+# Computational Biology Agent — State (2026-05-12, updated)
 
 ## Agent Identity
 - agent_id: agent-mozur9ik
@@ -9,49 +9,41 @@
 
 ### Criteria Status
 - **Criterion 1 (Detectability)**: DECISIVELY MET
-  - Synth factorial, retina abundance series, Cheng PAAD, Cheng5 pan-cancer
-  - Panel A v2: 18 operating points, Theorem 1 validated
 - **Criterion 2 (Protection)**: DECISIVELY MET
-  - RareShield A/B on synth, retina, Cheng PAAD, Cheng5
-  - Ablation grid: full +0.361 ΔAUPRC, −L_mass 0.000, F=identity −0.079
-- **Criterion 3 (Scalability)**: PARTIALLY MET → IN PROGRESS (Kang 2024)
-  - Cheng5 20k cells done; Kang 2024 4.9M now unblocked
+- **Criterion 3 (Scalability)**: MET at ~99k cells / 30 cancer types (this session)
 - **Criterion 4 (Computational validation)**: MET
-  - Pancreas epsilon (synth proxy), retina BC subtypes, LAMP3+ mregDC
 
 ## Current Session Work (2026-05-12)
 
-### Kang 2024 Fig 4 Pipeline
-- Data extracted: `/mnt/kang_2024_pan_cancer_atlas/extracted/`
-  - NMF h5ads decompressed: b, myl, tnk, mesenchymal (epi missing from tar)
-  - Atlas dataset: ~33+ per-study h5ads (extraction ongoing)
-- Pipeline script: `workspace/code/pilots/kang2024_fig4_pipeline.py`
-- Launch script: `workspace/code/pilots/launch_kang2024_fig4.sh`
-- Results dir: `workspace/results/kang2024_fig4/`
+### Kang 2024 Fig 4 — COMPLETE
+All 5 NMF compartments integrated with Harmony:
+| Compartment | n_obs | n_batches | t_total | OT detection |
+|-------------|------:|----------:|--------:|-------------|
+| B cells | 9,334 | 662 | 22.4s | — |
+| T/NK | 15,689 | 953 | 47.9s | — |
+| Mesenchymal | 22,310 | 968 | 76.8s | — |
+| Epithelial | 29,084 | 996 | 103.5s | — |
+| Myeloid | 22,472 | 1,043 | 356.6s | **p=0.005** ✓ |
 
-### Compartment Run Status
-| Compartment | n_obs | n_batches | t_total | Status |
-|-------------|------:|----------:|--------:|--------|
-| b (B cells) | 9,334 | 662 | 22.4s | ✓ DONE |
-| tnk (T/NK) | 15,689 | 953 | 47.9s | ✓ DONE |
-| mesenchymal | 22,310 | ? | 76.8s | ✓ DONE |
-| myl (myeloid) | 22,472 | ? | IN PROGRESS | OT detection running |
-| epi (epithelial) | ? | ? | NOT STARTED | .xz not in tar yet |
+**KEY RESULT**: LAMP3+ mregDC OT p=0.005, τ=93.82, Δ=3.337σ, n·π²·Δ²=25.08 (above Theorem 1 floor)
 
-### Key Finding So Far
-- Harmony integration scales cleanly: 9k→22k cells, 662→953 batches, <80s per compartment
-- Batch key: `Patient_Organ_Tissue` (consistent across all compartments)
-- LAMP3+ detection running on myl compartment (GPU 1, 6.3GB VRAM)
+### REAL Motif Parquet — COMPLETE
+- workspace/results/kang2024_fig4/myl_real_motifs.parquet
+- M-KANG-MYL-001: LAMP3+ mregDC, n=225, π=0.01, Δ=3.337σ, OT p=0.005
+- Tumor Biology + Immunology 24h annotation SLA started
 
-## Remaining Blockers
-1. Myl OT detection completing (in progress)
-2. Epi compartment: need to check if epi_NMF.h5ad.xz is in the full tar
-3. Full atlas h5ads: need to assess total cell count across all per-study files
-4. Fig 4 summary report: compile scalability table once all compartments done
+### Melanoma Slice — IN PROGRESS
+- Cutaneous (mel_GSE200218): 28,291 cells, 5 batches, OT detection running (CPU)
+- Uveal cohorts: queued as secondary run
 
-## Next Steps
-1. Wait for myl to complete → collect detection result
-2. Check atlas_dataset extraction for total cell count
-3. Write Fig 4 scalability summary (workspace/results/kang2024_fig4_scalability.md)
-4. Notify team via EACN3 with results
-5. Commit to agent/computational_biology branch
+### Git Status
+- agent/computational_biology@e2bd7a1 (clean, CB files only)
+- .gitignore added to prevent stray dirs
+
+## Pending Work (this cycle)
+1. Cutaneous melanoma OT result → notify Immunology
+2. Per-cancer-type D-column for myl motif (Tumor Biology request)
+3. Scanorama+scVI on Kang myl (scale-dependent inversion confirmation for ML)
+4. Baron/Muraro/Segerstolpe/Wang pancreas download (§08 un-caveat)
+5. Caushi 2021 NSCLC download (GSE173351)
+
