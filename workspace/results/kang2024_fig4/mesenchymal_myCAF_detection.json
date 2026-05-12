@@ -1,0 +1,22 @@
+{
+  "compartment": "mesenchymal",
+  "label": "myCAF",
+  "motif_id": "M-KANG-MES-001",
+  "n_obs": 22310,
+  "n_batches": 968,
+  "n_candidate": 447,
+  "pi": 0.02,
+  "ot_p_value": 0.004975124378109453,
+  "ot_tau": 63.15782928466797,
+  "ot_ci_low": 58.161998176574706,
+  "ot_ci_high": 72.58037567138672,
+  "markers_found": [
+    "ACTA2",
+    "FAP",
+    "PDPN",
+    "COL11A1",
+    "MMP11"
+  ],
+  "t_total_s": 293.4,
+  "below_floor": false
+}

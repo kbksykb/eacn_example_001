@@ -1,0 +1,20 @@
+{
+  "compartment": "epi",
+  "label": "ionocyte",
+  "motif_id": "M-KANG-EPI-001",
+  "n_obs": 29084,
+  "n_batches": 996,
+  "n_candidate": 291,
+  "pi": 0.01,
+  "ot_p_value": 1.0,
+  "ot_tau": 34.85916519165039,
+  "ot_ci_low": 33.001050758361814,
+  "ot_ci_high": 38.03156280517578,
+  "markers_found": [
+    "CFTR",
+    "ATP6V1B1",
+    "ATP6V0D2"
+  ],
+  "t_total_s": 453.6,
+  "below_floor": true
+}
