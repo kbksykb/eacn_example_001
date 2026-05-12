@@ -1,0 +1,7 @@
+biological_science/
+data/
+results/
+__pycache__/
+*.pyc
+*.npy
+*.h5ad
