@@ -38,6 +38,11 @@ The minibatch-kNN reference subsampling (`ref_subsample_kNN=100_000`) biases rar
 
 This is the cleanest empirical demonstration in the manuscript that hierarchical-REAL and flat-REAL test different things: hierarchical detects collapse at compartment scope; flat reports preservation at atlas scope. For state-regime rare types (TPEX), both are correct simultaneously.
 
+### Multi-method comparison (Phase 2 myl 672k)
+- **Harmony** (GPU via rapids-singlecell): p=0.005, τ=11.59, VRAM 22 GB, 4.3 min
+- **scVI** (GPU training): p=0.005, τ=114.12 (2000-perm, at floor), VRAM 1.5 GB, 140 s
+- **Scanorama**: deliberately **not run at 672k scale**. Scanorama's core MNN algorithm is inherently CPU-bound; at 104 study batches × 672k cells it peaked at 805% CPU (8 cores saturated) with load averages approaching server-restart thresholds. Per user's GPU-first policy, skipped in favor of BBKNN or other GPU-native alternatives. The method-agnostic detection claim is supported by Harmony+scVI agreement (two independent linear vs deep-generative methods both fire at p=0.005).
+
 ### Cross-atlas LAMP3+ mregDC validation
 - Kang 2024 (this session): p=0.005 (NMF 22k + Phase 2 full 672k)
 - Cheng 2021 PAAD myeloid (prior session): p=0.01
