@@ -1,0 +1,21 @@
+{
+  "compartment": "b",
+  "label": "plasmablast",
+  "motif_id": "M-KANG-B-001",
+  "n_obs": 9334,
+  "n_batches": 662,
+  "n_candidate": 187,
+  "pi": 0.02,
+  "ot_p_value": 0.004975124378109453,
+  "ot_tau": 64.32160949707031,
+  "ot_ci_low": 60.73006925582886,
+  "ot_ci_high": 70.85040283203125,
+  "markers_found": [
+    "JCHAIN",
+    "IGHG1",
+    "IGHA1",
+    "SDC1"
+  ],
+  "t_total_s": 67.4,
+  "below_floor": false
+}
