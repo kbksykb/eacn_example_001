@@ -1,0 +1,30 @@
+{
+  "phase": 2,
+  "method": "harmony_GPU",
+  "pipeline": "rapids-singlecell (GPU preprocessing) + chunked GPU kNN OT",
+  "dataset": "kang_full_atlas_myeloid_extract",
+  "n_studies_loaded": 104,
+  "n_studies_skipped": 0,
+  "n_obs": 672778,
+  "n_batches": 1492,
+  "n_lamp3": 6728,
+  "pi": 0.01,
+  "t_total_s": 256.4,
+  "t_gpu_preprocessing_s": 87.4,
+  "t_ot_s": 36.3,
+  "lamp3_detection": {
+    "p_value": 0.004975124378109453,
+    "tau": 11.586807250976562,
+    "ci_low": 11.44991683959961,
+    "ci_high": 11.775507068634033,
+    "markers_found": [
+      "LAMP3",
+      "CCR7",
+      "FSCN1",
+      "MARCKSL1",
+      "BIRC3"
+    ]
+  },
+  "vram_peak_gb": 22.33,
+  "skipped_studies": []
+}
