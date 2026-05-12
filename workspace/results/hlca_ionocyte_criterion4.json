@@ -1,0 +1,17 @@
+{
+  "dataset": "HLCA_full",
+  "criterion": "4 (canonical rare-type validation)",
+  "method": "harmony",
+  "n_obs_subset": 101803,
+  "n_batches": 482,
+  "n_ionocyte_annotated": 1803,
+  "n_ionocyte_in_subset": 1803,
+  "pi": 0.0177,
+  "t_total_s": 266.2,
+  "ionocyte_detection": {
+    "p_value": 0.004975124378109453,
+    "tau": 8.636833190917969,
+    "ci_low": 8.252085876464843,
+    "ci_high": 8.961458015441895
+  }
+}
