@@ -29,5 +29,8 @@
     "chunk_size_kNN": 2048,
     "k_neighbors": 30
   },
-  "vram_peak_gb": 3.47
+  "vram_peak_gb": 3.47,
+  "delta_sigma": 2.627,
+  "n_pi2_delta2_over_d": 20.682,
+  "detection_regime": "above-floor-flat"
 }
