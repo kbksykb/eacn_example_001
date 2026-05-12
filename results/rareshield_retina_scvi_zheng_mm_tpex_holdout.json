@@ -1,0 +1,42 @@
+{
+  "method": "scvi",
+  "holdout_name": "zheng_mm_tpex_holdout",
+  "lambda_mass": 2.0,
+  "include_overcorrection_motifs": true,
+  "n_rare_truth_motifs": 1,
+  "n_overcorrection_target_motifs": 3,
+  "ARI_vanilla": 0.2215168993462347,
+  "ARI_rareshield": 0.21364197192311277,
+  "delta_ARI": -0.00787492742312193,
+  "mean_OT_p_delta_rare_truth": 0.0,
+  "mean_OT_p_delta_overcorrection_candidate": 0.0,
+  "mean_lp_delta_rare_truth": 0.0017432999590071274,
+  "mean_lp_delta_overcorrection_candidate": -0.1621153246416827,
+  "fine_tune_seconds": 195.85939706099452,
+  "trace": [
+    {
+      "ep": 0,
+      "loss": 8.598668098449707,
+      "lr": 4.2993340492248535,
+      "anchor": 0.0
+    },
+    {
+      "ep": 25,
+      "loss": 8.514241218566895,
+      "lr": 4.2570366859436035,
+      "anchor": 0.0033638435415923595
+    },
+    {
+      "ep": 50,
+      "loss": 8.427390098571777,
+      "lr": 4.213352203369141,
+      "anchor": 0.013711074367165565
+    },
+    {
+      "ep": 75,
+      "loss": 8.337890625,
+      "lr": 4.168158054351807,
+      "anchor": 0.03149724379181862
+    }
+  ]
+}

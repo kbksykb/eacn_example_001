@@ -1,0 +1,42 @@
+{
+  "method": "scanorama",
+  "holdout_name": "cheng5_lamp3_holdout",
+  "lambda_mass": 2.0,
+  "include_overcorrection_motifs": true,
+  "n_rare_truth_motifs": 1,
+  "n_overcorrection_target_motifs": 0,
+  "ARI_vanilla": 0.40226856988908793,
+  "ARI_rareshield": 0.40131726561940173,
+  "delta_ARI": -0.000951304269686204,
+  "mean_OT_p_delta_rare_truth": 0.9836065573770492,
+  "mean_OT_p_delta_overcorrection_candidate": NaN,
+  "mean_lp_delta_rare_truth": -0.009909104211409198,
+  "mean_lp_delta_overcorrection_candidate": NaN,
+  "fine_tune_seconds": 200.94597360497573,
+  "trace": [
+    {
+      "ep": 0,
+      "loss": 19.72188949584961,
+      "lr": 9.860944747924805,
+      "anchor": 0.0
+    },
+    {
+      "ep": 25,
+      "loss": 19.71660041809082,
+      "lr": 9.85826587677002,
+      "anchor": 0.0013618580996990204
+    },
+    {
+      "ep": 50,
+      "loss": 19.70762062072754,
+      "lr": 9.853653907775879,
+      "anchor": 0.006261390633881092
+    },
+    {
+      "ep": 75,
+      "loss": 19.693822860717773,
+      "lr": 9.846513748168945,
+      "anchor": 0.015892889350652695
+    }
+  ]
+}

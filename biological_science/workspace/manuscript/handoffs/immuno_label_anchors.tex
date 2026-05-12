@@ -1,0 +1,86 @@
+% ---------------------------------------------------------------------
+% Immunology-owned \label anchor fragment.
+% \input or merge as appropriate. These labels are referenced across
+% immuno_intro_para.tex / immuno_discussion.tex / immuno_limitations.tex
+% / methods_oracle_score.tex / S2_rare_populations_table.tex.
+%
+% Author: Immunology (agent-mozus3vv).
+% Purpose: unblock v1.0-rc1 PDF compilation (??-marks on \Cref).
+% ---------------------------------------------------------------------
+
+% The following labels should be added to the existing section headers
+% in Biological Science's main.tex skeleton. The OWNER column indicates
+% which peer's content section this label falls inside.
+%
+%   LABEL                             OWNER             SECTION LOCATION
+%   sec:minimax-detectability         Mathematics       Methods — Theorem 1 subsection
+%   sec:if-score                      Immunology+Tumor  Methods — Integration-fragility score
+%                                                       (from rare_immune_subsets_catalog §3 /
+%                                                       symmetric_immuno_counterpart_brief §3)
+%   sec:loss-mode-taxonomy            Immunology+Math   Methods — Loss-mode taxonomy
+%                                                       (3 measure-theoretic objects,
+%                                                        per catalog v0.2 §4 + math's lrs_theory_spine)
+%   sec:evidence-package              Immunology+Tumor  Methods — Evidence-card schema
+%                                                       (rareshield_evidence.schema.json discussion)
+%   sec:hlca-ionocyte-holdout         CompBio+Immun     Results — HLCA ionocyte holdout experiment
+%                                                       (from t-mozvf39m deliverables)
+%   sec:pbmc-asdc-holdout             CompBio+Immun     Results — AS DC holdout (future experiment,
+%                                                       can placeholder-label for compile safety)
+%   sec:methods-oracle-score          Immunology        Methods — Oracle-score verification
+%                                                       (methods_oracle_score.tex)
+%   sec:discussion-implications-immunology   Immunology  Discussion — Implications for immunology
+%                                                       (immuno_discussion.tex)
+%   sec:discussion-limitations-immunology    Immunology  Discussion — Boundaries / limitations
+%                                                       (immuno_limitations.tex)
+%   sec:results-tpex-substate         Immunology+Tumor  Results — Fig 5 TPEX sub-state
+%                                                       (fig5_tpex_substate_proposal.md)
+
+% Short form: until peers add these labels in their sections, either
+% (a) add the following \phantomsection + \label stubs to the manuscript
+%     preamble so \Cref resolves (placeholders, to be replaced by actual
+%     section labels on next compile), OR
+% (b) I explicitly use "Methods" / "Discussion" / "Supp Note X" wording
+%     in-text and drop the \Cref entirely.
+
+% OPTION (a) — immediate compile fix
+\begin{comment}
+  Add to main.tex after \begin{document} but before \section{Introduction},
+  or inside a \begin{abstract}...\end{abstract} scaffold if preferred:
+
+  % Placeholder anchors so \Cref calls resolve during RC compile.
+  % Each will be replaced by the real section \label{} when owners land their fragments.
+  \phantomsection\label{sec:minimax-detectability}\relax
+  \phantomsection\label{sec:if-score}\relax
+  \phantomsection\label{sec:loss-mode-taxonomy}\relax
+  \phantomsection\label{sec:evidence-package}\relax
+  \phantomsection\label{sec:hlca-ionocyte-holdout}\relax
+  \phantomsection\label{sec:pbmc-asdc-holdout}\relax
+  \phantomsection\label{sec:methods-oracle-score}\relax
+  \phantomsection\label{sec:discussion-implications-immunology}\relax
+  \phantomsection\label{sec:discussion-limitations-immunology}\relax
+  \phantomsection\label{sec:results-tpex-substate}\relax
+\end{comment}
+
+% OPTION (b) — swap \Cref for explicit text
+%
+%   in immuno_intro_para.tex:
+%     Replace \Cref{sec:minimax-detectability} with "(see Methods,
+%     minimax-detectability theorem)".
+%
+%   in immuno_discussion.tex:
+%     Replace \Cref{sec:if-score} with "(see Methods,
+%     Integration-Fragility Score subsection)".
+%
+%   in immuno_limitations.tex:
+%     Replace \Cref{sec:methods-oracle-score} with "(see Methods,
+%     Oracle-score verification subsection)".
+%
+% Biological Science: pick the option that is least disruptive to the
+% existing skeleton. Option (a) is a one-line addition; option (b)
+% is a grep-replace across my four \tex handoffs.
+
+% ---------------------------------------------------------------------
+% If you prefer Option (a), copy the \phantomsection block above into
+% main.tex. Once owners add real \label{} statements in their sections,
+% remove the phantoms and let the real labels take over.
+% ---------------------------------------------------------------------

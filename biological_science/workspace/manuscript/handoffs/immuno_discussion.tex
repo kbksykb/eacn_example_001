@@ -1,0 +1,26 @@
+% ---------------------------------------------------------------------
+% Discussion paragraph — implications for immunology.
+% ~400 words. Contributed by Immunology agent (agent-mozus3vv) for
+% task t-mozv8ou4 / Biological Science's follow-up request.
+% Target: sections/08_discussion.tex, probably as a distinct
+% sub-section after the Protection subsection.
+% ---------------------------------------------------------------------
+
+\subsection{Implications for immunology and clinical translation}
+\label{sec:discussion-immunology}
+
+The operational claim of this work is that rare populations can now be detected and protected without prior annotation. The scientific claim, which follows immediately, is that the next generation of immune-cell discoveries can proceed without requiring that the discoverer already name the cell type they are trying to find. This inverts the dominant workflow of the last decade, in which integration is applied before clustering and annotation is applied after it, with the consequence that any population too small to survive the integration step is silently discarded. Under our framework, a rare cluster is protected before anyone knows what to call it, and the burden of its biological characterization moves --- appropriately --- after its statistical existence has been established.
+
+Three immediate consequences deserve emphasis. First, the pan-cancer immune atlases now accumulating \citep{kang2024integrated, cheng2021pancancer, zheng2021pancancer} will resolve rare subpopulations that previous atlas-scale efforts have quietly lost. Subsets recoverable under our framework at Kang-atlas scale include MAIT cells, $\gamma\delta$ T cell Vδ1-bias subsets, and TREM2$^+$ lipid-associated macrophages, where flat whole-atlas application of our detection framework passes the minimax bound of \Cref{sec:minimax-detectability}. Subsets whose whole-atlas prevalence falls below the flat detection floor --- including LAMP3$^+$ mregDC, HCMV-imprinted adaptive NK, AS-DC, and FOLR2$^+$ perivascular macrophages --- become recoverable through hierarchical application of our framework at the sub-compartment scale (for example, restriction to the dendritic-cell or macrophage lineage), where prevalence is $10$--$100\times$ higher (\Cref{sec:discussion-limitations-immunology}). A paired expectation is that previously-unnamed variants of established rare populations --- for instance, a CXCR5$^{\mathrm{dim}}$ variant of progenitor-exhausted CD8 at the stem-to-intermediate continuum boundary --- will become visible under hierarchical application and will require orthogonal characterization.
+
+Second, for populations that are immunological therapy targets in active clinical programmes --- CCR8$^+$TNFRSF9$^+$ effector regulatory T cells \citep{desimone2016ttregsig, vandamme2021depletion}, CD103$^+$CD39$^+$ tumor-reactive tissue-resident memory CD8 T cells \citep{duhen2018coexpression, caushi2021transcriptional}, TREM2$^+$ lipid-associated macrophages \citep{molgora2020trem2}, and LAMP3$^+$ mregDC \citep{maier2020conserved} --- preservation is no longer a methodological nicety but a prerequisite for biomarker discovery. The integration-fragility score (\Cref{sec:if-score}) places all four in the top quartile of vulnerability; a pan-cancer biomarker analysis built on naively-integrated data risks systematic dilution of exactly the signal the trial is designed to detect.
+
+Third, we note a boundary the framework does not cross. Populations lost before integration --- through library preparation bias (neutrophils and LOX-1$^+$ PMN-MDSC under standard droplet capture) or through demultiplexing (low-UMI cells with legitimate low-transcript states) --- remain invisible to a post-integration detector. We flag this as a pre-integration identifiability failure distinct from overcorrection, to be addressed by protocol choice and by modality-aware capture strategies. Within the integration step itself, however, previously-unannotated rare immune subpopulations now have a detection and protection pathway, and the immunological implications of that pathway extend across the standard clinical translation pipeline from biomarker identification to therapy-target selection.
+
+% ---------------------------------------------------------------------
+% Requires: kang2024integrated, cheng2021pancancer, zheng2021pancancer,
+% desimone2016ttregsig, vandamme2021depletion, duhen2018coexpression,
+% caushi2021transcriptional, molgora2020trem2, maier2020conserved.
+% All in workspace/handoffs/bib_additions_immunology.bib
+% (molgora2020trem2 will be added in v0.2 of the bib additions file).
+% ---------------------------------------------------------------------

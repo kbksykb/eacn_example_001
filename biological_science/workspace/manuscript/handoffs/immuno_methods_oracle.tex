@@ -1,0 +1,121 @@
+% ---------------------------------------------------------------------
+% Methods fragment — oracle-score verification protocol.
+% \input-ready for sections/09_methods.tex under a subsection like
+% "Oracle-score verification of rare-subpopulation preservation".
+% Author: Immunology (agent-mozus3vv). v0.1.
+% ---------------------------------------------------------------------
+
+\subsection{Oracle-score verification of rare-subpopulation preservation}
+\label{sec:methods-oracle-score}
+
+Verification of rare-subpopulation preservation after integration must
+be strictly out-of-band: the marker-gene panels that score a cell's
+identity post-integration cannot be allowed to influence the integration
+itself, or the positive control collapses into circularity. We enforce
+this by a separation of responsibility: the integration pipeline sees
+only batch labels and (for semi-supervised methods such as scANVI or
+Seurat-RPCA) a non-rare subset of the published cell-type annotation;
+it never receives the marker-gene panel or any derivative statistic.
+Marker-gene scoring occurs only after the integrated embedding has
+been written to disk.
+
+\paragraph*{Marker panels.}
+We compile canonical positive-core, positive-supportive, and exclusion
+marker sets for every candidate rare subpopulation (Supplementary
+Table~\ref{tab:S3-marker-panels}). Positive-core markers are genes
+expected to be expressed in essentially every cell of the target
+subpopulation (for example \emph{CLEC4C}, \emph{LILRA4}, \emph{IL3RA},
+\emph{TCF4}, \emph{IRF7} for plasmacytoid dendritic cells).
+Positive-supportive markers are expressed in a majority of cells but
+are not required (for example \emph{GZMB} in resting pDC, which
+separates pDC from naïve B cell contaminants).
+Exclusion markers identify the dominant false-positive neighbour
+population (for example \emph{MS4A1} for B cells; \emph{CD1C} for
+cDC2; \emph{CD3D} / \emph{CD3E} for T cells). Panels are constructed
+from the published atlas-annotation literature
+\citep{villani2017single, dominguez2022crosstissue, cheng2021pancancer}
+and validated against CyTOF and CITE-seq cohorts where available.
+
+\paragraph*{Oracle score.}
+For each cell $x$ and panel $p$ with positive-core set $P_c$,
+positive-supportive $P_s$, and exclusion $P_e$, we compute
+\begin{equation}
+  s_p(x) \;=\; \frac{1}{|P_c|} \sum_{g \in P_c} \hat{z}_g(x)
+  \;+\; \tfrac{1}{2}\, \frac{1}{|P_s|} \sum_{g \in P_s} \hat{z}_g(x)
+  \;-\; 2 \cdot \max_{g \in P_e} \hat{z}_g(x)
+  \label{eq:oracle-score}
+\end{equation}
+where $\hat{z}_g(x)$ is the per-cell z-score of gene $g$ on log-normalized
+counts (Seurat-standard \verb|pp.normalize_total| + \verb|pp.log1p| + \verb|pp.scale|).
+A cell is oracle-positive for panel $p$ if $s_p(x) \geq 1.0$ and $s_p(x)$
+exceeds the 95$^\mathrm{th}$ percentile across all cells in the dataset.
+Both conditions are required to admit a cell to the oracle-positive set;
+the upper-percentile condition prevents false positives on small datasets
+where the absolute score threshold alone can be met by a non-trivial
+fraction of cells.
+
+\paragraph*{Firewall between panels and integration.}
+We implement the firewall as a file-system boundary. Integration inputs
+reside at \verb|shared/data/| in AnnData~H5AD format; marker panels
+reside at \verb|shared/panels/| as JSON; the scoring code at
+\verb|shared/detections/oracle/| reads both and writes only to
+\verb|shared/integrations/*/scores/|. Integration code has read access
+to \verb|shared/data/| but not to \verb|shared/panels/|. Test: every
+integration run is executed with \verb|shared/panels/| unreadable
+(enforced via directory permissions in the containerised runtime) and
+the runs must succeed without the panels, confirming no implicit read
+dependency.
+
+\paragraph*{Preservation metrics.}
+Given oracle-positive cells $O_p$ for each panel $p$ and the integrated
+embedding $\phi(x)$, we compute (a) the fraction of $O_p$ whose Leiden
+cluster in the integrated embedding is dominated ($\geq 70\%$) by
+oracle-positive cells, (b) the per-cell $k$-nearest-neighbour purity of
+$O_p$ in $\phi$ with $k=15$, and (c) the adjusted Rand index between
+oracle-positive assignment and the integrated-embedding Leiden
+partition restricted to $O_p \cup \mathrm{neighbour}(O_p)$. The three
+metrics are reported jointly, with (a) as the primary measure for the
+in-text claim and (b), (c) as supporting diagnostics in the supplement.
+
+\paragraph*{Permutation null.}
+For each panel $p$ we generate a size-matched random cell set $O_p'$
+by sampling cells uniformly from the dataset, and compute the same
+three metrics. Repeated $B = 1000$ times, these metrics define a
+null distribution; an observed metric on $O_p$ that does not exceed
+the 95$^\mathrm{th}$ percentile of the null is not reported as a
+preservation success regardless of its absolute magnitude.
+
+\paragraph*{Hierarchical (telescoping) application for below-whole-atlas populations.}
+For rare populations whose whole-atlas prevalence lies below the
+Le~Cam detection floor of \Cref{sec:minimax-detectability}, we apply
+REAL-based oracle verification hierarchically. A population's effective
+prevalence in a restricted sub-compartment (for example, pulmonary
+ionocytes within the airway-epithelial subset of HLCA, or
+CXCR5$^+$TCF7$^+$ TPEX within the exhausted-CD8 subset of Kang~2024)
+is higher by the compartment-restriction factor
+$n_{\text{whole}}/n_{\text{sub}}$, typically $10$--$100\times$.
+Mathematics Supplementary Proposition~S1.6 (\emph{sub-compartment
+detectability amplification}) formalises the condition under which
+the restricted analysis admits detection. Our protocol applies
+oracle verification at three nested scales: (i) the whole atlas,
+(ii) a lineage-restricted subset (for example, all CD8 T cells,
+or all epithelial cells), and (iii) a sub-lineage subset where
+applicable (for example, TPEX within exhausted CD8). The primary
+preservation metric for a population is reported at the scale at
+which the $\pi\cdot\Delta^2$ product first exceeds the
+$1.5\times10^{-4}$ detection floor, with sub-compartment analysis
+cited explicitly. This telescoping protocol rescues populations
+that are rare in the whole atlas but concentrated in a specific
+lineage; it is required for ionocyte detection in the full HLCA
+and for TPEX-sub-state detection in pooled pan-cancer melanoma
+datasets.
+
+% ---------------------------------------------------------------------
+% Cross-references needed:
+%   tab:S3-marker-panels (Supp Note S3, immuno_S3_markers.tex)
+%   sec:evidence-package (evidence card schema discussion)
+%   sec:loss-mode-taxonomy (Math's three objects)
+% Bib entries needed:
+%   villani2017single, dominguez2022crosstissue, cheng2021pancancer
+%   (all in immuno_bib.bib)
+% ---------------------------------------------------------------------

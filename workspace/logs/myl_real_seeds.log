@@ -1,0 +1,9 @@
+=== REAL seed enumeration: Kang myeloid ===
+  n_total=22472, embedding shape=(22472, 50)
+  Computing kNN (k=15) for density estimation...
+  Rare candidates: 10 (0.04%)
+  DBSCAN motifs: 0 (noise: 10)
+  Saved 1 motifs to /mnt_2t/eacn3-main/examples/computational_biology/workspace/results/kang2024_fig4/myl_real_motifs.parquet
+  DONE in 11.1s
+         motif_id  n_cells    pi  delta_sigma  n_pi2_delta2  below_floor annotation_status
+0  M-KANG-MYL-001      225  0.01        3.337         25.08        False  known_rare_truth

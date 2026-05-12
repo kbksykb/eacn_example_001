@@ -1,0 +1,66 @@
+% ---------------------------------------------------------------------
+% Supplementary Table S3 — Full marker panels for rare immune and boundary subpopulations.
+% Format: \input{...}-ready LaTeX longtable (booktabs + longtable).
+% Author: Immunology (agent-mozus3vv), co-author: Tumor Biology (agent-mozurh1r).
+% Task: t-mozv8ou4 follow-up per Biological Science's request.
+% ---------------------------------------------------------------------
+
+\begin{longtable}{@{}l l p{42mm} p{38mm} p{34mm} l@{}}
+\caption{Full marker panels for rare subpopulations tabulated in Supplementary
+Table~S2. Positive-core markers are required for oracle scoring; positive-supportive
+markers upweight the score (0.5$\times$); exclusion markers subtract (2$\times$ max-z)
+to prevent false-positive calls from admixture or doublet contamination. Oracle
+score is never fed into integration --- it is used only as ex-post verification of
+preservation. Clinical weight tiers: 0.4 = mechanistic, 0.7 = biomarker, 1.0 =
+therapy target, 1.2 = active Phase 1/2 programme.}
+\label{tab:S3-marker-panels}\\
+\toprule
+Pop ID & Subset & Positive core & Positive supportive & Exclusion & Clin. wt. \\
+\midrule
+\endfirsthead
+\multicolumn{6}{c}{\tablename\ \thetable\ continued} \\
+\toprule
+Pop ID & Subset & Positive core & Positive supportive & Exclusion & Clin. wt. \\
+\midrule
+\endhead
+\midrule
+\multicolumn{6}{r}{continued on next page} \\
+\endfoot
+\bottomrule
+\endlastfoot
+IM-T-001 & TPEX CXCR5+TCF7+                    & TCF7, CXCR5, IL7R                          & SLAMF6, BACH2, ID3, BCL6, PDCD1-mid            & TOX-hi, ENTPD1, HAVCR2                        & 1.0 \\
+IM-T-002 & TRM-TR CD103+CD39+                  & CD69, ITGAE, ENTPD1                        & PDCD1-mid, CXCR6, RUNX3, LAYN, ZFP36L2         & SELL, TCF7-hi, LEF1, KLF2-hi                  & 1.0 \\
+IM-T-003 & eTreg CCR8+TNFRSF9+                 & FOXP3, IL2RA, CTLA4, CCR8, TNFRSF9         & TNFRSF4, IL1R2, LAYN, MAGEH1, BATF             & IL7R-hi, SELL-hi, TCF7-hi, CD8A, CD8B          & 1.2 \\
+IM-T-004 & Tfh / Tfr (TLS)                     & CXCR5, BCL6, PDCD1-hi, ICOS                & IL21, SH2D1A, CD200, BTLA, TOX2                & SELL-hi, TCF7-hi, LEF1-hi (FOXP3 for Tfh only) & 0.7 \\
+IM-T-005 & MAIT (tissue)                       & KLRB1-hi, SLC4A10, ZBTB16, NCR3            & IL23R, DPP4, RORA, CXCR6, RORC-mid             & TRAC (cluster-wise negative)                   & 0.7 \\
+IM-T-006 & $\gamma\delta$ T V$\delta$1 tumor   & TRDC, TRGC1, TRGC2, TRDV1                  & KLRC1, NCR3, CD7, PRF1, GZMA                   & TRAC-dominant, CD4, CD8B-dominant              & 0.7 \\
+IM-M-001 & AS DC / DC5 (AXL+SIGLEC6+)          & AXL, SIGLEC6                               & PPP1R14A, CD22, CD5, SIGLEC1, ITGAX-mid, IRF4  & CLEC4C, MS4A1, CD3D, CD14                     & 0.4 \\
+IM-M-002 & pDC                                 & CLEC4C, LILRA4, IL3RA, TCF4, IRF7          & GZMB, LILRB4, JCHAIN, PTCRA, MZB1, PLD4        & CD1C, CLEC9A, XCR1, MS4A1, CD3D/E, NKG7        & 0.7 \\
+IM-M-003 & LAMP3+ mregDC                       & LAMP3, CCR7, BIRC3                         & FSCN1, CCL19, IDO1, EBI3                       & CLEC9A, XCR1, CLEC4C, CD14                    & 0.7 \\
+IM-M-004 & Langerhans (CD207+)                 & CD207, CD1A                                & CD1C, EPCAM, RUNX3                             & CLEC9A, XCR1, CLEC4C                          & 0.4 \\
+IM-M-005 & TREM2+ LAM (immune-side)            & TREM2, APOE, APOC1                         & GPNMB, CD9, SPP1-mid                           & CD3D, CD19, KIT                                & 1.0 \\
+IM-M-006 & FOLR2+ perivascular                 & FOLR2, LYVE1                               & MAF, MRC1, SELENOP                             & IL1B, CXCL1-hi                                 & 1.0 \\
+IM-M-007 & SPP1+ TAM                           & SPP1, MARCO                                & MMP9, GPNMB, TREM2-mid                         & CD3D, CD19                                     & 0.7 \\
+IM-M-008 & ISG-M$\varphi$                      & IFIT1, IFIT3, ISG15, OAS1                  & IFI6, MX1, RSAD2, IL1B                         & FOLR2, TREM2-hi                                & 0.4 \\
+IM-B-001 & ABC (T-bet+CD11c+)                  & TBX21, ITGAX, FCRL5                        & ZEB2, FGR, FCRL3, TNFRSF13B                    & IGHD-hi, (CD27-hi with CD38-hi)               & 0.7 \\
+IM-B-002 & TLS memory B / plasma               & MS4A1, CD27, TNFRSF13B, XBP1, MZB1         & IGHA1, IGHG1, IGHG3                            & FCRL5-hi, TBX21                                & 0.7 \\
+IM-N-001 & KIR+ adaptive NK                    & KLRC2, BCL11B, IFI44L                      & ITGAL, ZNF683                                  & FCER1G-hi, SYK-hi, CD3E                        & 0.4 \\
+IM-I-001 & ILC1 (tumor)                        & TBX21, IFNG                                & KLRC1, XCL1, NCR1-low                          & NCAM1, CD3D, CD3E                              & 0.4 \\
+IM-I-002 & ILC2                                & GATA3, PTGDR2, IL1RL1                      & RORA, HPGDS, KLRB1                             & TBX21, RORC, CD3D, CD3E                       & 0.4 \\
+IM-I-003 & ILC3 NKp44+                         & RORC, NCR2, AHR, IL22                      & IL23R, KLRB1                                   & TBX21, CD3D, CD3E                              & 0.4 \\
+IM-G-001 & Mast cells (tumor)                  & TPSAB1, TPSB2, CPA3, KIT, HDC              & CMA1, MS4A2, FCER1A                            & CD3D, CD19, CD14-hi, CD68-hi                  & 0.4 \\
+IM-G-002 & LOX-1+ PMN-MDSC                     & OLR1, ARG1, CD84                           & CXCR4-hi, CEBPB, MMP9                          & CD14-hi, CD68-hi                               & 0.7 \\
+IM-H-001 & CD34+ HSPC contaminant              & CD34, KIT-mid, SPINK2                      & AVP, MEIS1, HOPX, PROM1                        & MPO-hi, GATA1, CD3D, CD19, CD14               & 0.4 \\
+EP-E-001 & Pulmonary ionocytes (anchor)        & FOXI1, ASCL3, CFTR, ATP6V1G3               & BSND, CLCNKB, STAP1                            & SFTPC, SCGB1A1, KRT5, TP63                    & 0.4 \\
+EP-E-002 & Pancreatic epsilon (anchor)         & GHRL                                       & ACSL1, ASGR1, BHLHE41, FRZB                    & INS, GCG, SST, PPY                             & 0.4 \\
+\midrule
+\multicolumn{6}{@{}l}{\emph{Tumor-side and boundary populations (co-owned with Tumor Biology, from joint registry SN2 populations.tsv):}} \\
+CA-S-001 & apCAF (boundary, HLA-DR+ stromal)   & HLA-DRA, HLA-DRB1, CD74, SAA3, SLPI        & CLU, COL14A1                                   & PTPRC, CD3D                                    & 1.0 \\
+CA-S-002 & myCAF                               & ACTA2, TAGLN, MYH11, POSTN, MMP11          & COL1A1, COL3A1                                 & HLA-DRA, PTPRC                                 & 0.7 \\
+CA-S-003 & iCAF                                & IL6, CXCL12, HAS1, HAS2, PDGFRA            & CXCL1, CXCL2, LIF                              & ACTA2, TAGLN                                   & 0.7 \\
+CA-M-001 & TREM2+ LAM (tumor-side)             & TREM2, APOE, CD9, GPNMB, LGALS3, LPL, FABP5 & SPP1, C1QB, CTSD                              & CD3D, CD19, MS4A1                              & 1.2 \\
+CA-M-002 & FOLR2+ perivascular (tumor-side)    & FOLR2, LYVE1, MRC1, SEPP1, CCL18, F13A1    & SEPP1, MERTK                                    & CLEC10A, CD1C                                  & 0.7 \\
+CA-V-001 & Tip EC                              & ESM1, DLL4, APLN, PDGFB, NID2, ANGPT2      & CXCR4, UNC5B                                   & VWF-high, SELP                                 & 0.7 \\
+TU-T-001 & DTP (drug-tolerant persister)       & NR2F1, TXNIP, NGFR, AXL                    & PROM1, SOX2, JUN, FOS, ATF3                    & MKI67, TOP2A, PCNA                             & 1.2 \\
+TU-T-002 & EMT-hybrid                          & VIM, SNAI2, ZEB1, ZEB2, S100A4             & CDH2, FAP-low                                  & CDH1-high                                      & 1.0 \\
+\end{longtable}

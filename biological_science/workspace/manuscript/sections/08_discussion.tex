@@ -1,0 +1,41 @@
+\section{Discussion}
+
+\input{handoffs/philo_sec08_replacement.tex}
+
+\paragraph{Scope of detection.} REAL is formally a general overcorrection detector (Theorem~\ref{thm:S1-overcorrection}); the rare-subpopulation case, where a motif's entire mass is threatened ($\kappa = 1$) at small $\pi$, is the most biologically consequential special case, but the framework applies equally to abundant-motif smearing under aggressive integration settings.  The real-data pancreas and retina results in \S\ref{sec:insilico} exhibit both modes.
+
+\paragraph{Theorem 1's minimax bound binds in practice.}  The two real-data anchors in \S\ref{sec:insilico} --- pancreas epsilon (above the floor: $n\pi^2\Delta^2/(\sigma^2 d)\gg 9$, $\mathrm{LossRate}@10 = 0.88/0.98/1.00$ for Harmony / Scanorama / scVI) and Shekhar retina BC8\_9 (below the floor: $n\pi^2\Delta^2/(\sigma^2 d) \approx 2.4$, $\mathrm{LossRate}@10 = 0.17/0.43/0.44$) --- together demonstrate that Theorem~\ref{thm:minimax} is not a mathematical curiosity but an operational compass.  Above the floor, aggressive integration crushes reproducible rare motifs and REAL detects the loss; below the floor, integrators preserve the motifs and REAL correctly abstains.  The envelope-binding behaviour is observed on real single-cell data, not only in simulation.
+
+\subsection{Protection without labels}
+
+The dominant alternative to RareShield for protecting rare structure is semi-supervised integration, which depends on annotation quality; a 2025 benchmark \citep{SemiSupBenchmark2025} shows semi-supervised methods deteriorate rapidly below baseline unsupervised performance when labels contain structural defects.  RareShield sidesteps that failure mode by anchoring to reproducibility, not labels.  The three immunology-anchored results (MAIT across tissue, eTreg dilution, pDC in severe COVID) demonstrate that RareShield handles the three canonical failure modes immunology worries about: continuum topology, tissue sensitivity, and prevalence-informative signals.
+
+\input{handoffs/immuno_discussion.tex}
+
+\input{handoffs/ml_discussion_fragment.tex}
+
+\subsection{Clinical implications for precision oncology}
+
+(Tumor Biology fragment already spliced in \Cref{sec:kang} via \texttt{handoffs/tumor\_bio\_fig4\_disc.tex}; its Discussion subsection lives there.)
+
+\subsection{Towards scIB-U}
+
+We argue for extending the scIB family with a label-free axis, scIB-U (scIB for \emph{Unknown}), that ranks integrators on $(\mathrm{ARI}, \mathrm{NMI}, \mathrm{ASW}, \mathrm{LRS})$ rather than the three label-dependent metrics alone.  REAL is released as a reference implementation; the positive-control label-masked splits and the synthetic-masking generator are released in the companion GitHub branches.  Adoption in future benchmarks is the community call, not ours.
+
+\input{handoffs/philo_discussion_meno.tex}
+
+\input{handoffs/philo_limitations.tex}
+
+\input{handoffs/philo_below_floor_head.tex}
+
+\input{handoffs/immuno_limitations.tex}
+
+\input{handoffs/immuno_below_floor_close.tex}
+
+\input{handoffs/philo_discussion_bookend.tex}
+
+\paragraph{Why simulated-only validation would be insufficient.}  Validating REAL on simulated rare populations alone would be circular in the sense named in the broader problem analysis: one knows the injected population exists \emph{because one built it}, so simulated experiments can demonstrate detector sensitivity but cannot, by themselves, demonstrate generalisation to populations one has not seen.  We therefore pair synthetic factorial sweeps (sensitivity regime) with real-data anchors (specificity regime on Shekhar retina; above-floor erasure regime on pooled pancreas), and we ground each real-data result in the sample-complexity envelope of Theorem~\ref{thm:minimax}.  The combination is what licenses the bound-valued transfer (Lemma~\ref{lem:exchangeability}) to unannotated populations.
+
+\subsection{Future work}
+
+The obvious next wave of work is a systematic re-audit that is motivated by this framework of published atlas-scale results under scIB-U, and extension of RareShield to spatial and multi-omic settings.  We release REAL and RareShield in the hope that the community will take that step.

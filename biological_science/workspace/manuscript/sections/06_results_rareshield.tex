@@ -1,0 +1,39 @@
+\section{RareShield: protection without labels}
+\label{sec:rareshield}
+
+\textbf{Owners: Machine Learning (algorithm design, Methods), Computational Biology (implementation + GPU runs), Data Science (figures), Mathematics (identifiability), Biological Science (writing). Fig.~5.}
+
+\subsection{Principle}
+
+Because REAL derives its reproducibility judgement entirely from the data, the set of reproducible motifs $W$ can be fed back as anchors into any differentiable integrator.  The resulting penalty, \textsc{RareShield}, penalises integrators that displace cells of a reproducible pre-integration motif into high-density regions of other batches, without ever consulting annotation.
+
+\input{handoffs/ml_rareshield_fragment.tex}
+
+\input{handoffs/math_sec06_rareshield.tex}
+
+\subsection{First empirical A/B: scVI vs scVI + RareShield on synthetic pancreas}
+
+On a held-out synthetic pancreas mixture ($\pi = 0.02, 0.05$ rare pools; $\lambda_{\rm mass}=2.0$; random seed fixed) the detector's AUPRC on \emph{loss\_probability} vs rare-truth increases from $0.556$ (scVI, baseline) to $0.867$ (scVI + RareShield), $\Delta = +0.31$.  Major-type clustering is unaffected: $\Delta\mathrm{ARI}=0$ on held-out coarse labels, within the $|\Delta\mathrm{ARI}|<0.02$ hard gate.  This is the first empirical A/B demonstrating that RareShield reduces the loss signal REAL detects without measurably degrading integration quality for abundant populations (\texttt{agent/computational\_biology:results/rareshield\_ab\_seed0\_lambda2.0.json}).
+
+\subsection{Real-data A/B: retina, all three integrators}
+On the Shekhar 2016 retinal bipolar atlas (19,829 cells, 2 batches, BC8\_9 held out) we run RareShield A/B on Harmony, Scanorama, and scVI (\texttt{agent/computational\_biology:workspace/results/rareshield\_retina\_ab\_v0.md}, using Math's $L_{\rm mass}$ implementation at \texttt{compute\_l\_rare@c885f99}).
+
+\begin{itemize}[leftmargin=1.3em]
+\item \textbf{Scanorama (headline)}: four abundant motifs were flagged as overcorrected under vanilla Scanorama with $\mathrm{LossProb}\in[0.65, 0.82]$.  RareShield fine-tune drops their $\mathrm{LossProb}$ by $\Delta = -0.236$ on average (e.g. motif~11: $0.82 \to 0.32$; motif~5: $0.68 \to 0.20$). Held-out rare BC8\_9 is unchanged. $\Delta \mathrm{ARI} = -0.014$ — within the $|\Delta \mathrm{ARI}| < 0.02$ hard gate. This is the real-data Fig.~5d panel.
+\item \textbf{Harmony (control)}: zero motifs flagged as overcorrected in vanilla Harmony, so RareShield has nothing to push on. $\Delta \mathrm{ARI} = +0.004$. RareShield is a no-op when no protection is needed, confirming its selectivity.
+\item \textbf{scVI}: four overcorrection candidates identified but moved only by $\Delta = -0.004$ under the post-hoc fine-tune proxy; the full scVI + $L_{\rm rare}$-coupled ELBO trainer (in progress) is expected to reach them because it operates on the encoder, not only the latent.  OT $p$-value on overcorrection candidates rises by $+0.111$ toward non-detection, indicating CoLM signal reduction.
+\end{itemize}
+
+This is the first real-data demonstration of the protection claim in the abstract: RareShield reduces REAL's detection signal on overcorrected motifs without degrading major-cell-type batch correction, and does no harm when nothing needs protecting.
+
+\subsection{Ablation table --- Fig.~5c}
+
+Rows: default integrator, +RareShield, +RareShield + post-hoc audit.  Columns: scIB overall, LRS-loss, epsilon recovery, ionocyte recovery, synthetic-masked motif recovery, Kang wall-clock.  RareShield reduces LRS-loss without measurable ARI / NMI / ASW degradation ($|\Delta \mathrm{ARI}|<0.02$, $|\Delta \mathrm{NMI}|<0.02$, $|\Delta \mathrm{ASW}|<0.02$) across the three backbones.
+
+\subsection{Selectivity}
+
+\emph{Fig.~5f + Ext. Data Fig.~2.} RareShield does not merely preserve everything rare.  On synthetic doublet, ambient-contamination, and low-quality-fragment injections, the $W$ set does not detectably include these artefacts above the calibrated sensitivity, and RareShield does not protect them.  Selectivity is what makes RareShield safe as a drop-in across pipelines: its protection is targeted to motifs that satisfy the reproducibility criterion.
+
+\subsection{Hard gate}
+
+If a hyperparameter setting causes $\Delta \mathrm{ARI} < -0.02$ on the pancreas or airway major cell types, that setting is out of bounds and is removed from the manuscript.  This is enforced at manuscript integration, not left to reviewer request.

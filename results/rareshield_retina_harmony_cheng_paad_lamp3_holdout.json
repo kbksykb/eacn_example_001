@@ -1,0 +1,42 @@
+{
+  "method": "harmony",
+  "holdout_name": "cheng_paad_lamp3_holdout",
+  "lambda_mass": 2.0,
+  "include_overcorrection_motifs": true,
+  "n_rare_truth_motifs": 1,
+  "n_overcorrection_target_motifs": 1,
+  "ARI_vanilla": 0.5150736946750706,
+  "ARI_rareshield": 0.5136397102932106,
+  "delta_ARI": -0.0014339843818599318,
+  "mean_OT_p_delta_rare_truth": 0.0,
+  "mean_OT_p_delta_overcorrection_candidate": 0.0,
+  "mean_lp_delta_rare_truth": 0.0016835567921880124,
+  "mean_lp_delta_overcorrection_candidate": 0.004865582614908104,
+  "fine_tune_seconds": 128.66975646000355,
+  "trace": [
+    {
+      "ep": 0,
+      "loss": 0.36819273233413696,
+      "lr": 0.18409636616706848,
+      "anchor": 0.0
+    },
+    {
+      "ep": 25,
+      "loss": 0.3442394435405731,
+      "lr": 0.1720966100692749,
+      "anchor": 0.0009245320688933134
+    },
+    {
+      "ep": 50,
+      "loss": 0.3213733434677124,
+      "lr": 0.16059944033622742,
+      "anchor": 0.003489546477794647
+    },
+    {
+      "ep": 75,
+      "loss": 0.2996518015861511,
+      "lr": 0.14963990449905396,
+      "anchor": 0.007439658977091312
+    }
+  ]
+}

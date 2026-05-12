@@ -1,0 +1,4 @@
+method,LossRate@1,LossRate@3,n_candidates,n_rare_truth_candidates,max_loss_prob_on_rare_truth,max_loss_prob_on_non_rare_truth
+harmony,1.0,1.0,7,3,0.9917996743282552,0.9989498642671631
+scanorama,1.0,1.0,7,3,0.9999933666882365,0.9995151863139993
+scvi,1.0,1.0,7,3,0.9999933666882365,0.9999933666882365

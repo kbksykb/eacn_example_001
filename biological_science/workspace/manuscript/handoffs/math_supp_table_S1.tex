@@ -1,0 +1,42 @@
+% Mathematics agent — Supplementary Table S1: predicted detectability per population
+% Canonical registry_v1 pop_ids. Generated from
+%   workspace/handoffs/predicted_detectability_registry_v1.md
+% Drop into biological_science/workspace/manuscript/supplement/S1_math.tex before \section{...}.
+% Author: Mathematics Agent (agent-mozusggu), 2026-05-10.
+
+\begin{table}[h]
+\centering
+\caption{Predicted detectability per rare-subpopulation target at Kang 2024 pan-cancer atlas scale ($n = 4.9\times 10^{6}$ cells, $B=30$, $\Lambda=3$, $\alpha=\beta=0.05$). $\pi$ is the motif mass at whole-atlas scale; $\Delta$ is the transcriptomic separation (in $\sigma$) from the nearest abundant neighbour. \texttt{TPR\textsubscript{flat}} is the predicted power of flat whole-atlas REAL; \texttt{TPR\textsubscript{hier}} is the predicted power of hierarchical REAL run within the natural compartment. \texttt{recovered\_at} is the compartment depth at which the population is first detectable: \texttt{flat\_whole}, \texttt{hierarchical\_sub}, or \texttt{unresolved}. Population IDs are from Immunology's \texttt{registry\_v1} (IM-*, EP-*) and Tumor Biology's registry (CA-*, TU-*).}
+\label{tab:S1-detectability-per-pop}
+\small
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{lllrrrrll}
+\toprule
+\textbf{pop\_id} & \textbf{name} & \textbf{$\pi$} & \textbf{$\Delta/\sigma$} & \textbf{TPR\textsubscript{flat}} & \textbf{TPR\textsubscript{hier}} & \textbf{compartment} & \textbf{recovered\_at} \\
+\midrule
+IM-M-001 & AS\_DC\_DC5              & 5e-4 & 1.3 & 0.18 & 1.00 & myeloid          & hierarchical\_sub \\
+IM-T-002 & TRM\_CD103\_CD39         & 3e-3 & 0.5 & 0.58 & 0.99 & CD8\textsuperscript{+} T & hierarchical\_sub \\
+IM-T-003 & eTreg\_CCR8\_TNFRSF9     & 2e-3 & 0.3 & 0.23 & 0.95 & Treg             & hierarchical\_sub \\
+IM-T-001 & TPEX\_CXCR5\_TCF7        & 1e-3 & 0.3 & 0.09 & 1.00 & exhausted CD8    & hierarchical\_sub \\
+IM-M-002 & pDC                      & 5e-4 & 1.0 & 0.13 & 1.00 & myeloid          & hierarchical\_sub \\
+IM-N-001 & KIR\_adaptive\_NK        & 5e-4 & 0.8 & 0.09 & 0.95 & NK               & hierarchical\_sub \\
+IM-M-003 & LAMP3\_mregDC            & 2e-4 & 1.2 & 0.09 & 0.95 & myeloid          & hierarchical\_sub \\
+IM-M-006 & FOLR2\_perivascular\_M$\phi$ & 1e-3 & 0.8 & 0.29 & 1.00 & myeloid     & hierarchical\_sub \\
+IM-G-001 & Mast\_cells\_tumor       & 3e-3 & 1.5 & 0.99 & —    & —                & OOS (mode 4) \\
+IM-T-006 & $\gamma\delta$T V$\delta$1    & 5e-3 & 0.5 & 0.80 & 1.00 & T compartment & flat\_whole \\
+IM-T-005 & MAIT\_tissue             & 1e-2 & 0.6 & 1.00 & —    & —                & flat\_whole \\
+IM-B-002 & TLS\_memory\_B\_plasma   & 5e-3 & 0.8 & 0.97 & —    & —                & flat\_whole \\
+IM-M-005 & TREM2\_LAM immune        & 2e-2 & 0.9 & 1.00 & —    & —                & flat\_whole \\
+CA-S-001 & apCAF                    & 1e-3 & 1.0 & 0.39 & 1.00 & stromal/CAF      & hierarchical\_sub \\
+CA-S-002 & myCAF                    & 1e-2 & 1.0 & 1.00 & —    & —                & flat\_whole \\
+CA-S-003 & iCAF                     & 1e-2 & 0.7 & 0.96 & —    & —                & flat\_whole \\
+CA-M-001 & TREM2\_LAM tumor         & 2e-2 & 0.9 & 1.00 & —    & —                & flat\_whole \\
+CA-V-001 & Tip\_EC                  & 1e-4 & 1.5 & 0.08 & 0.55 & endothelial      & hierarchical\_sub (partial) \\
+TU-T-001 & DTP (baseline)           & 5e-4 & 0.4 & 0.08 & —    & —                & unresolved \\
+TU-T-001 & DTP (treatment-expanded) & 5e-3 & 0.4 & 0.68 & 0.99 & tumor            & hierarchical\_sub \\
+TU-T-002 & EMT\_hybrid              & 5e-2 & 0.5 & 1.00 & —    & —                & flat\_whole \\
+EP-E-002 & Epsilon\_pancreatic      & 2e-3 & 1.0 & 0.67 & 1.00 & endocrine        & hierarchical\_sub \\
+EP-E-001 & Ionocyte\_pulmonary      & 5e-4 & 0.8 & 0.09 & 0.70 & airway epithelial & hierarchical\_sub \\
+\bottomrule
+\end{tabular}
+\end{table}
