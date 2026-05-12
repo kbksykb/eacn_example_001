@@ -1,0 +1,259 @@
+{
+  "compartment": "tnk",
+  "dataset": "kang2024",
+  "n_obs": 15689,
+  "n_batches": 953,
+  "t_total_s": 156.8,
+  "tpex": {
+    "n_candidate": 314,
+    "p_value": 0.004975124378109453,
+    "tau": 84.6051254272461,
+    "ci_low": 81.34794368743897,
+    "ci_high": 89.35410900115967,
+    "markers_found": [
+      "TOX",
+      "PDCD1",
+      "HAVCR2",
+      "CXCR5",
+      "ENTPD1"
+    ],
+    "pi": 0.02
+  },
+  "cancer_breakdown": {
+    "ALL": {
+      "n_cells": 80,
+      "n_tpex": 0,
+      "frac": 0.0
+    },
+    "BLCA": {
+      "n_cells": 61,
+      "n_tpex": 0,
+      "frac": 0.0
+    },
+    "BRCA": {
+      "n_cells": 1545,
+      "n_tpex": 23,
+      "frac": 0.0149
+    },
+    "Bile Duct Normal": {
+      "n_cells": 37,
+      "n_tpex": 0,
+      "frac": 0.0
+    },
+    "Bladder Normal": {
+      "n_cells": 16,
+      "n_tpex": 0,
+      "frac": 0.0
+    },
+    "Brain Normal": {
+      "n_cells": 6,
+      "n_tpex": 0,
+      "frac": 0.0
+    },
+    "Breast Normal": {
+      "n_cells": 33,
+      "n_tpex": 0,
+      "frac": 0.0
+    },
+    "CHOL": {
+      "n_cells": 409,
+      "n_tpex": 0,
+      "frac": 0.0
+    },
+    "CRC": {
+      "n_cells": 1244,
+      "n_tpex": 17,
+      "frac": 0.0137
+    },
+    "Colon Normal": {
+      "n_cells": 884,
+      "n_tpex": 4,
+      "frac": 0.0045
+    },
+    "Fallopian Tube Normal": {
+      "n_cells": 178,
+      "n_tpex": 0,
+      "frac": 0.0
+    },
+    "GBM": {
+      "n_cells": 216,
+      "n_tpex": 0,
+      "frac": 0.0
+    },
+    "HCC": {
+      "n_cells": 800,
+      "n_tpex": 0,
+      "frac": 0.0
+    },
+    "HNSC": {
+      "n_cells": 1413,
+      "n_tpex": 77,
+      "frac": 0.0545
+    },
+    "Head and Neck Normal": {
+      "n_cells": 117,
+      "n_tpex": 8,
+      "frac": 0.0684
+    },
+    "Kidney Normal": {
+      "n_cells": 746,
+      "n_tpex": 0,
+      "frac": 0.0
+    },
+    "LC": {
+      "n_cells": 1362,
+      "n_tpex": 44,
+      "frac": 0.0323
+    },
+    "LGG": {
+      "n_cells": 10,
+      "n_tpex": 0,
+      "frac": 0.0
+    },
+    "Liver Normal": {
+      "n_cells": 238,
+      "n_tpex": 0,
+      "frac": 0.0
+    },
+    "Lung Normal": {
+      "n_cells": 726,
+      "n_tpex": 17,
+      "frac": 0.0234
+    },
+    "Lymph Node Normal": {
+      "n_cells": 113,
+      "n_tpex": 0,
+      "frac": 0.0
+    },
+    "MEL": {
+      "n_cells": 79,
+      "n_tpex": 7,
+      "frac": 0.0886
+    },
+    "MM": {
+      "n_cells": 88,
+      "n_tpex": 0,
+      "frac": 0.0
+    },
+    "NB": {
+      "n_cells": 121,
+      "n_tpex": 0,
+      "frac": 0.0
+    },
+    "NET": {
+      "n_cells": 30,
+      "n_tpex": 0,
+      "frac": 0.0
+    },
+    "NHL": {
+      "n_cells": 413,
+      "n_tpex": 21,
+      "frac": 0.0508
+    },
+    "Neuroendocrine Normal": {
+      "n_cells": 16,
+      "n_tpex": 0,
+      "frac": 0.0
+    },
+    "OV": {
+      "n_cells": 671,
+      "n_tpex": 11,
+      "frac": 0.0164
+    },
+    "Ovary Normal": {
+      "n_cells": 157,
+      "n_tpex": 0,
+      "frac": 0.0
+    },
+    "PAAD": {
+      "n_cells": 592,
+      "n_tpex": 0,
+      "frac": 0.0
+    },
+    "PRAD": {
+      "n_cells": 319,
+      "n_tpex": 0,
+      "frac": 0.0
+    },
+    "Pancreas Normal": {
+      "n_cells": 39,
+      "n_tpex": 0,
+      "frac": 0.0
+    },
+    "Prostate Normal": {
+      "n_cells": 36,
+      "n_tpex": 0,
+      "frac": 0.0
+    },
+    "RCC": {
+      "n_cells": 771,
+      "n_tpex": 25,
+      "frac": 0.0324
+    },
+    "SARC-OST": {
+      "n_cells": 168,
+      "n_tpex": 7,
+      "frac": 0.0417
+    },
+    "SARC-RHAB": {
+      "n_cells": 8,
+      "n_tpex": 0,
+      "frac": 0.0
+    },
+    "SARC-SYN": {
+      "n_cells": 30,
+      "n_tpex": 0,
+      "frac": 0.0
+    },
+    "SSCC": {
+      "n_cells": 140,
+      "n_tpex": 13,
+      "frac": 0.0929
+    },
+    "STAD": {
+      "n_cells": 265,
+      "n_tpex": 3,
+      "frac": 0.0113
+    },
+    "Skin Normal": {
+      "n_cells": 129,
+      "n_tpex": 0,
+      "frac": 0.0
+    },
+    "Small Intestine Normal": {
+      "n_cells": 525,
+      "n_tpex": 1,
+      "frac": 0.0019
+    },
+    "Stomach Metaplasia": {
+      "n_cells": 63,
+      "n_tpex": 0,
+      "frac": 0.0
+    },
+    "Stomach Normal": {
+      "n_cells": 105,
+      "n_tpex": 1,
+      "frac": 0.0095
+    },
+    "THCA": {
+      "n_cells": 357,
+      "n_tpex": 9,
+      "frac": 0.0252
+    },
+    "UCEC": {
+      "n_cells": 58,
+      "n_tpex": 0,
+      "frac": 0.0
+    },
+    "UVM": {
+      "n_cells": 269,
+      "n_tpex": 26,
+      "frac": 0.0967
+    },
+    "WILM": {
+      "n_cells": 6,
+      "n_tpex": 0,
+      "frac": 0.0
+    }
+  }
+}
