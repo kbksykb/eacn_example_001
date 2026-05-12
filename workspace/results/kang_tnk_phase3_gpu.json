@@ -33,5 +33,21 @@
   "vram_peak_gb": 3.82,
   "delta_sigma": 1.995,
   "n_pi2_delta2_over_d": 38.985,
-  "detection_regime": "above-floor-flat"
+  "detection_regime": "above-floor-flat",
+  "detection_full_knn": {
+    "n_candidate": 24487,
+    "p_value": 1.0,
+    "tau": 9.040328979492188,
+    "t_ot_s": 124.2,
+    "ref_subsample_kNN": null
+  },
+  "diagnosis_note": "Original detection used ref_subsample_kNN=100_000 which biases rare-cluster statistics. Full-kNN rerun gives p=1.000 across 3 marker definitions. TPEX is NOT detected at full-atlas flat-REAL scale (valid negative for state-regime rare type). Hierarchical-REAL at NMF T/NK compartment (15k, p=0.005, tau=84.6) required for detection.",
+  "tumor_only_check": {
+    "n_obs": 970169,
+    "n_batches": null,
+    "p_value": 1.0,
+    "tau": 8.681880950927734,
+    "note": "Tumor-restricted rerun also gives p=1.0 \u2014 rules out normal-tissue dilution hypothesis"
+  },
+  "final_verdict": "VALID NEGATIVE for flat-REAL at 1.22M; M-KANG-TNK-001 remains valid at NMF hierarchical scope"
 }

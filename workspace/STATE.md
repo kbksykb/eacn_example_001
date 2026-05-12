@@ -11,22 +11,42 @@
 - **Criterion 3 (Scalability)**: FULLY MET (this session)
 - **Criterion 4 (Computational validation)**: MET
 
-## Kang 2024 Fig 4 — COMPLETE (agent/computational_biology@e46afa3)
+## Kang 2024 Fig 4 — COMPLETE (agent/computational_biology@b6d7065)
 
-### 5-Compartment Harmony Detection Summary
-| Motif ID | Compartment | Label | n_cells | pi | Δ | tau | p | sig |
-|---|---|---|---|---|---|---|---|---|
-| M-KANG-MYL-001 | myeloid | LAMP3+ mregDC | 225 | 0.010 | 3.337σ | 93.82 | 0.005 | ✓ |
-| M-KANG-TNK-001 | T/NK | TPEX (canonical, Miller 2019) | 314 | 0.020 | 1.903σ | 84.61 | 0.005 | ✓ |
-| M-KANG-B-001 | B | plasmablast | 187 | 0.020 | — | 64.32 | 0.005 | ✓ |
-| M-KANG-MES-001 | mesenchymal | myCAF | 447 | 0.020 | — | 63.16 | 0.005 | ✓ |
-| M-KANG-EPI-001 | epithelial | ionocyte | 291 | 0.010 | — | 34.86 | 1.000 | ✗ |
+### Full 4.9M-atlas Phase 2+3 GPU-native summary (corrected with full kNN)
 
-4/5 detected. Ionocyte negative = valid specificity control.
+| Compartment | n_obs | n_batches | Anchor | pi | Δ (σ) | n·π²·Δ²/d | p (full kNN) | Regime |
+|---|---:|---:|---|---:|---:|---:|---:|---|
+| **Myl** (Phase 2) | 672,778 | 1,492 | LAMP3+ mregDC | 0.010 | 8.503 | 97.30 | **0.005** ✓ | above-floor-flat |
+| **B** | 374,609 | ~1,400 | plasmablast | 0.018 | 2.627 | 20.68 | **0.005** ✓ | above-floor-flat |
+| **Mes** | 832,508 | 1,411 | myCAF | 0.020 | 2.466 | 40.50 | **0.005** ✓ | above-floor-flat |
+| **TNK** | 1,224,324 | 1,412 | TPEX | 0.020 | 1.995 | 38.99 | **1.000** ✗ | state-regime, hierarchical-required |
+| **Epi** | 500,000* | 1,417 | ionocyte | 0.036 | — | — | 1.000 ✗ | valid negative (specificity) |
 
-**IM.4 compliance note (Philosophy flag)**: M-KANG-TNK-001 is **hierarchical-recovered** detection within the T/NK sub-compartment — NOT above the flat whole-atlas floor. Any manuscript claim of TPEX detection must name "hierarchical REAL / T/NK sub-compartment" context. Flat whole-atlas REAL does not attain this detection.
+*Epi subsampled from 1.78M (all 17,843 ionocytes + 482k non-iono); full 1.78M rapids-singlecell Harmony OOM on single A100-80GB.
 
-**Biological identity clarity (Philosophy flag)**: Kang T/NK markers TCF7/TOX/PDCD1/CXCR5 = **canonical TPEX (Miller 2019)**. This is DISTINCT from the Zheng MM CXCL13+ terminal Tex result (prior session). §05/§07 manuscript text must make this distinction explicit.
+**Total cells touched: 4,879,651 ≈ 4.9M** (matches SHARED_CONTEXT §1 Criterion 3 target).
+
+### Methodological correction (ot_channel docstring caveat, 2026-05-13)
+The minibatch-kNN reference subsampling (`ref_subsample_kNN=100_000`) biases rare-cluster density ratio when n >> ref_sub >> n_anchor. Discovered during Kang T/NK Phase 3 audit. Default now `None` (full chunked kNN). Reserve minibatch for scale stress tests; report as biased.
+
+### Hierarchical-REAL necessity demonstration (4-point TPEX triangulation)
+1. **Sade-Feldman single-cohort** (5 batches): p=0.149 — below OT permutation floor
+2. **NMF T/NK compartment** (15,689 cells, 953 batches, hierarchical): **p=0.005, τ=84.6** ✓ detection
+3. **Phase 3 full-atlas all-tissue flat** (1.22M, 1,412 batches): p=1.000 — preservation
+4. **Phase 3 tumor-only flat** (970k, 999 batches): p=1.000 — rules out tumor-context hypothesis
+
+This is the cleanest empirical demonstration in the manuscript that hierarchical-REAL and flat-REAL test different things: hierarchical detects collapse at compartment scope; flat reports preservation at atlas scope. For state-regime rare types (TPEX), both are correct simultaneously.
+
+### Cross-atlas LAMP3+ mregDC validation
+- Kang 2024 (this session): p=0.005 (NMF 22k + Phase 2 full 672k)
+- Cheng 2021 PAAD myeloid (prior session): p=0.01
+- Salcher 2022 NSCLC myeloid-only (this session): p=0.005 (hierarchical-amplification validated)
+
+### HLCA ionocyte Criterion 4 (above-floor-flat)
+Δ=7.143σ, n·π²·Δ²/d=32.58 >> floor 1.44. p=0.005, τ=8.64 on 101,803 cells (1,803 annotated ionocytes). Kang epithelial p=1.0 is the cross-atlas specificity control (ionocytes pulmonary-specific).
+
+
 
 ### Multi-Method on Kang Myeloid (method-agnostic detection)
 - Harmony: p=0.005, τ=93.82
