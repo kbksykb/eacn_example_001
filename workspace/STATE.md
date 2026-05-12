@@ -17,12 +17,16 @@
 | Motif ID | Compartment | Label | n_cells | pi | Δ | tau | p | sig |
 |---|---|---|---|---|---|---|---|---|
 | M-KANG-MYL-001 | myeloid | LAMP3+ mregDC | 225 | 0.010 | 3.337σ | 93.82 | 0.005 | ✓ |
-| M-KANG-TNK-001 | T/NK | TPEX | 314 | 0.020 | 1.903σ | 84.61 | 0.005 | ✓ |
+| M-KANG-TNK-001 | T/NK | TPEX (canonical, Miller 2019) | 314 | 0.020 | 1.903σ | 84.61 | 0.005 | ✓ |
 | M-KANG-B-001 | B | plasmablast | 187 | 0.020 | — | 64.32 | 0.005 | ✓ |
 | M-KANG-MES-001 | mesenchymal | myCAF | 447 | 0.020 | — | 63.16 | 0.005 | ✓ |
 | M-KANG-EPI-001 | epithelial | ionocyte | 291 | 0.010 | — | 34.86 | 1.000 | ✗ |
 
 4/5 detected. Ionocyte negative = valid specificity control.
+
+**IM.4 compliance note (Philosophy flag)**: M-KANG-TNK-001 is **hierarchical-recovered** detection within the T/NK sub-compartment — NOT above the flat whole-atlas floor. Any manuscript claim of TPEX detection must name "hierarchical REAL / T/NK sub-compartment" context. Flat whole-atlas REAL does not attain this detection.
+
+**Biological identity clarity (Philosophy flag)**: Kang T/NK markers TCF7/TOX/PDCD1/CXCR5 = **canonical TPEX (Miller 2019)**. This is DISTINCT from the Zheng MM CXCL13+ terminal Tex result (prior session). §05/§07 manuscript text must make this distinction explicit.
 
 ### Multi-Method on Kang Myeloid (method-agnostic detection)
 - Harmony: p=0.005, τ=93.82
@@ -45,11 +49,12 @@
 3. Salcher 2022 NSCLC myeloid: p=0.005
 
 ### Key Theoretical Validation (for Math Theorem S1-hierarchical)
-- Myl: Δ=3.337σ, π=0.01, n·π²·Δ²=25.08 (cluster-regime)
-- TNK: Δ=1.903σ, π=0.02, n·π²·Δ²=22.75 (state-regime)
-- Both above compartment floor, both fire at p=0.005
+- Myl: Δ=3.337σ, π=0.01, n·π²·Δ²=25.08 (cluster-regime, hierarchical-recovered at myeloid sub-compartment)
+- TNK: Δ=1.903σ, π=0.02, n·π²·Δ²=22.75 (state-regime, hierarchical-recovered at T/NK sub-compartment)
+- Both above the **compartment-level** floor; neither is above the flat whole-atlas floor
+- Detection requires hierarchical REAL (compartment-stratified) — flat whole-atlas REAL would not attain these
 - Kang amplification 4.4× (myl), 6.3× (tnk)
-- Salcher amplification 5.0× — empirical closure of Theorem S1-hierarchical
+- Salcher 5.0× — cleanest demonstration (same dataset: flat fails p=0.97, compartment-stratified fires p=0.005)
 
 ### τ-Scaling (workspace/results/kang2024_fig4/tau_scaling.json)
 - B∈{100,300,500,750,1043}: all hit permutation floor (p=0.005)
@@ -59,6 +64,12 @@
 ### D-Column Per-Cancer-Type (myl LAMP3+)
 SSCC 9.05% (+0.081), HNSC 5.84% (+0.048), CRC 2.89% (+0.019) — enriched
 PAAD 0.28% (-0.007), LC 0.38% (-0.006) — depleted
+
+### Melanoma Negative Results (Trap S0.8 — envelope framing per Philosophy flag)
+- mel_GSE200218 cutaneous (28k cells, 5 batches): TPEX p=0.149, LAMP3 p=0.388
+- Merged 4-cohort melanoma (144k cells, ≤20 batches): TPEX p=1.0, LAMP3 p=0.46
+
+**Correct framing for manuscript** (per Trap S0.8): these are valid negative results meaning **"no motif above detection threshold at this scale"**, NOT "these populations are absent." At n=28k / 5 batches the Theorem 1 minimax envelope (n·π²·Δ² ≥ floor) may not be met — the detection floor rises with fewer batches, and the signal is below envelope. The same populations are detected at pan-cancer scale (Kang T/NK TPEX p=0.005 at 953 batches; Kang myeloid LAMP3+ p=0.005 at 1,043 batches).
 
 ## Git Clone
 - ~/eacn_cb_clone (use this, NOT ~/eacn_example_001)
