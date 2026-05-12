@@ -1,0 +1,29 @@
+{
+  "dataset": "mel_GSE200218",
+  "n_obs": 28291,
+  "n_batches": 5,
+  "batch_key": "Sample",
+  "t_total_s": 546.2,
+  "tpex": {
+    "n_candidate": 566,
+    "p_value": 0.14925373134328357,
+    "tau": 2.564128875732422,
+    "markers_found": [
+      "TCF7",
+      "TOX",
+      "PDCD1",
+      "CXCR5"
+    ]
+  },
+  "lamp3": {
+    "n_candidate": 283,
+    "p_value": 0.3880597014925373,
+    "tau": 2.4394607543945312,
+    "markers_found": [
+      "LAMP3",
+      "CCR7",
+      "FSCN1",
+      "BIRC3"
+    ]
+  }
+}

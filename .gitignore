@@ -1,6 +1,8 @@
-biological_science/
-data/
-results/
+# Exclude stray top-level dirs from other agents
+/biological_science/
+/data/
+/results/
+# Exclude large binary files
 __pycache__/
 *.pyc
 *.npy
