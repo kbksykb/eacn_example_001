@@ -1,0 +1,29 @@
+{
+  "phase": 3,
+  "compartment": "epi",
+  "anchor_label": "ionocyte",
+  "pipeline": "subsample-to-500k + CPU-HVG + rapids-singlecell GPU",
+  "n_obs_full": 1784232,
+  "n_iono_full": 17843,
+  "n_obs": 500000,
+  "n_batches": 1417,
+  "n_batches_full": 1450,
+  "n_ionocyte_in_subset": 17843,
+  "pi": 0.03569,
+  "t_total_s": 203.6,
+  "t_gpu_s": 39.3,
+  "t_ot_s": 6.0,
+  "detection": {
+    "p_value": 1.0,
+    "tau": 6.876220703125,
+    "ci_low": 6.773906612396241,
+    "ci_high": 7.000312995910645,
+    "markers_found": [
+      "ATP6V1B1",
+      "FOXI1",
+      "CFTR"
+    ]
+  },
+  "note": "Subsampled epithelial from 1.78M to 500k (all ionocytes retained + 482k random non-iono). Full 1.78M integration requires sparse-GPU Harmony which rapids-singlecell currently doesn't support at that scale on 80GB A100.",
+  "vram_peak_gb": 3.52
+}
