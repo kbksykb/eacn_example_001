@@ -1,8 +1,0 @@
-% Methods-level footnote referencing Math's Remark rem:S1-extraction-annotation.
-% For the hierarchical-REAL paragraph in Methods.
-% Placement: sections/09_methods.tex, in the hierarchical-REAL subsection,
-% immediately after the compartment-classifier definition.
-
-\footnote{
-Hierarchical REAL's compartment-extraction classifier operates on major-lineage markers (myeloid vs T/NK vs stromal vs tumour; order-100 canonical markers such as \textit{CD3}, \textit{CD68}, \textit{EPCAM}, \textit{PECAM}, \textit{COL1A1}). This introduces a label-dependency at compartment levels $k \geq 1$, but the dependency is into a distinct $\sigma$-algebra $\mathcal{A}_{\text{major}}$ that is epistemically uncontested: no published rare subpopulation sits at a major-lineage classification boundary, and the blind-spot theorem (\Cref{thm:labelblind}) concerns the strictly finer $\mathcal{A}_{\text{motif}}$ with $\mathcal{A}_{\text{motif}} \subsetneq \mathcal{A}_{\text{major}}$. A formal statement is given in Remark~\ref{rem:S1-extraction-annotation}; a sensitivity test swapping the compartment classifier for unsupervised Leiden-at-low-resolution confirms motif-recovery invariance (Ext.\ Data Fig.~N), bounding the extraction-precision factor at $\eta_{\text{ext}} \leq 0.02$ across Kang-atlas compartment splits. The hierarchical-amplification factor $n_{\text{atlas}}/n_{\text{compartment}}$ therefore survives with margin.
-}
