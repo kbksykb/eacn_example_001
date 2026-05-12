@@ -1,0 +1,24 @@
+{
+  "dataset": "lu_nsclc_pan_blueprint_lung",
+  "source": "Salcher 2022 pan-lung atlas (Kang 2024 atlas component)",
+  "n_obs": 66571,
+  "n_batches": 36,
+  "batch_key": "Sample",
+  "t_total_s": 1591.6,
+  "lamp3_mregdc": {
+    "n_candidate": 666,
+    "pi": 0.01,
+    "p_value": 0.9701492537313433,
+    "tau": 4.573768615722656,
+    "ci_low": 4.283038139343262,
+    "ci_high": 4.757082176208496,
+    "markers_found": [
+      "LAMP3",
+      "CCR7",
+      "FSCN1",
+      "MARCKSL1",
+      "BIRC3"
+    ]
+  },
+  "replication_of": "M-KANG-MYL-001"
+}

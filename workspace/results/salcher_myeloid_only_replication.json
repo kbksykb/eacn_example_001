@@ -1,0 +1,24 @@
+{
+  "dataset": "salcher_myeloid_only",
+  "source": "lu_nsclc_pan_blueprint_lung \u2014 myeloid subset",
+  "n_obs_full": 66571,
+  "n_obs_myeloid": 13315,
+  "n_batches": 36,
+  "t_total_s": 88.0,
+  "lamp3_detection": {
+    "n_candidate": 134,
+    "pi": 0.0101,
+    "p_value": 0.004975124378109453,
+    "tau": 9.156410217285156,
+    "ci_low": 8.196795558929443,
+    "ci_high": 11.168023204803468,
+    "markers_found": [
+      "LAMP3",
+      "CCR7",
+      "FSCN1",
+      "MARCKSL1",
+      "BIRC3"
+    ]
+  },
+  "replication_of": "M-KANG-MYL-001 (myeloid compartment match)"
+}
