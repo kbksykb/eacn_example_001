@@ -1,0 +1,14 @@
+{
+  "method": "scvi",
+  "compartment": "myeloid",
+  "n_obs": 22472,
+  "n_batches": 1043,
+  "t_total_s": 407.0,
+  "lamp3_detection": {
+    "n_candidate": 225,
+    "p_value": 0.004975124378109453,
+    "tau": 124.50729370117188,
+    "ci_low": 122.25873203277588,
+    "ci_high": 125.53443775177001
+  }
+}

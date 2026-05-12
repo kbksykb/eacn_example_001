@@ -1,0 +1,15 @@
+{
+  "cancer_type": "PAAD",
+  "n_obs": 1076,
+  "n_batches": 59,
+  "n_lamp3": 11,
+  "pi": 0.0102,
+  "p_value": 0.004975124378109453,
+  "tau": 138.07022094726562,
+  "t_total_s": 118.0,
+  "markers_found": [
+    "LAMP3",
+    "CCR7",
+    "FSCN1"
+  ]
+}

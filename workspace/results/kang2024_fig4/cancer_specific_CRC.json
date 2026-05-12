@@ -1,0 +1,15 @@
+{
+  "cancer_type": "CRC",
+  "n_obs": 1383,
+  "n_batches": 62,
+  "n_lamp3": 14,
+  "pi": 0.0101,
+  "p_value": 0.014925373134328358,
+  "tau": 94.59548950195312,
+  "t_total_s": 118.3,
+  "markers_found": [
+    "LAMP3",
+    "CCR7",
+    "FSCN1"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "cancer_type": "HNSC",
+  "n_obs": 1883,
+  "n_batches": 74,
+  "n_lamp3": 19,
+  "pi": 0.0101,
+  "p_value": 0.14925373134328357,
+  "tau": 74.22486877441406,
+  "t_total_s": 120.6,
+  "markers_found": [
+    "LAMP3",
+    "CCR7",
+    "FSCN1"
+  ]
+}
