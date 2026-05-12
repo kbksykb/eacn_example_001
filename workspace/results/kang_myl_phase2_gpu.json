@@ -26,5 +26,8 @@
     ]
   },
   "vram_peak_gb": 22.33,
-  "skipped_studies": []
+  "skipped_studies": [],
+  "delta_sigma": 8.503,
+  "n_pi2_delta2_over_d": 97.296,
+  "detection_regime": "above-floor-flat"
 }
