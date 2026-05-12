@@ -13,5 +13,9 @@
     "tau": 8.636833190917969,
     "ci_low": 8.252085876464843,
     "ci_high": 8.961458015441895
-  }
+  },
+  "delta_sigma": 7.143,
+  "n_pi2_delta2_over_d": 32.582,
+  "detection_regime": "above-floor-flat",
+  "d_pcs": 50
 }
