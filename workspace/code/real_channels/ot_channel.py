@@ -75,6 +75,11 @@ class OTChannelConfig:
     k_neighbors: int = 50
     r_N_scales: tuple = (0.5, 1.0, 2.0)  # multi-scale per colm_admissibility §3
 
+    # Minibatch kNN reference — None = use all cells as kNN references (O(n²) via chunking)
+    # Set to e.g. 100_000 for very large n where full-ref kNN would OOM
+    ref_subsample_kNN: int | None = None
+    chunk_size_kNN: int = 4096
+
     # Numerics
     device: str = "cuda"
     dtype: torch.dtype = torch.float32
@@ -91,21 +96,39 @@ def _pairwise_sq_dists(A: torch.Tensor, B: torch.Tensor) -> torch.Tensor:
     return AA + BB - 2 * A @ B.T
 
 
-def _chunked_knn_distance(emb: torch.Tensor, k: int, chunk_size: int = 4096) -> torch.Tensor:
-    """Chunked k-th NN distance — keeps memory O(chunk_size × n) instead of O(n²).
+def _chunked_knn_distance(emb: torch.Tensor, k: int, chunk_size: int = 4096,
+                          ref_subsample: int | None = None) -> torch.Tensor:
+    """Chunked k-th NN distance — keeps memory O(chunk_size × n_ref) instead of O(n²).
 
     For n=22k, d=50, float32: full n² matrix = 22k × 22k × 4B = 1.9 GB.
     For n=66k: 66k × 66k × 4B = 17 GB (still fits in 80GB A100 but tight).
+    For n=2M: 2M × 2M × 4B = 16 TB (impossible) — use ref_subsample.
+
     Chunked version processes in rows of `chunk_size`, keeping peak memory
-    chunk_size × n × 4B ≈ 4096 × 66k × 4B = 1.1 GB per chunk.
+    chunk_size × n_ref × 4B.
+
+    If `ref_subsample` is given, the reference set for kNN is a random subsample
+    of size `ref_subsample` (minibatch kNN per Fatras 2019/2021). This is
+    biased but cost-bounded: for n=2M, ref_subsample=100k gives peak memory
+    chunk_size × 100k × 4B ≈ 1.6 GB per chunk, tractable on any A100.
     """
     n = emb.shape[0]
+    if ref_subsample is not None and ref_subsample < n:
+        # Sub-sample the reference set for kNN; still query all n cells
+        rng = torch.Generator(device=emb.device).manual_seed(0)
+        ref_idx = torch.randperm(n, generator=rng, device=emb.device)[:ref_subsample]
+        emb_ref = emb[ref_idx]
+    else:
+        emb_ref = emb
+    n_ref = emb_ref.shape[0]
+
     r_k = torch.empty(n, device=emb.device, dtype=emb.dtype)
     for start in range(0, n, chunk_size):
         end = min(start + chunk_size, n)
-        D_chunk = _pairwise_sq_dists(emb[start:end], emb)  # (chunk, n)
-        # Take (k+1)-th smallest (first is self = 0)
-        D_k, _ = torch.topk(D_chunk, k + 1, largest=False, dim=-1)
+        D_chunk = _pairwise_sq_dists(emb[start:end], emb_ref)  # (chunk, n_ref)
+        # Take (k+1)-th smallest (first is self=0 when ref=emb; otherwise nearest)
+        take_k = k + 1 if ref_subsample is None else k
+        D_k, _ = torch.topk(D_chunk, take_k, largest=False, dim=-1)
         r_k[start:end] = D_k[:, -1].clamp_min(1e-12).sqrt()
     return r_k
 
@@ -141,15 +164,17 @@ def sinkhorn_unbalanced(
     return u[:, None] * K * v[None, :]          # plan π
 
 
-def local_density(emb: torch.Tensor, k: int, chunk_size: int = 4096) -> torch.Tensor:
+def local_density(emb: torch.Tensor, k: int, chunk_size: int = 4096,
+                  ref_subsample: int | None = None) -> torch.Tensor:
     """Nearest-neighbour density estimator ρ(x) = 1 / r_k(x)^d.
 
-    Uses chunked GPU kNN — memory O(chunk_size × n) instead of O(n²).
-    Tractable up to n~200k on a single A100 80GB with chunk_size=4096.
+    Uses chunked GPU kNN — memory O(chunk_size × n_ref) instead of O(n²).
+    For very large n (>300k), pass ref_subsample to cap peak memory.
     Returns log-density (n,) to avoid numerical underflow.
     """
     d = emb.shape[1]
-    r_k = _chunked_knn_distance(emb, k, chunk_size=chunk_size)
+    r_k = _chunked_knn_distance(emb, k, chunk_size=chunk_size,
+                                 ref_subsample=ref_subsample)
     # log ρ ∝ −d log r_k; drop the constant (all-cells-normalized downstream).
     return -d * torch.log(r_k)
 
@@ -158,14 +183,16 @@ def per_cell_tau(
     emb_pre: torch.Tensor,      # (n, d)
     emb_post: torch.Tensor,     # (n, d)
     k: int,
+    chunk_size: int = 4096,
+    ref_subsample: int | None = None,
 ) -> torch.Tensor:
     """τ(x; r_N) = log μ̂_post(N(T(x), r_N)) − log μ̂_pre(N(x, r_N)).
 
     Under CoLM-admissible transport, τ is O(1/√k) with mean zero. Under rare-cluster
     absorption, τ is Ω(1) on cells of that cluster.
     """
-    log_rho_pre = local_density(emb_pre, k)
-    log_rho_post = local_density(emb_post, k)
+    log_rho_pre = local_density(emb_pre, k, chunk_size, ref_subsample)
+    log_rho_post = local_density(emb_post, k, chunk_size, ref_subsample)
     return log_rho_post - log_rho_pre
 
 
@@ -210,7 +237,9 @@ def score_ot(
     # both.  Per CompBio bug-report: the one-sided test missed dispersion in
     # the synthetic where rare (tight, spread 0.3) was dispersed into abundant
     # (wide, spread 1.0).  See colm_admissibility §3 revised Remark.
-    tau = per_cell_tau(emb_pre_t, emb_post_t, cfg.k_neighbors).cpu().numpy()
+    tau = per_cell_tau(emb_pre_t, emb_post_t, cfg.k_neighbors,
+                       chunk_size=cfg.chunk_size_kNN,
+                       ref_subsample=cfg.ref_subsample_kNN).cpu().numpy()
 
     stat_obs = np.empty(len(cand_ids))
     for i, cid in enumerate(cand_ids):
