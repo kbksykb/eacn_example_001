@@ -1,0 +1,33 @@
+{
+  "phase": 3,
+  "compartment": "b",
+  "anchor_label": "plasmablast",
+  "pipeline": "rapids-singlecell GPU + chunked OT",
+  "n_obs": 374609,
+  "n_batches": 1254,
+  "n_plasmablast": 3747,
+  "pi": 0.01,
+  "t_total_s": 126.1,
+  "t_gpu_preprocessing_s": 29.0,
+  "t_ot_s": 4.5,
+  "detection": {
+    "p_value": 0.004975124378109453,
+    "tau": 9.821029663085938,
+    "ci_low": 9.691417121887207,
+    "ci_high": 10.030357170104981,
+    "markers_found": [
+      "MZB1",
+      "JCHAIN",
+      "IGHG1",
+      "IGHA1",
+      "SDC1"
+    ]
+  },
+  "ot_config": {
+    "n_permutations": 200,
+    "ref_subsample_kNN": 100000,
+    "chunk_size_kNN": 2048,
+    "k_neighbors": 30
+  },
+  "vram_peak_gb": 3.47
+}

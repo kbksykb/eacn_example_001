@@ -1,0 +1,34 @@
+{
+  "phase": 3,
+  "compartment": "tnk",
+  "anchor_label": "TPEX",
+  "pipeline": "rapids-singlecell GPU + chunked OT",
+  "n_obs": 1224324,
+  "n_batches": 1412,
+  "n_TPEX": 24487,
+  "pi": 0.02,
+  "t_total_s": 349.8,
+  "t_gpu_preprocessing_s": 68.3,
+  "t_ot_s": 14.8,
+  "detection": {
+    "p_value": 0.05472636815920398,
+    "tau": 12.050941467285156,
+    "ci_low": 11.996821784973145,
+    "ci_high": 12.108466148376465,
+    "markers_found": [
+      "TCF7",
+      "TOX",
+      "PDCD1",
+      "HAVCR2",
+      "CXCR5",
+      "ENTPD1"
+    ]
+  },
+  "ot_config": {
+    "n_permutations": 200,
+    "ref_subsample_kNN": 100000,
+    "chunk_size_kNN": 2048,
+    "k_neighbors": 30
+  },
+  "vram_peak_gb": 3.82
+}

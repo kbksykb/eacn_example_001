@@ -1,0 +1,33 @@
+{
+  "phase": 3,
+  "compartment": "mesenchymal",
+  "anchor_label": "myCAF",
+  "pipeline": "rapids-singlecell GPU + chunked OT",
+  "n_obs": 832508,
+  "n_batches": 1411,
+  "n_myCAF": 16651,
+  "pi": 0.02,
+  "t_total_s": 283.9,
+  "t_gpu_preprocessing_s": 67.3,
+  "t_ot_s": 10.1,
+  "detection": {
+    "p_value": 0.004975124378109453,
+    "tau": 11.4012451171875,
+    "ci_low": 11.297302055358887,
+    "ci_high": 11.515918159484864,
+    "markers_found": [
+      "ACTA2",
+      "FAP",
+      "PDPN",
+      "COL11A1",
+      "MMP11"
+    ]
+  },
+  "ot_config": {
+    "n_permutations": 200,
+    "ref_subsample_kNN": 100000,
+    "chunk_size_kNN": 2048,
+    "k_neighbors": 30
+  },
+  "vram_peak_gb": 3.66
+}
