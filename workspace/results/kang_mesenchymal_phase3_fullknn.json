@@ -1,0 +1,12 @@
+{
+  "compartment": "mesenchymal",
+  "label": "myCAF",
+  "n_obs": 832508,
+  "n_anchor": 16651,
+  "p_value": 0.004975124378109453,
+  "tau": 7.6107025146484375,
+  "ci_low": 7.528443336486816,
+  "ci_high": 7.665559387207031,
+  "ref_subsample_kNN": null,
+  "t_ot_s": 54.5
+}

@@ -1,0 +1,30 @@
+{
+  "A_original_ref100k_6markers": {
+    "n_candidate": 24487,
+    "p_value": 0.004975124378109453,
+    "tau": 12.182594299316406,
+    "t_ot_s": 14.8,
+    "ref_subsample_kNN": 100000
+  },
+  "B_full_kNN_6markers": {
+    "n_candidate": 24487,
+    "p_value": 1.0,
+    "tau": 9.040328979492188,
+    "t_ot_s": 124.2,
+    "ref_subsample_kNN": null
+  },
+  "C_full_kNN_5markers": {
+    "n_candidate": 24487,
+    "p_value": 1.0,
+    "tau": 9.013275146484375,
+    "t_ot_s": 124.2,
+    "ref_subsample_kNN": null
+  },
+  "D_full_kNN_strict_TPEX": {
+    "n_candidate": 2798,
+    "p_value": 1.0,
+    "tau": 8.632373809814453,
+    "t_ot_s": 123.9,
+    "ref_subsample_kNN": null
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "compartment": "b",
+  "label": "plasmablast",
+  "n_obs": 374609,
+  "n_anchor": 7493,
+  "p_value": 0.004975124378109453,
+  "tau": 8.821632385253906,
+  "ci_low": 8.704030990600586,
+  "ci_high": 8.93760643005371,
+  "ref_subsample_kNN": null,
+  "t_ot_s": 12.1
+}
