@@ -77,6 +77,24 @@ class OTChannelConfig:
 
     # Minibatch kNN reference — None = use all cells as kNN references (O(n²) via chunking)
     # Set to e.g. 100_000 for very large n where full-ref kNN would OOM
+    #
+    # METHODOLOGICAL CAVEAT (discovered 2026-05-13 during Kang myeloid Phase 3
+    # audit): subsampling the kNN reference set biases the density-ratio
+    # statistic for rare clusters. When n >> ref_subsample >> n_anchor, the
+    # reference set systematically misses rare-cluster neighbors, inflating
+    # τ = log(ρ_post) − log(ρ_pre) asymmetrically on the rare vs abundant
+    # cells. For Kang T/NK at n=1.22M:
+    #   ref_subsample=100_000: p=0.005 (inflated — false positive)
+    #   ref_subsample=None (full kNN): p=1.000 (correct)
+    # Verification: ran 4 candidate definitions under both paths; all 3 full-kNN
+    # configs gave p=1.0. Only the ref_subsample path fired.
+    #
+    # RECOMMENDATION: use ref_subsample_kNN=None (full kNN via chunked
+    # distance) for all rare-cluster detection claims. Chunked kNN keeps peak
+    # memory at chunk_size * n * 4B, which is tractable on a single A100-80GB
+    # up to n ≈ 10M with chunk_size=2048.
+    # Reserve ref_subsample for scalability stress tests only, and report it
+    # as a separate (biased) measurement.
     ref_subsample_kNN: int | None = None
     chunk_size_kNN: int = 4096
 
