@@ -1,0 +1,22 @@
+{
+  "compartment": "tnk_tumor_only",
+  "restriction": "Tissue == Tumor",
+  "n_obs": 970169,
+  "n_tpex": 19404,
+  "pi": 0.02,
+  "delta_sigma": 2.23,
+  "n_pi2_delta2_over_d": 38.613,
+  "p_value": 1.0,
+  "tau": 8.681880950927734,
+  "ci_low": 8.633979225158692,
+  "ci_high": 8.734319019317628,
+  "markers_found": [
+    "PDCD1",
+    "HAVCR2",
+    "TOX",
+    "ENTPD1",
+    "CXCR5"
+  ],
+  "t_total_s": 184.1,
+  "ref_subsample_kNN": null
+}
