@@ -6,7 +6,7 @@
   "n_obs": 374609,
   "n_batches": 1254,
   "n_plasmablast": 3747,
-  "pi": 0.01,
+  "pi": 0.02,
   "t_total_s": 126.1,
   "t_gpu_preprocessing_s": 29.0,
   "t_ot_s": 4.5,
@@ -32,5 +32,7 @@
   "vram_peak_gb": 3.47,
   "delta_sigma": 2.627,
   "n_pi2_delta2_over_d": 20.682,
-  "detection_regime": "above-floor-flat"
+  "detection_regime": "above-floor-flat",
+  "n_anchor_corrected": 7493,
+  "pi_correction_note": "pi field was stale (0.01); corrected to 0.02000 based on n_anchor=7493"
 }
