@@ -1,0 +1,36 @@
+{
+  "phase": 3,
+  "compartment": "epi",
+  "anchor_label": "ionocyte",
+  "pipeline": "full 1.78M / CPU TruncatedSVD + GPU Harmony n_pcs=20 / minibatch OT ref=200k",
+  "n_obs": 1784232,
+  "n_batches": 1450,
+  "n_ionocyte": 17843,
+  "pi": 0.01,
+  "delta_sigma": 1.336,
+  "n_pi2_delta2_over_d": 15.935,
+  "t_total_s": 451.5,
+  "t_pca_s": 90.2,
+  "t_harm_s": 51.6,
+  "t_ot_s": 38.0,
+  "detection": {
+    "p_value": 1.0,
+    "tau": 4.212066650390625,
+    "ci_low": 4.1576632261276245,
+    "ci_high": 4.262486362457276,
+    "markers_found": [
+      "ATP6V1B1",
+      "FOXI1",
+      "CFTR"
+    ]
+  },
+  "ot_config": {
+    "n_permutations": 200,
+    "ref_subsample_kNN": 200000,
+    "chunk_size_kNN": 2048,
+    "k_neighbors": 30,
+    "n_pcs": 20
+  },
+  "note": "Full 1.78M epithelial integration. CPU TruncatedSVD avoided GPU PCA OOM. Harmony on 20-d (vs 50-d for other compartments, due to memory). OT uses ref_subsample=200k (potentially biased per minibatch caveat; cross-check with 500k subsample at full-kNN: p=1.0).",
+  "vram_peak_gb": 6.9
+}
