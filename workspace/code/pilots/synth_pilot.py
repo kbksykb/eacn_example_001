@@ -21,8 +21,12 @@ import hashlib
 import json
 import logging
 import pathlib
-import resource
 import subprocess
+
+try:
+    import resource
+except ImportError:  # Windows
+    resource = None  # type: ignore[assignment]
 import time
 
 import numpy as np
@@ -44,7 +48,11 @@ def _git_sha() -> str:
 
 
 def _peak_ram_gb() -> float:
-    return resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / (1024 * 1024)
+    if resource is None:
+        return 0.0
+    rss = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
+    # Linux reports KB; macOS reports bytes
+    return rss / (1024 * 1024) if rss > 10_000_000 else rss / (1024 * 1024)
 
 
 def _peak_vram_gb() -> float:
